@@ -51,5 +51,5 @@ class QuestionIndexViewTests(TestCase):
         self.assertQuerysetEqual(response.context['latest_question_list'], [])
 
     def test_past_question(self):
-        # todo 20171205
+        # todo 20171205 删除idea的git跟踪
         pass
