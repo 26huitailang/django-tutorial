@@ -1,2 +1,4 @@
-django==1.11.7
-ipython==6.2.1
+ipython
+django
+djangorestframework
+pygments  # We'll be using this for the code highlighting
