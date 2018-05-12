@@ -7,6 +7,6 @@ app_name = 'mzitu'
 urlpatterns = [
     # ex: /mzitu/
     url(r'^$', views.index, name='index'),
-    url(r'^download_one_suit$', views.download_one_suit, name='download_one_suit'),
+    url(r'^download_one_suit$', views.parse_and_download_one_suit, name='download_one_suit'),
     url(r'^get_proxies$', views.get_proxies, name='get_proxies'),
 ]
