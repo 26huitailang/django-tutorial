@@ -10,3 +10,10 @@ class ProxyIp(models.Model):
     port = models.IntegerField()
     is_valid = models.BooleanField(default=True)
     created_time = models.DateTimeField(default=timezone.now)
+
+
+class DownloadedSuit(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(max_length=60)
+    url = models.URLField(max_length=200)
+    max_page = models.IntegerField()
