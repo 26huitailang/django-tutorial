@@ -22,7 +22,7 @@ def parse_and_download_one_suit(request):
     # 线程
     download_one_suit(suit_url)
 
-    return HttpResponse("开始下载")
+    return HttpResponse("下载完成")
 
 
 def get_proxies(request):

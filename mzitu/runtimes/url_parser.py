@@ -5,6 +5,7 @@ import os
 import random
 import json
 import threading
+import glob
 
 from mzitu.constants import (
     PROXY_SOURCE_URL,
@@ -13,6 +14,7 @@ from mzitu.constants import (
 )
 from mzitu.runtimes.proxy_ip import GetProxyIp
 from mzitu.runtimes.redis import RedisQueue
+from mzitu.models import DownloadedSuit
 
 
 mzitu_image_queue = RedisQueue('mzitu_image')
@@ -23,7 +25,6 @@ MAX_DOWNLOAD_WORKER = 10
 def get_max_page_num(html):
     pattern = re.compile(r'<span>(\d+)</span>')
     page_num = pattern.findall(html)
-    print(html)
     print(page_num)
     return int(page_num[-1])
 
@@ -73,18 +74,45 @@ def proxy_request(url):
 
 
 def get_image_urls(suit_url):
+    suit_info = DownloadedSuit.objects.filter(url=suit_url).first()
+
+    re_download = False
+    if suit_info:
+        print("该套牌已在DB中，确认是否存在，确认套图是否完整...")
+        file_name = suit_info.name
+        max_page_num = suit_info.max_page
+        suit_folder = os.path.join(IMAGE_FOLDER, file_name)
+        item_list = glob.glob('{}/*.jpg'.format(suit_folder))
+        if len(item_list) >= max_page_num:
+            print("已完整下载，跳过")
+            return False
+        else:
+            print("该套图不完整，重新下载")
+            re_download = True
+
     page = proxy_request(suit_url)
 
     max_page_num = get_max_page_num(page)
     title = re.search(r'class=\"main-title\">(.+?)</', page)
     title = title.group(1).strip()
     title = re.sub(r'[/\\:*?"<>|]', '-', title)  # windows 非法文件夹名字符
+    print(title)
+
     folder = IMAGE_FOLDER
     folder = os.path.join(folder, title)
+
     if not os.path.isdir(folder):
         os.makedirs(folder, exist_ok=True)
 
-    print(title)
+    # 保存下载内容到sqlite
+    if re_download is False:
+        suit_info = DownloadedSuit(
+            name=title,
+            url=suit_url,
+            max_page=max_page_num,
+        )
+        suit_info.save()
+
     threads = []
     for i in range(1, max_page_num + 1):
         thread = threading.Thread(target=get_one_pic_url, args=(folder, i, suit_url,))
@@ -107,9 +135,8 @@ def get_one_pic_url(folder, i, suit_url):
 
     time.sleep(0.5)
     url = suit_url + '/{}'.format(i)
-    print(url)
     page = proxy_request(url)
-    # print(page)
+
     img_url = re.search(r'class=\"main-image(.+?)src=\"(.+?)\"', page)
     img_url = img_url.groups()[1]
     print(img_url)
@@ -130,8 +157,6 @@ def requests_get(url, headers=None):
 
 
 def download_images_to_local():
-    while mzitu_image_queue.qsize() < 8:
-        pass
 
     while not mzitu_image_queue.empty():
         item = mzitu_image_queue.get()
@@ -151,7 +176,11 @@ def download_images_to_local():
 
 
 def download_one_suit(suit_url):
-    get_image_urls(suit_url)
+    resp = get_image_urls(suit_url)
+    if resp is False:
+        return
+
+    time.sleep(3)
     threads = []
     for i in range(MAX_DOWNLOAD_WORKER):
         thread = threading.Thread(target=download_images_to_local)
