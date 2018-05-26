@@ -5,7 +5,6 @@
 # 仅仅爬取首页IP地址就足够一般使用
 
 import requests
-import random
 from bs4 import BeautifulSoup
 
 from .sqlite import (
@@ -13,7 +12,6 @@ from .sqlite import (
     get_proxy_ip_valid,
     mark_proxy_ip_not_valid,
 )
-from mzitu.models import ProxyIp
 
 
 class GetProxyIp:
