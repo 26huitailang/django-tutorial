@@ -9,4 +9,5 @@ urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^download_one_suit$', views.parse_and_download_one_suit, name='download_one_suit'),
     url(r'^get_proxies$', views.get_proxies, name='get_proxies'),
+    url(r'^async_parse_and_download_one_suit$', views.async_parse_and_download_one_suit, name='async_parse_and_download_one_suit')
 ]

@@ -3,3 +3,5 @@ config.py
 *.sqlite3
 __pycache__/
 .vscode/
+*.rdb
+.DS_Store

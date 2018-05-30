@@ -41,3 +41,7 @@ class RedisQueue(object):
     def get_nowait(self):
         """Equivalent to get(False)."""
         return self.get(False)
+
+
+mzitu_image_queue = RedisQueue('mzitu_image')
+mzitu_url_queue = RedisQueue('mzitu_url')
