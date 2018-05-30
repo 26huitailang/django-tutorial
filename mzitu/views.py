@@ -8,6 +8,7 @@ from mzitu.constants import (
     USER_AGENT_LIST,
 )
 from mzitu.runtimes.url_parser import download_one_suit
+from mzitu.runtimes.asyncio_for_mzitu import async_get_images_urls
 
 
 def index(request):
@@ -31,3 +32,13 @@ def get_proxies(request):
     get_proxy_ip.store_to_sqlite(ip_list)
 
     return HttpResponse('Downloaded')
+
+
+def async_parse_and_download_one_suit(request):
+
+    suit_url = request.GET['suit_url']
+
+    # 线程
+    async_get_images_urls(suit_url)
+
+    return HttpResponse("下载完成")

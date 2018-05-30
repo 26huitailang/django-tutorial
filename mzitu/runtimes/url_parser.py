@@ -13,12 +13,10 @@ from mzitu.constants import (
     IMAGE_FOLDER,
 )
 from mzitu.runtimes.proxy_ip import GetProxyIp
-from mzitu.runtimes.redis import RedisQueue
+from mzitu.runtimes.redis import mzitu_image_queue, mzitu_url_queue
 from mzitu.models import DownloadedSuit
 
 
-mzitu_image_queue = RedisQueue('mzitu_image')
-mzitu_url_queue = RedisQueue('mzitu_url')
 MAX_DOWNLOAD_WORKER = 10
 
 
