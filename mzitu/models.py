@@ -17,3 +17,4 @@ class DownloadedSuit(models.Model):
     name = models.CharField(max_length=60)
     url = models.URLField(max_length=200)
     max_page = models.IntegerField()
+    tag = models.CharField(max_length=100, default='')
