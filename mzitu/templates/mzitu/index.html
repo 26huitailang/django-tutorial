@@ -11,8 +11,14 @@
 
 <form action="{% url 'mzitu:download_one_suit' %}" method="get">
   {% csrf_token %}
-  <input type="text" name="suit_url"/>
+  <input type="text" name="suite_url"/>
   <label>套图的首页地址</label>
+  <input type="submit" value="Download"/>
+</form>
+<form action="{% url 'mzitu:download_one_theme' %}" method="get">
+  {% csrf_token %}
+  <input type="text" name="theme_url"/>
+  <label>主题的地址</label>
   <input type="submit" value="Download"/>
 </form>
 <form action="{% url 'mzitu:get_proxies' %}" method="get">
@@ -23,7 +29,7 @@
 <form action="{% url 'mzitu:async_parse_and_download_one_suit' %}" method="get">
   {% csrf_token %}
   <h2>asyncio 实现的方法</h2>
-  <input type="text" name="suit_url"/>
+  <input type="text" name="suite_url"/>
   <label>套图的首页地址</label>
   <input type="submit" value="Download"/>
 </form>
