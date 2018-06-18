@@ -13,7 +13,7 @@ from mzitu.constants import (
     IMAGE_FOLDER,
 )
 from mzitu.runtimes.proxy_ip import GetProxyIp
-from mzitu.runtimes.redis import mzitu_image_queue, mzitu_url_queue
+from mzitu.runtimes.redis import mzitu_image_queue
 from mzitu.models import DownloadedSuit
 
 
@@ -202,6 +202,10 @@ class MzituOneSuite(MzituBase):
             return
 
         time.sleep(3)
+
+        # 打开对应的文件夹
+        os.system("start explorer {}".format(IMAGE_FOLDER.replace('/', '\\')))
+
         threads = []
         for i in range(self.MAX_DOWNLOAD_WORKER):
             thread = threading.Thread(target=self.download_images_to_local)
@@ -219,10 +223,10 @@ class MzituThemePage(MzituBase):
 
     def get_max_page_num(self):
         html = self.proxy_request(self.theme_url)
-        print(html)
+        # print(html)
         pattern = re.compile(r'<a class=(.+?)</span>(\d+)<span')
         page_num = pattern.findall(html)
-        print(page_num)
+        # print(page_num)
         if not page_num:
             return 1
         else:
@@ -236,7 +240,7 @@ class MzituThemePage(MzituBase):
             html = self.proxy_request(page_url)
             pattern = re.compile(r'<li(.+?) href=\"(.+?)\" target=')
             tmp_list = pattern.findall(html)
-            print(tmp_list, len(tmp_list))
+            # print(tmp_list, len(tmp_list))
             suite_url_list += [x[1] for x in tmp_list]
 
         return suite_url_list
