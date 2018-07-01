@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'mzitu',
+    'influxdb_plotly',  # 试验用influxdb作为后端api提供数据的方案
 ]
 
 MIDDLEWARE = [
@@ -121,3 +122,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# influxdb config
+INFLUXDB_CONF = {
+    'HOST': 'localhost',
+    'PORT': 8086,
+    'USERNAME': 'admin',
+    'PASSWORD': 'admin',
+    'DATABASE': 'test_plotly',
+    'TIMEOUT': 5,
+}

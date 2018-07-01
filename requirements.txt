@@ -8,3 +8,12 @@ bs4
 redis
 lxml
 flake8
+
+# plotly，用于作图
+plotly
+
+# influxdb,时序数据库
+influxdb
+
+# 生成测试数据
+faker
