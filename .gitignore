@@ -5,3 +5,4 @@ __pycache__/
 .vscode/
 *.rdb
 .DS_Store
+settings.py
