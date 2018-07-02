@@ -10,7 +10,11 @@ import datetime
 
 def index(request):
 
-    return render(request=request, template_name="influxdb_plotly/index.html")
+    return render(
+        request=request,
+        template_name="influxdb_plotly/index.html",
+        context={'loop': list(range(2))}
+    )
 
 
 def stream_data(request):
@@ -37,7 +41,7 @@ def stream_data(request):
     for k, points in group_by_result:
         points = list(points)
         x = [x['time'] for x in points]
-        print(x[0], type(x[0]))
+        # print(x[0], type(x[0]))
         if x_start:
             x_first = datetime.datetime.strptime(x[0], fmt)
             x_last = datetime.datetime.strptime(x[-1], fmt)
@@ -67,7 +71,7 @@ def stream_data(request):
         'title': "流量曲线",
         'xaxis': {
             'tickangle': 30,
-            'tickformat': '%x',
+            'tickformat': '%y',
             # 'range': range_list,
         },
         'yaxis': {

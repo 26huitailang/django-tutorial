@@ -5,11 +5,11 @@
     <title>Title</title>
 </head>
 <body>
-    <h1>hllll</h1>
-    <div class="box-content" id="org_stream_flow1"></div>
-    <div class="box-content" id="org_stream_flow2"></div>
-    <div class="box-content" id="org_stream_flow3"></div>
-    <div class="box-content" id="org_stream_flow4"></div>
+    {% for foo in loop %}
+        <h1>{{ foo }}</h1>
+        <div class="box-content" id="org_stream_flow{{ foo }}"></div>
+    {% endfor %}
+    
 </body>
 <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://cdn.bootcss.com/plotly.js/1.18.1/plotly.min.js"></script>
@@ -17,10 +17,10 @@
 <script>
     $(document).ready(function () {
         // plotly绘制流量图
-        plot_server_flow(1);
-        plot_server_flow(2);
-        plot_server_flow(3);
-        plot_server_flow(4);
+        for (var i=0; i < {{ loop|length }}; i++) {
+            plot_server_flow(i);
+        }
+
     });
     function plot_server_flow(target) {
             var url = '/influxdb_plotly/stream_data/';
