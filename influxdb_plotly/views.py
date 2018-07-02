@@ -4,8 +4,8 @@ from influxdb_plotly.runtimes.influxdb import (
     init_influxdb_client,
     influxdb_query,
 )
-import plotly
 import plotly.graph_objs as go
+import datetime
 
 
 def index(request):
@@ -14,7 +14,8 @@ def index(request):
 
 
 def stream_data(request):
-    sql = "select sum(sum) from stream group by time(6h), region limit 10000"
+    sql = "select sum(sum) from stream group by time(1d), region"
+    # sql = "select sum(sum) from stream group by time(6h), region limit 100"
     client = init_influxdb_client()
     result = influxdb_query(sql, client)
     # print(result)
@@ -27,16 +28,32 @@ def stream_data(request):
     # }, auto_open=True)
 
     """多条曲线"""
+    # 2018-04-03T08:52:56.389384262Z
     group_by_result = result.items()
     lines = []
+    x_start = None
+    x_end = None
+    fmt = "%Y-%m-%dT%H:%M:%SZ"
     for k, points in group_by_result:
         points = list(points)
         x = [x['time'] for x in points]
+        print(x[0], type(x[0]))
+        if x_start:
+            x_first = datetime.datetime.strptime(x[0], fmt)
+            x_last = datetime.datetime.strptime(x[-1], fmt)
+            if x_first < x_start:
+                x_start = x_first
+            if x_last > x_end:
+                x_end = x_last
+        else:
+            x_start = datetime.datetime.strptime(x[0], fmt)
+            x_end = datetime.datetime.strptime(x[-1], fmt)
+
         y = [y['sum'] for y in points]
         line = go.Scatter(
             x=x,
             y=y,
-            mode='line',
+            mode='lines+markers',
             name=k[1]['region']
         )
         lines.append(line)
@@ -45,11 +62,13 @@ def stream_data(request):
     # plotly.offline.plot(lines, filename='curves')
 
     # 作图的布局
+    # range_list = [x_start, x_end]
     layout = {
         'title': "流量曲线",
         'xaxis': {
             'tickangle': 30,
             'tickformat': '%x',
+            # 'range': range_list,
         },
         'yaxis': {
             'title': '流量 GB',
@@ -77,7 +96,7 @@ def stream_data(request):
 
     """如果想在前端作图，就用plotly.js的库，然后用api返回前端需要的格式就行"""
     return JsonResponse({
-            'is_success': True,
-            'data': fig,
-            'message': 'suuuuuuu'
-        })
+        'is_success': True,
+        'data': fig,
+        'message': 'suuuuuuu'
+    })
