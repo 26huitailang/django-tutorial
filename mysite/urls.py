@@ -20,5 +20,5 @@ urlpatterns = [
     url(r'^polls/', include('polls.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^mzitu/', include('mzitu.urls')),
-    url(r'influxdb_plotly', include('influxdb_plotly.urls'))
+    url(r'^influxdb_plotly/', include('influxdb_plotly.urls'))
 ]

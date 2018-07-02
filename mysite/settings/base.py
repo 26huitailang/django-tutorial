@@ -126,7 +126,7 @@ STATIC_URL = '/static/'
 # influxdb config
 INFLUXDB_CONF = {
     'HOST': 'localhost',
-    'PORT': 8086,
+    'PORT': '8086',
     'USERNAME': 'admin',
     'PASSWORD': 'admin',
     'DATABASE': 'test_plotly',
