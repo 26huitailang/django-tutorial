@@ -1,5 +1,8 @@
+import datetime
+import os
+
 from django.shortcuts import render, get_object_or_404, reverse
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.views import generic
 from django.utils import timezone
 
@@ -41,3 +44,14 @@ def vote(request, question_id):
         # with POST data. This prevents data from being posted twice if a
         # user hits the Back button.
         return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
+
+
+def test(request):
+    # file_list = os.listdir(path)
+    now = datetime.datetime.now()
+    html = "<html><body>It is now {}.</body></html>".format(now)
+    try:
+        raise ValueError
+    except ValueError:
+        raise Http404("xxx does not exist")
+    return HttpResponse(html)
