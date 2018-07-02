@@ -6,7 +6,8 @@ from influxdb_plotly.runtimes.influxdb import (
     init_influxdb_client,
 )
 
-class Commad(BaseCommand):
+
+class Command(BaseCommand):
 
     NUM_OF_POINTS = 10000
     host_list = [
@@ -16,38 +17,30 @@ class Commad(BaseCommand):
         ('4.4.4.4', 'USA'),
     ]
     measurement = 'stream'
-    STREAM_MIN = 0,
-    STREAM_MAX = 1000,  # MB
-    influxdb_dbname = 'test_ploty'
+    STREAM_MIN = 0
+    STREAM_MAX = 1000  # MB
+    influxdb_dbname = 'test_plotly'
 
     # 生成随机日期
     end_date = datetime.datetime.now()
     start_date = end_date - datetime.timedelta(days=30)
-    start_ts = int(start_date.timestamp)
-    end_ts = int(end_date.timestamp)
-
-    def add_arguments(self, parser):
-
-        parser.add_argument(
-            '-n',
-            '--name',
-            action='store',
-            dest='name',
-            default='close',
-            help='name of author.',
-        )
+    start_ts = int(start_date.timestamp()) * 10 ** 9  # influxdb的时间戳比int(time.time())多了9位
+    end_ts = int(end_date.timestamp()) * 10 ** 9
 
     def handle(self, *args, **options):
         client = init_influxdb_client(database=self.influxdb_dbname)
+        client.query("drop measurement {}".format(self.measurement))
+        
         json_body = []
         for _ in range(self.NUM_OF_POINTS):
-            upload = random.randint(self.STREAM_MIN, self.STREAM_MAX)
-            download = random.randint(self.STREAM_MIN, self.STREAM_MAX)
+            upload = random.randint(self.STREAM_MIN, self.STREAM_MAX + 1)
+            download = random.randint(self.STREAM_MIN, self.STREAM_MAX + 1)
+            host = random.choice(self.host_list)
             point = {
                 "measurement": self.measurement,
                 "tags": {
-                    "host": random.choice(self.host_list[0]),
-                    "region": random.choice(self.host_list[1]),
+                    "host": host[0],
+                    "region": host[1],
                 },
                 "time": random.randint(self.start_ts, self.end_ts),  # random timestamp
                 "fields": {
