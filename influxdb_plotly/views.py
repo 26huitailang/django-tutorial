@@ -7,6 +7,11 @@ from influxdb_plotly.runtimes.influxdb import (
 import plotly.graph_objs as go
 import datetime
 
+from rest_framework.viewsets import GenericViewSet
+from rest_framework.decorators import action
+from rest_framework.response import Response
+from influxdb_plotly.serializers.list_dict_serializer import ListDictSerializer
+
 
 def index(request):
 
@@ -104,3 +109,32 @@ def stream_data(request):
         'data': fig,
         'message': 'suuuuuuu'
     })
+
+
+class ListDictViewSet(GenericViewSet):
+    serializer_class = ListDictSerializer
+
+    def get_queryset(self):
+        sql = "select sum(sum) from stream group by time(1d), region"
+        # sql = "select sum(sum) from stream group by time(6h), region limit 100"
+        client = init_influxdb_client()
+        result = influxdb_query(sql, client)
+        return result
+
+    def get_request_param_data(self):
+        if self.request.method == 'GET':
+            request_param_data = self.request.query_params
+        else:
+            request_param_data = self.request.data
+
+        return request_param_data
+
+    @action(detail=True, methods=['GET'])
+    # check token
+    def list_stream_points_order_by_time(self, request):
+        request_param_data = self.get_request_param_data()
+        print(request_param_data)
+
+        queryset = self.get_queryset()
+
+

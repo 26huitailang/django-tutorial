@@ -1,5 +1,9 @@
 # influxdb_plotly
 
+## change-log
+
+- 2018-07-04，试试用drf写api
+
 ## 说明
 
 写这个app是为了测试一个看板方案的组合：
