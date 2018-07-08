@@ -9,6 +9,4 @@ class PointsSerializer(serializers.Serializer):
 
 
 class ListDictSerializer(serializers.ListSerializer):
-    points =
-
-
+    pass
