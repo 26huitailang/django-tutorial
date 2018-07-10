@@ -1,6 +1,5 @@
 from django.core.management import BaseCommand
 import random
-import time
 import datetime
 from influxdb_plotly.runtimes.influxdb import (
     init_influxdb_client,
@@ -62,7 +61,7 @@ class Command(BaseCommand):
         client = init_influxdb_client(database=self.influxdb_dbname)
         if drop:
             client.query("drop measurement {}".format(self.measurement))
-        
+
         json_body = []
         for i in range(num_of_points):
             upload = random.randint(self.STREAM_MIN, self.STREAM_MAX + 1)

@@ -9,7 +9,6 @@ import datetime
 
 from rest_framework.viewsets import GenericViewSet
 from rest_framework.decorators import action
-from rest_framework.response import Response
 from influxdb_plotly.serializers.list_dict_serializer import ListDictSerializer
 
 
@@ -135,6 +134,4 @@ class ListDictViewSet(GenericViewSet):
         request_param_data = self.get_request_param_data()
         print(request_param_data)
 
-        queryset = self.get_queryset()
-
-
+        # queryset = self.get_queryset()

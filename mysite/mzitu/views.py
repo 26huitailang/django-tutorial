@@ -49,7 +49,7 @@ def get_proxies(request):
 
 def async_parse_and_download_one_suit(request):
 
-    suite_url = request.GET['suite_url']
+    request.GET['suite_url']
 
     # 线程
     # async_get_images_urls(suite_url)

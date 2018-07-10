@@ -1,4 +1,5 @@
 from .base import *
 
+DEBUG = True
 
-DEBUG = True 
+DATABASES['default']['NAME'] = 'sample.sqlite3'
