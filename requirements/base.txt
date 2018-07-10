@@ -1,6 +1,17 @@
-ipython
-django
+# Django
+Django>=2.0
 djangorestframework
+drf-nested-routers
+
+# deploy
+gunicorn
+raven
+Fabric3
+
+# influxdb sdk 用于数据监控的
+influxdb
+
+ipython
 pygments  # We'll be using this for the code highlighting
 hotqueue
 requests
@@ -11,9 +22,6 @@ flake8
 
 # plotly，用于作图
 plotly
-
-# influxdb,时序数据库
-influxdb
 
 # 生成测试数据
 faker

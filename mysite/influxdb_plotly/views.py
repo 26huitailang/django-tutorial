@@ -9,7 +9,10 @@ import datetime
 
 from rest_framework.viewsets import GenericViewSet
 from rest_framework.decorators import action
-from influxdb_plotly.serializers.list_dict_serializer import ListDictSerializer
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+
+from influxdb_plotly.serializers.flow import FlowSerializer
 
 
 def index(request):
@@ -110,28 +113,30 @@ def stream_data(request):
     })
 
 
-class ListDictViewSet(GenericViewSet):
-    serializer_class = ListDictSerializer
+class FlowViewSet(GenericViewSet):
+    serializer_class = FlowSerializer
+    # authentication_classes = (
+    #     SessionAuthentication,
+    #     BasicAuthentication,
+    #     TokenAuthentication
+    # )
+    permission_classes = (IsAuthenticated,)
 
-    def get_queryset(self):
-        sql = "select sum(sum) from stream group by time(1d), region"
+    @action(detail=False, methods=['GET'])
+    def top_hosts(self, request):
+        """
+        List all flow points.
+        """
+        # sql = "select sum(sum, host, region) from stream group by time(1d), host, region limit 5"
+        # sql = "select * from stream limit 5"
         # sql = "select sum(sum) from stream group by time(6h), region limit 100"
+        # print(request.user, request.auth)
+        first_n = request.query_params.get('first_n', 3)
+        sql = "select top(total, host, region, {}) as value from (select sum(sum) as total from stream where time > now()- 30d group by host, region)".format(first_n)
         client = init_influxdb_client()
         result = influxdb_query(sql, client)
-        return result
+        # points = list(result.get_points())
+        serializer = self.get_serializer(data={"points": list(result.get_points())})
+        serializer.is_valid()
 
-    def get_request_param_data(self):
-        if self.request.method == 'GET':
-            request_param_data = self.request.query_params
-        else:
-            request_param_data = self.request.data
-
-        return request_param_data
-
-    @action(detail=True, methods=['GET'])
-    # check token
-    def list_stream_points_order_by_time(self, request):
-        request_param_data = self.get_request_param_data()
-        print(request_param_data)
-
-        # queryset = self.get_queryset()
+        return Response(serializer.data)
