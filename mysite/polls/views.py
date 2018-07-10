@@ -1,5 +1,4 @@
 import datetime
-import os
 
 from django.shortcuts import render, get_object_or_404, reverse
 from django.http import HttpResponseRedirect, HttpResponse, Http404

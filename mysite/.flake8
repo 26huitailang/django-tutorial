@@ -5,4 +5,5 @@ exclude =
     .git,
     __pycache__,
     manage.py,
+    settings,
 max-complexity = 10

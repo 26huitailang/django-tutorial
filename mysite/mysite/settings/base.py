@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'vnimhx9&@_bwm!j7fptet%+wba20@nc=fwu*khw0^)g3%0w_01'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False 
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -125,10 +125,10 @@ STATIC_URL = '/static/'
 
 # influxdb config
 INFLUXDB_CONF = {
-    'HOST': 'localhost',
+    'HOST': '192.168.9.192',
     'PORT': '8086',
-    'USERNAME': 'admin',
-    'PASSWORD': 'admin',
+    'USERNAME': 'grafana',
+    'PASSWORD': 'grafana',
     'DATABASE': 'test_plotly',
     'TIMEOUT': 5,
 }

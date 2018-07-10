@@ -21,6 +21,7 @@ def init_influxdb_client(
 
     return client
 
+
 def influxdb_query(sql, client):
     result = client.query(sql)
 
