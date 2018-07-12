@@ -37,10 +37,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'channels',  # websocket
 
     'mzitu',
     'polls',
     'influxdb_plotly',  # 试验用influxdb作为后端api提供数据的方案
+    'chat',
 ]
 
 MIDDLEWARE = [

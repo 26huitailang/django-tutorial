@@ -25,3 +25,7 @@ plotly
 
 # 生成测试数据
 faker
+
+# django集成的websocket
+channels
+channels_redis
