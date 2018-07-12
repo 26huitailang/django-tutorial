@@ -3,3 +3,6 @@
 
 # Swagger
 drf-yasg[validation]
+
+# 测试
+selenium
