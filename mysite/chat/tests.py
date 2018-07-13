@@ -7,6 +7,8 @@ from selenium.webdriver.support.wait import WebDriverWait
 
 
 class ChatTests(ChannelsLiveServerTestCase):
+    # todo: still not working
+    # error: Listen failure: [Errno 9] Bad file descriptor
     serve_static = True  # emulate StaticLiveServerTestCase
 
     @classmethod
@@ -15,6 +17,7 @@ class ChatTests(ChannelsLiveServerTestCase):
         try:
             # NOTE: Requires "chromedriver" binary to be installed in $PATH
             cls.driver = webdriver.Chrome()
+            print(0)
         except:
             super().tearDownClass()
             raise
@@ -26,9 +29,12 @@ class ChatTests(ChannelsLiveServerTestCase):
 
     def test_when_chat_message_posted_then_seen_by_everyone_in_same_room(self):
         try:
+            print(1)
             self._enter_chat_room('room_1')
 
+            print(2)
             self._open_new_window()
+            print(3)
             self._enter_chat_room('room_1')
 
             self._switch_to_window(0)
@@ -69,6 +75,7 @@ class ChatTests(ChannelsLiveServerTestCase):
     # === Utility ===
 
     def _enter_chat_room(self, room_name):
+        print(self.live_server_url)
         self.driver.get(self.live_server_url + '/chat/')
         ActionChains(self.driver).send_keys(room_name + '\n').perform()
         WebDriverWait(self.driver, 2).until(lambda _:
