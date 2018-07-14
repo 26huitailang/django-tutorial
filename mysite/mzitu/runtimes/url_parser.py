@@ -175,8 +175,13 @@ class MzituOneSuite(MzituBase):
         ip, port = get_proxy_ip.get_random_ip()
         proxy_url = self.get_proxy_url(ip, port)
         proxies = {"https": proxy_url}
+        try:
+            result = requests.get(url, headers=headers, proxies=proxies, timeout=5)
+        except TimeoutError:
+            print("Timeout: {}".format(url))
+            result = None
 
-        return requests.get(url, headers=headers, proxies=proxies)
+        return result
 
     def download_images_to_local(self):
 
@@ -189,6 +194,9 @@ class MzituOneSuite(MzituBase):
                 continue
 
             img_bytes = self.requests_get(item['url'], headers=self.header(item['header_url']))
+            if img_bytes is None:
+                continue
+
             with open(item['filename'], 'wb') as f:
                 f.write(img_bytes.content)
             print("Downloaded {}".format(item['url']))
