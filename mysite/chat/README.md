@@ -41,3 +41,8 @@ django集成websocket的应用。
 - 一个chrome浏览器
 - [chromedriver](https://sites.google.com/a/chromium.org/chromedriver/downloads)
 - pip install selenium
+
+## 部署
+
+ASGI也可以处理http，不该变已有wsgi项目的基础上，可以用daphne在其他端口上另起服务，然后利用nginx代理将ws的请求代理到该服务下。
+
