@@ -85,7 +85,7 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         # When using the SQLite database engine the Django tests will by default use an in-memory database.
         'TEST': {
-            'NAME': 'testdb.sqlite3' , 
+            'NAME': 'testdb.sqlite3',
         }
     }
 }
