@@ -54,3 +54,8 @@ def test(request):
     except ValueError:
         raise Http404("xxx does not exist")
     return HttpResponse(html)
+
+
+def react_view(request):
+    return render(request, "polls/react.html")
+
