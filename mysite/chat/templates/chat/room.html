@@ -13,8 +13,10 @@
 <script>
     var roomName = {{ room_name_json }};
 
+    console.log(window.location.host);
     var chatSocket = new WebSocket(
         'ws://' + window.location.host +
+        // 'ws://127.0.0.1:9000' +  // 这里可以启动两个服务，wsgi在8000端口，asgi在9000端口，通过nginx分别代理
         '/ws/chat/' + roomName + '/');
 
     chatSocket.onmessage = function(e) {
