@@ -2,9 +2,15 @@
 
 整个项目的目的是练习和实践一些内容，不作为实际工程参考。
 
+## Update
+
+- 2018/08/20，试试使用react
+- 2018/08/19，截止这个之前，应用有polls/mzitu/influxdb_plotly/chat，其中chat是ws可以尝试用asgi来启动
+
 ## ORM
 
 ### 三步改变model
+
 1. 修改models.py
 2. python manage.py makemigrations [APP]创建改变的迁移文件，APP可选
 3. python manage.py migrate 应用这些改变到DB
@@ -15,7 +21,7 @@
 
 ### 一对多，多对多
 
- ```
+```py
  from django.db import models
 
 class Reporter(models.Model):
@@ -24,10 +30,11 @@ class Reporter(models.Model):
 
 class Article(models.Model):
     reporter = models.ForeignKey(Reporter, on_delete=models.CASCADE)
- ```
+```
+
  上面的例子，reporter.article_set可以访问一个reporter关联的多个文章。
 
- ```
+ ```py
  class Topping(models.Model):
     # ...
     pass
@@ -35,9 +42,11 @@ class Article(models.Model):
 class Pizza(models.Model):
     toppings = models.ManyToManyField(Topping)
  ```
+
 这个多对多的例子，方法可以作用于topping.pizza_set 以及pizza.toppings。
 
 ### 字段查找 field lookups
+
 构建SQL的WHERE表达式时使用，作为QuerySet的fielter，exclude和get方法的参数。
 
     格式：field__lookuptype=value，双下划线
@@ -48,8 +57,8 @@ class Pizza(models.Model):
 
     SELECT * FROM blog_entry WHERE pub_date <= '2006-01-01';
 
-
 ## 项目
+
 检查项目问题，不会生成migrations也不会碰数据库：
 
     $ python manage.py check
@@ -59,7 +68,7 @@ class Pizza(models.Model):
 
 $ python manage.py shell
 
-```
+```cmd
 In [3]: Question.objects.all()
 Out[3]: <QuerySet [<Question: What's up?>]>
 
@@ -68,4 +77,3 @@ Out[4]: <QuerySet [<Question: What's up?>]>
 ```
 
 ## Django Admin
-
