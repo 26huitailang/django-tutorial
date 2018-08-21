@@ -57,5 +57,4 @@ def test(request):
 
 
 def react_view(request):
-    return render(request, "polls/react.html")
-
+    return render(request, "polls/react.html", context={"test": "django-context-test"})

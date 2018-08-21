@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="../build/react.js"></script>
-    <script src="../build/react-dom.js"></script>
-    <script src="../build/browser.min.js"></script>
+    {% load static %}
+    <script src="https://cdn.bootcss.com/react/15.3.1/react.js"></script>
+    <script src="https://cdn.bootcss.com/react/15.3.1/react-dom.js"></script>
+    <script src="https://cdn.bootcss.com/babel-standalone/6.26.0/babel.min.js"></script>
   </head>
   <body>
+    <h1>{{ test }}</h1>
     <div id="example"></div>
     <script type="text/babel">
       ReactDOM.render(
