@@ -2,10 +2,19 @@
 
 整个项目的目的是练习和实践一些内容，不作为实际工程参考。
 
+## App
+
+- mysite: main app
+- chat: asgi application/websocket
+- influxdb_plotly: read data from influxdb and plot by plotly
+- polls: official practice
+- mzitu: crawler
+
 ## Update
 
-- 2018/08/20，试试使用react
-- 2018/08/19，截止这个之前，应用有polls/mzitu/influxdb_plotly/chat，其中chat是ws可以尝试用asgi来启动
+- [ ] 利用drf提供前端访问的API
+- [x] 2018/08/20，试试使用react
+- [x] 2018/08/19，截止这个之前，应用有polls/mzitu/influxdb_plotly/chat，其中chat是ws可以尝试用asgi来启动
 
 ## ORM
 
