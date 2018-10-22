@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from users.urls import users_urlpatterns
 
 urlpatterns = [
     url(r'^polls/', include('polls.urls')),
@@ -22,4 +23,5 @@ urlpatterns = [
     url(r'^mzitu/', include('mzitu.urls')),
     url(r'^influxdb_plotly/', include('influxdb_plotly.urls')),
     url(r'^chat/', include('chat.urls')),
+    url(r'^', include(users_urlpatterns)),
 ]

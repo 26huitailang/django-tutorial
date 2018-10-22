@@ -4,6 +4,7 @@
 Django>=2.0
 djangorestframework
 drf-nested-routers
+django-cors-headers
 
 # deploy
 gunicorn
