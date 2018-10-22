@@ -26,7 +26,7 @@ class UsersViewSet(GenericViewSet):
     queryset = User.objects
 
     def list(self, request):
-        """users list
+        """users列表
         """
         users = self.queryset.values('id', 'username', 'is_superuser')
         return Response({'data': users})
@@ -39,7 +39,19 @@ class AuthViewSet(GenericViewSet):
 
     @action(detail=False, methods=['POST'])
     def login(self, request):
-        """login
+        """登录
+        ---
+        parameters:
+          - username
+            desc: 用户名
+            required: true
+            type: string
+            in: body
+          - password
+            desc: 密码
+            required: true
+            type: string
+            in: body
         """
         # username = request.POST.get('username', None)
         # password = request.POST.get('password', None)
@@ -61,6 +73,8 @@ class AuthViewSet(GenericViewSet):
     # 需要用户已经已通过认证
     @action(detail=False, methods=['GET'], permission_classes=[IsAuthenticated])
     def logout(self, request):
+        """注销登录
+        """
         logout(request)  # 注销登录，会删除django_session的对应内容
 
         return Response('ok')
