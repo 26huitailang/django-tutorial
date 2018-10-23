@@ -186,5 +186,11 @@ CORS_ALLOW_HEADERS = (
 )
 
 # swagger
-LOGIN_URL = '/auth/login/'  # UI 界面的login
-LOGOUT_URL = '/auth/logout/'
+SWAGGER_SETTINGS = {
+    'LOGIN_URL': '/auth/login/',
+    'LOGOUT_URL': '/auth/logout/',
+    'USE_SESSION_AUTH': True,
+    'DOC_EXPANSION': 'list',
+    'APIS_SORTER': 'alpha',
+    'SECURITY_DEFINITIONS': None,
+}

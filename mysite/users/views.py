@@ -12,7 +12,11 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from django.shortcuts import get_object_or_404
 
-from users.serializers import UserSerializer, PasswordSerializer
+from users.serializers import (
+    UserSerializer,
+    PasswordSerializer,
+    LoginSerializer,
+)
 from users.permissions import IsSuperuserPermission
 
 
@@ -98,7 +102,7 @@ class UsersViewSet(GenericViewSet):
 
 
 class AuthViewSet(GenericViewSet):
-    serializer_class = UserSerializer
+    serializer_class = LoginSerializer
 
     queryset = User.objects
 
@@ -107,25 +111,24 @@ class AuthViewSet(GenericViewSet):
         """登录
         ---
         parameters:
-          - username
+          - name: username
             desc: 用户名
             required: true
             type: string
             in: body
-          - password
+          - name: password
             desc: 密码
             required: true
             type: string
             in: body
         """
-        # username = request.POST.get('username', None)
-        # password = request.POST.get('password', None)
-        username = request.data.get('username', None)
-        password = request.data.get('password', None)
-
-        if username is None or password is None:
+        serializer = self.get_serializer(data=request.data)
+        if not serializer.is_valid():
             return Response('no username or password', status=status.HTTP_400_BAD_REQUEST)
-        user = authenticate(request, username=username, password=password)
+
+        user = authenticate(request,
+                            username=serializer.validated_data['username'],
+                            password=serializer.validated_data['password'])
         if user is not None:
             login(request, user)
             response = Response('ok')
@@ -133,7 +136,7 @@ class AuthViewSet(GenericViewSet):
             response.set_cookie('csrftoken', value=request.session.get('csrftoken'))  # csrftoken，如果需要的话
             return response
         else:
-            return Response('wrong username or password', status=status.HTTP_401_UNAUTHORIZED)
+            return Response('invalid username or password', status=status.HTTP_400_BAD_REQUEST)
 
     # 需要用户已经已通过认证
     @action(detail=False, methods=['GET'])

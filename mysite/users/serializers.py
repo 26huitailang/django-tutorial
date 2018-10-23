@@ -20,3 +20,8 @@ class PasswordSerializer(serializers.Serializer):
         instance.set_password(password)  # hash password
         instance.save()
         return instance
+
+
+class LoginSerializer(serializers.Serializer):
+    username = serializers.CharField(required=True)
+    password = serializers.CharField(required=True)
