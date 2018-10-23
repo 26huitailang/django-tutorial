@@ -4,7 +4,7 @@
 import logging
 from rest_framework import status
 from rest_framework.viewsets import GenericViewSet
-from rest_framework.decorators import action
+from rest_framework.decorators import action, permission_classes
 from rest_framework.response import Response
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
@@ -22,24 +22,12 @@ logger = logging.getLogger(__name__)
 class UsersViewSet(GenericViewSet):
     """通过session确定认证，这个viewset下面的api需要session认证通过才能访问"""
     authentication_classes = (SessionAuthentication, )
-    # permission_classes = (IsAuthenticated, )
 
     serializer_class = UserSerializer
 
     queryset = User.objects
 
-    def get_permissions(self):
-        """内置的action权限在这里管理
-        """
-        if self.action == 'list':
-            permission_classes = [IsAuthenticated, IsAdminUser]
-        elif self.action == 'destroy':
-            permission_classes = [IsAuthenticated, IsSuperuserPermission]
-        else:
-            permission_classes = [IsAuthenticated]
-
-        return [permission() for permission in permission_classes]
-
+    @permission_classes((IsAuthenticated, IsAdminUser, ))
     def retrieve(self, request, pk=None):
         """指定用户信息
         """
@@ -47,12 +35,14 @@ class UsersViewSet(GenericViewSet):
         serializer = self.get_serializer(user)
         return Response(serializer.data)
 
+    @permission_classes((IsAuthenticated, IsAdminUser, ))
     def list(self, request):
         """users列表
         """
         users = self.queryset.values('id', 'username', 'is_staff')
         return Response({'data': users})
 
+    @permission_classes((IsAuthenticated, IsSuperuserPermission, ))
     def create(self, request):
         """创建用户
         """
@@ -74,6 +64,7 @@ class UsersViewSet(GenericViewSet):
         user.save()
         return Response('ok', status=status.HTTP_201_CREATED)
 
+    @permission_classes((IsAuthenticated, IsSuperuserPermission, ))
     def destroy(self, request, pk=None):
         """删除用户
         """
