@@ -9,14 +9,14 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('id', 'username', 'is_superuser', )
+        fields = ('id', 'username', 'is_superuser', 'is_staff', 'last_login', )
 
 
 class PasswordSerializer(serializers.Serializer):
-    id = serializers.CharField()
     password = serializers.CharField()
 
     def update(self, instance, validated_data):
-        instance.password = validated_data.get('password', instance.password)
+        password = validated_data.get('password', instance.password)
+        instance.set_password(password)  # hash password
         instance.save()
         return instance

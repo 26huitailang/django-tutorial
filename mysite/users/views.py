@@ -29,14 +29,23 @@ class UsersViewSet(GenericViewSet):
     queryset = User.objects
 
     def get_permissions(self):
+        """内置的action权限在这里管理
+        """
         if self.action == 'list':
             permission_classes = [IsAuthenticated, IsAdminUser]
         elif self.action == 'destroy':
-            permission_classes = [IsAuthenticated, IsAdminUser, IsSuperuserPermission]
+            permission_classes = [IsAuthenticated, IsSuperuserPermission]
         else:
             permission_classes = [IsAuthenticated]
 
         return [permission() for permission in permission_classes]
+
+    def retrieve(self, request, pk=None):
+        """指定用户信息
+        """
+        user = get_object_or_404(self.queryset, pk=pk)
+        serializer = self.get_serializer(user)
+        return Response(serializer.data)
 
     def list(self, request):
         """users列表
@@ -70,21 +79,29 @@ class UsersViewSet(GenericViewSet):
         """
         user = get_object_or_404(self.queryset, pk=pk)
         user.delete()
-        return Response('deleted user: {}'.format(pk),
-                        status=status.HTTP_200_OK)
+        return Response('deleted user: {}'.format(pk))
 
     @action(detail=True, methods=['POST'], permission_classes=[IsAuthenticated])
     def change_password(self, request, pk=None):
-        """修改自己的密码
-
-        # TODO(csj): 能不能兼容修改自己和他人的密码
+        """修改指定user id的密码
+        ---
+        parameters:
+          - pk
+            desc: 用户id
+            required: true
+            type: string
+            in: path
         """
-        user = request.user
+        user = get_object_or_404(self.queryset, pk=pk)
+
+        # 如果修改他人密码需要superuser
+        if user.id != request.user.id and request.user.is_superuser is False:
+            return Response('not superuser', status=status.HTTP_403_FORBIDDEN)
+
         serializer = PasswordSerializer(data=request.data)
         if not serializer.is_valid():
             return Response('invalid data', status=status.HTTP_400_BAD_REQUEST)
 
-        # TODO(csj): 密码没有hash
         serializer.update(user, serializer.validated_data)
         return Response('ok')
 

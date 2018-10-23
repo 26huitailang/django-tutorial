@@ -5,14 +5,22 @@
 ## App
 
 - mysite: main app
+- users: auth/users resource
 - chat: asgi application/websocket
 - influxdb_plotly: read data from influxdb and plot by plotly
 - polls: official practice
 - mzitu: crawler
 
+## How-to-Use
+
+- choose apps you want to use in `mysite/settings/base.py`, comment the apps you do not want
+- virtualenv a python3 environment, then `pip install -r requirements.txt`
+- start app `./manage.py runserver`
+- access `127.0.0.1:8000`
+
 ## Update
 
-- [ ] 利用drf提供前端访问的API
+- [x] 2018/10/23，利用drf提供前端访问的API，users app
 - [x] 2018/08/20，试试使用react
 - [x] 2018/08/19，截止这个之前，应用有polls/mzitu/influxdb_plotly/chat，其中chat是ws可以尝试用asgi来启动
 
@@ -73,6 +81,7 @@ class Pizza(models.Model):
     $ python manage.py check
 
 ### 交互shell
+
 如果要使用ipython作为交互的terminal，先安装ipython。
 
 $ python manage.py shell
@@ -86,3 +95,5 @@ Out[4]: <QuerySet [<Question: What's up?>]>
 ```
 
 ## Django Admin
+
+todo
