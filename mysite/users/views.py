@@ -7,7 +7,7 @@ from rest_framework.viewsets import GenericViewSet
 from rest_framework.decorators import action, permission_classes
 from rest_framework.response import Response
 from rest_framework.authentication import SessionAuthentication
-from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from rest_framework.permissions import IsAdminUser
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from django.shortcuts import get_object_or_404
@@ -27,7 +27,7 @@ class UsersViewSet(GenericViewSet):
 
     queryset = User.objects
 
-    @permission_classes((IsAuthenticated, IsAdminUser, ))
+    @permission_classes((IsAdminUser, ))
     def retrieve(self, request, pk=None):
         """指定用户信息
         """
@@ -35,14 +35,14 @@ class UsersViewSet(GenericViewSet):
         serializer = self.get_serializer(user)
         return Response(serializer.data)
 
-    @permission_classes((IsAuthenticated, IsAdminUser, ))
+    @permission_classes((IsAdminUser, ))
     def list(self, request):
         """users列表
         """
         users = self.queryset.values('id', 'username', 'is_staff')
         return Response({'data': users})
 
-    @permission_classes((IsAuthenticated, IsSuperuserPermission, ))
+    @permission_classes((IsSuperuserPermission, ))
     def create(self, request):
         """创建用户
         """
@@ -64,7 +64,7 @@ class UsersViewSet(GenericViewSet):
         user.save()
         return Response('ok', status=status.HTTP_201_CREATED)
 
-    @permission_classes((IsAuthenticated, IsSuperuserPermission, ))
+    @permission_classes((IsSuperuserPermission, ))
     def destroy(self, request, pk=None):
         """删除用户
         """
@@ -72,7 +72,7 @@ class UsersViewSet(GenericViewSet):
         user.delete()
         return Response('deleted user: {}'.format(pk))
 
-    @action(detail=True, methods=['POST'], permission_classes=[IsAuthenticated])
+    @action(detail=True, methods=['POST'])
     def change_password(self, request, pk=None):
         """修改指定user id的密码
         ---
@@ -102,7 +102,7 @@ class AuthViewSet(GenericViewSet):
 
     queryset = User.objects
 
-    @action(detail=False, methods=['POST'])
+    @action(detail=False, methods=['POST'], permission_classes=[])  # 覆盖全局设置，避免IsAuthenticated限制login
     def login(self, request):
         """登录
         ---
@@ -136,7 +136,7 @@ class AuthViewSet(GenericViewSet):
             return Response('wrong username or password', status=status.HTTP_401_UNAUTHORIZED)
 
     # 需要用户已经已通过认证
-    @action(detail=False, methods=['GET'], permission_classes=[IsAuthenticated])
+    @action(detail=False, methods=['GET'])
     def logout(self, request):
         """注销登录
         """
