@@ -94,6 +94,9 @@ In [4]: Question.objects.filter(question_text__startswith='What')
 Out[4]: <QuerySet [<Question: What's up?>]>
 ```
 
-## Django Admin
+## Celery
 
-todo
+```
+celery -A mysite worker -l debug
+celery -A mysite beat -l debug
+```

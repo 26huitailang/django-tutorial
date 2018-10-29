@@ -30,5 +30,8 @@ plotly
 faker
 
 # django集成的websocket
-channels
-channels_redis
+# channels
+# channels_redis
+
+# celery
+celery

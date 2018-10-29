@@ -194,3 +194,25 @@ SWAGGER_SETTINGS = {
     'APIS_SORTER': 'alpha',
     'SECURITY_DEFINITIONS': None,
 }
+
+# ------------------------------------------------------------
+# celery
+
+# broker
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+
+# timezone
+CELERY_TIMEZONE = 'Asia/Shanghai'
+
+# CELERY_BEAT_SCHEDULE = {
+#     # 每x分钟 ------------------------------------------------------------
+#     # 检查任务
+#     'check_msf_jobs_every_minute': {
+#         'task': 'app_penetrator.tasks.msf_rpc.check_msf_jobs',
+#         'schedule': crontab(minute='*/1'),
+#     },
+#     'check_msfrpcd_status_every_two_minute': {
+#         'task': 'app_penetrator.tasks.msf_rpc.check_msfrpcd_status',
+#         'schedule': crontab(minute='*/1'),
+#     },
+# }
