@@ -1,28 +1,41 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+
+    <el-container>
+      <el-header class="header">
+        <v-header />
+      </el-header>
+      <el-container>
+        <el-aside width="200px">
+          <nav-menu></nav-menu>
+        </el-aside>
+        <el-main>
+          <router-view></router-view>
+        </el-main>
+      </el-container>
+    </el-container>
+
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import NavMenu from '@/components/NavMenu'
+import Header from '@/components/Header'
 
 export default {
   name: 'app',
   components: {
-    HelloWorld
+    'nav-menu': NavMenu,
+    'v-header': Header
   }
 }
+
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+.header {
+  background-color: #409EFF;
+  color: #fff;
+  line-height: 60px;
 }
 </style>
