@@ -2,8 +2,8 @@
 -r test.txt
 
 # Swagger
-# drf-yasg[validation]
-django-rest-swagger
+drf-yasg[validation]
+# django-rest-swagger
 
 # 测试
 selenium
