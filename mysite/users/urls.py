@@ -13,15 +13,17 @@ __all__ = [
 ]
 
 auth_router = routers.DefaultRouter()
-auth_router.register(r'auth',
+auth_router.register(r'',
                      views.AuthViewSet,
                      base_name='api-auth')
 users_router = routers.DefaultRouter()
-users_router.register(r'users',
+users_router.register(r'',
                       views.UsersViewSet,
                       base_name='api-users')
 
 users_urlpatterns = [
-    re_path(r'^', include(auth_router.urls)),
     re_path(r'^', include(users_router.urls)),
+]
+auth_urlpatterns = [
+    re_path(r'^', include(auth_router.urls)),
 ]

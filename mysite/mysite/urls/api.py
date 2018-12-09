@@ -14,20 +14,14 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url, include
-from django.contrib import admin
-from django.views.generic.base import TemplateView
-from users.urls import users_urlpatterns
-from rest_framework_swagger.views import get_swagger_view
+from users.urls import users_urlpatterns, auth_urlpatterns
 
-schema_view = get_swagger_view(title='Django Tutorial API')
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(r'^$', TemplateView.as_view(template_name="index.html")),
-    url(r'^apidocs/$', schema_view),
-    url(r'^polls/', include('polls.urls')),
-    url(r'^mzitu/', include('mzitu.urls')),
-    url(r'^influxdb_plotly/', include('influxdb_plotly.urls')),
-    url(r'^chat/', include('chat.urls')),
-    url(r'^', include(users_urlpatterns)),
+    url(r'polls/', include('polls.urls')),
+    url(r'mzitu/', include('mzitu.urls')),
+    url(r'influxdb_plotly/', include('influxdb_plotly.urls')),
+    url(r'chat/', include('chat.urls')),
+    url(r'users/', include(users_urlpatterns)),
+    url(r'auth/', include(auth_urlpatterns))
 ]

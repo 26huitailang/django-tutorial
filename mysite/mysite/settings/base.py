@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+from mysite.deploy_level import DeployLevel
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -23,6 +24,8 @@ SECRET_KEY = 'vnimhx9&@_bwm!j7fptet%+wba20@nc=fwu*khw0^)g3%0w_01'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
+DEPLOY_LEVEL = DeployLevel.develop
+
 # CSRF_COOKIE_SECURE = False
 ALLOWED_HOSTS = []
 
@@ -37,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'rest_framework_swagger',  # api docs
+    'drf_yasg',  # api docs
     # 'channels',  # websocket
     'rest_framework',
     'corsheaders',
@@ -150,15 +153,15 @@ INFLUXDB_CONF = {
     'TIMEOUT': 5,
 }
 
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        # 'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-    ),
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
-    ),
-}
+# REST_FRAMEWORK = {
+#     'DEFAULT_AUTHENTICATION_CLASSES': (
+#         'rest_framework.authentication.BasicAuthentication',
+#         'rest_framework.authentication.SessionAuthentication',
+#     ),
+#     'DEFAULT_PERMISSION_CLASSES': (
+#         'rest_framework.permissions.IsAuthenticated',
+#     ),
+# }
 
 # Sessions
 SESSION_COOKIE_AGE = 43200
@@ -190,16 +193,6 @@ CORS_ALLOW_HEADERS = (
     'x-requested-with',
     'Pragma',
 )
-
-# swagger
-SWAGGER_SETTINGS = {
-    'LOGIN_URL': '/auth/login/',
-    'LOGOUT_URL': '/auth/logout/',
-    'USE_SESSION_AUTH': True,
-    'DOC_EXPANSION': 'list',
-    'APIS_SORTER': 'alpha',
-    'SECURITY_DEFINITIONS': None,
-}
 
 # ------------------------------------------------------------
 # celery
