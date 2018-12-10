@@ -18,3 +18,9 @@ class DownloadedSuit(models.Model):
     url = models.URLField(max_length=200)
     max_page = models.IntegerField()
     tag = models.CharField(max_length=100, default='')
+
+
+class SuitImageMap(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4)
+    suit = models.ForeignKey(DownloadedSuit, on_delete=models.CASCADE)
+    url = models.URLField(max_length=300)

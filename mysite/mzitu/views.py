@@ -1,6 +1,9 @@
 import random
 from django.shortcuts import render
 from django.http import HttpResponse
+from rest_framework.viewsets import GenericViewSet
+from rest_framework.decorators import action
+from rest_framework.response import Response
 
 from mzitu.runtimes.proxy_ip import GetProxyIp
 from mzitu.constants import (
@@ -8,7 +11,63 @@ from mzitu.constants import (
     USER_AGENT_LIST,
 )
 from mzitu.runtimes.url_parser import MzituOneSuite, MzituThemePage
-# from mzitu.runtimes.asyncio_for_mzitu import async_get_images_urls
+from mzitu.models import DownloadedSuit, ProxyIp
+from mzitu.serializers import MzituDownloadedSuitSerializer
+
+
+class MzituSuitViewSet(GenericViewSet):
+    serializer_class = MzituDownloadedSuitSerializer
+    queryset = DownloadedSuit.objects.all()
+
+    def create(self, request):
+        """获取URL但是不下载
+
+        :param request:
+        :return:
+        """
+        return
+
+    def list(self, request):
+        """
+        """
+        return
+
+    @action(detail=False, methods=['post'])
+    def download(self, request):
+        """获取要下载图片的suit列表，并下载到文件夹"""
+        return
+
+
+class MzituThemeViewSet(GenericViewSet):
+    serializer_class = MzituDownloadedSuitSerializer
+    queryset = DownloadedSuit.objects.all()
+
+    def create(self, request):
+        """获取主题但不下载"""
+        return
+
+    def list(self, request):
+        """套图列表"""
+        return
+
+    @action(detail=False, methods=['post'])
+    def download(self, request):
+        """获取要下载图片的suit列表，并下载到文件夹"""
+        return
+
+
+class ProxyIpViewSet(GenericViewSet):
+    serializer_class = MzituDownloadedSuitSerializer
+    queryset = ProxyIp.objects.all()
+
+    def create(self, request):
+        """获取新的proxy ip"""
+        return
+
+    @action(detail=False, methods=['post'])
+    def check_valid(self, request):
+        """标记失效的代理"""
+        return
 
 
 def index(request):
@@ -45,13 +104,3 @@ def get_proxies(request):
     get_proxy_ip.store_to_sqlite(ip_list)
 
     return HttpResponse('Downloaded')
-
-
-def async_parse_and_download_one_suit(request):
-
-    request.GET['suite_url']
-
-    # 线程
-    # async_get_images_urls(suite_url)
-
-    return HttpResponse("下载完成")
