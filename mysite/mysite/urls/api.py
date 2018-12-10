@@ -15,11 +15,13 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from users.urls import users_urlpatterns, auth_urlpatterns
+from mzitu.urls import urlpatterns as mzitu_urlpatterns
 
 
 urlpatterns = [
     url(r'polls/', include('polls.urls')),
-    url(r'mzitu/', include('mzitu.urls')),
+    url(r'mzitu/', include(mzitu_urlpatterns)),
+    # url(r'mzitu/', include(theme_urlpatterns)),
     url(r'influxdb_plotly/', include('influxdb_plotly.urls')),
     url(r'chat/', include('chat.urls')),
     url(r'users/', include(users_urlpatterns)),
