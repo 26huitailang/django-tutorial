@@ -18,19 +18,19 @@ __all__ = [
 suit_router = routers.DefaultRouter()
 suit_router.register(
     r'',
-    views.MzituSuitViewSet,
+    views.suit.MzituSuitViewSet,
     base_name='api-mzitu-suit'
 )
 theme_router = routers.DefaultRouter()
 theme_router.register(
     r'',
-    views.MzituThemeViewSet,
+    views.theme.MzituThemeViewSet,
     base_name='api-mzitu-theme',
 )
 proxyip_router = routers.DefaultRouter()
 proxyip_router.register(
     r'',
-    views.ProxyIpViewSet,
+    views.proxy_ip.ProxyIpViewSet,
     base_name='api-mzitu-proxyip',
 )
 
@@ -41,16 +41,16 @@ theme_urlpatterns = [
     re_path(r'^', include(theme_router.urls)),
 ]
 proxyip_urlpatterns = [
-    re_path(r'^', include(proxyip_router)),
+    re_path(r'^', include(proxyip_router.urls)),
 ]
 
 urlpatterns = [
     # ex: /mzitu/
-    url(r'^$', views.index, name='index'),
-    url(r'^download_one_suit$', views.parse_and_download_one_suit, name='download_one_suit'),
-    url(r'^download_one_theme$', views.download_one_theme, name='download_one_theme'),
-    url(r'^get_proxies$', views.get_proxies, name='get_proxies'),
+    url(r'^$', views.suit.index, name='index'),
+    url(r'^download_one_suit$', views.suit.parse_and_download_one_suit, name='download_one_suit'),
+    url(r'^download_one_theme$', views.suit.download_one_theme, name='download_one_theme'),
+    url(r'^get_proxies$', views.suit.get_proxies, name='get_proxies'),
     path('suit/', include(suit_urlpatterns)),
     path('theme/', include(theme_urlpatterns)),
-    # path('proxyip/', include(proxyip_urlpatterns)),  #todo: circle input
+    path('proxyip/', include(proxyip_urlpatterns)),
 ]

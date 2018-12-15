@@ -1,3 +1,5 @@
+# coding: utf-8
+
 import random
 from django.shortcuts import render
 from django.http import HttpResponse
@@ -11,7 +13,7 @@ from mzitu.constants import (
     USER_AGENT_LIST,
 )
 from mzitu.runtimes.url_parser import MzituOneSuite, MzituThemePage
-from mzitu.models import DownloadedSuit, ProxyIp
+from mzitu.models import DownloadedSuit
 from mzitu.serializers import MzituDownloadedSuitSerializer
 
 
@@ -35,38 +37,6 @@ class MzituSuitViewSet(GenericViewSet):
     @action(detail=False, methods=['post'])
     def download(self, request):
         """获取要下载图片的suit列表，并下载到文件夹"""
-        return
-
-
-class MzituThemeViewSet(GenericViewSet):
-    serializer_class = MzituDownloadedSuitSerializer
-    queryset = DownloadedSuit.objects.all()
-
-    def create(self, request):
-        """获取主题但不下载"""
-        return
-
-    def list(self, request):
-        """套图列表"""
-        return
-
-    @action(detail=False, methods=['post'])
-    def download(self, request):
-        """获取要下载图片的suit列表，并下载到文件夹"""
-        return
-
-
-class ProxyIpViewSet(GenericViewSet):
-    serializer_class = MzituDownloadedSuitSerializer
-    queryset = ProxyIp.objects.all()
-
-    def create(self, request):
-        """获取新的proxy ip"""
-        return
-
-    @action(detail=False, methods=['post'])
-    def check_valid(self, request):
-        """标记失效的代理"""
         return
 
 
