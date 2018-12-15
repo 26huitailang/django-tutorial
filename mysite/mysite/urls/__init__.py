@@ -23,7 +23,8 @@ from . import api as api_urls
 
 
 urlpatterns = [
-    path('api/', include(api_urls)),
+    # todo: api versioning
+    path('api/v1/', include(api_urls)),
     path('', TemplateView.as_view(template_name="index.html")),
 ]
 
