@@ -35,5 +35,3 @@ def update_ip_list():
 
     for ip_tuple in ip_list:
         ProxyIp.insert_proxy_ip(ip_tuple[0], ip_tuple[1])
-
-# todo

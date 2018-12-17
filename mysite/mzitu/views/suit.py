@@ -40,12 +40,12 @@ class MzituSuitViewSet(GenericViewSet):
     @action(detail=False, methods=['post'])
     def download(self, request):
         """获取要下载图片的suit列表，并下载到文件夹"""
-        # todo!!!: debug这个功能
         suite_url = request.GET.get('suite_url', None)
         if not suite_url:
             return Response('no suite_url', status=status.HTTP_400_BAD_REQUEST)
 
         # 线程
+        # todo: 同步可以执行，异步会timeout
         download_one_suit.delay(suite_url)
         return Response('delayed, check later', status=status.HTTP_202_ACCEPTED)
 
