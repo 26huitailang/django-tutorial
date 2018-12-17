@@ -3,32 +3,35 @@
 import random
 from django.shortcuts import render
 from django.http import HttpResponse
+from rest_framework import status
 from rest_framework.viewsets import GenericViewSet
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from drf_yasg.utils import swagger_auto_schema
 
-from mzitu.runtimes.proxy_ip import GetProxyIp
 from mzitu.constants import (
-    PROXY_SOURCE_URL,
     USER_AGENT_LIST,
 )
 from mzitu.runtimes.url_parser import MzituOneSuite, MzituThemePage
-from mzitu.models import DownloadedSuit
+from mzitu.models.downloaded_suit import DownloadedSuit
 from mzitu.serializers import MzituDownloadedSuitSerializer
+from mzitu.tasks.suit import download_one_suit
 
 
 class MzituSuitViewSet(GenericViewSet):
     serializer_class = MzituDownloadedSuitSerializer
     queryset = DownloadedSuit.objects.all()
 
+    @swagger_auto_schema(deprecated=True)
     def create(self, request):
-        """获取URL但是不下载
+        """todo: 获取URL但是不下载
 
         :param request:
         :return:
         """
         return
 
+    @swagger_auto_schema(deprecated=True)
     def list(self, request):
         """
         """
@@ -37,7 +40,14 @@ class MzituSuitViewSet(GenericViewSet):
     @action(detail=False, methods=['post'])
     def download(self, request):
         """获取要下载图片的suit列表，并下载到文件夹"""
-        return
+        # todo!!!: debug这个功能
+        suite_url = request.GET.get('suite_url', None)
+        if not suite_url:
+            return Response('no suite_url', status=status.HTTP_400_BAD_REQUEST)
+
+        # 线程
+        download_one_suit.delay(suite_url)
+        return Response('delayed, check later', status=status.HTTP_202_ACCEPTED)
 
 
 def index(request):
@@ -66,11 +76,3 @@ def download_one_theme(request):
         mzitu_one_suite.download_one_suit()
 
     return HttpResponse("下载完成")
-
-
-def get_proxies(request):
-    get_proxy_ip = GetProxyIp(PROXY_SOURCE_URL, random.choice(USER_AGENT_LIST))
-    ip_list = get_proxy_ip.get_ip_list()
-    get_proxy_ip.store_to_sqlite(ip_list)
-
-    return HttpResponse('Downloaded')

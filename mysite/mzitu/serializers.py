@@ -2,7 +2,7 @@
 # coding: utf-8
 
 from rest_framework import serializers
-from mzitu.models import DownloadedSuit
+from mzitu.models.downloaded_suit import DownloadedSuit
 
 
 class MzituDownloadedSuitSerializer(serializers.ModelSerializer):

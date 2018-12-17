@@ -1,0 +1,488 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+0001_initial.py	../mysite/mzitu/migrations/0001_initial.py	1;"	kind:file	line:1
+0001_initial.py	../mysite/polls/migrations/0001_initial.py	1;"	kind:file	line:1
+0002_downloadedsuit.py	../mysite/mzitu/migrations/0002_downloadedsuit.py	1;"	kind:file	line:1
+0003_downloadedsuit_tag.py	../mysite/mzitu/migrations/0003_downloadedsuit_tag.py	1;"	kind:file	line:1
+ALLOWED_HOSTS	../mysite/mysite/settings/base.py	/^ALLOWED_HOSTS = []$/;"	kind:variable	line:28
+ASGI_APPLICATION	../mysite/mysite/settings/settings.py	/^ASGI_APPLICATION = 'mysite.routing.application'$/;"	kind:variable	line:9
+ASGI_APPLICATION	../mysite/mysite/settings/settings_sample.py	/^ASGI_APPLICATION = 'mysite.routing.application'$/;"	kind:variable	line:9
+AUTH_PASSWORD_VALIDATORS	../mysite/mysite/settings/base.py	/^AUTH_PASSWORD_VALIDATORS = [$/;"	kind:variable	line:97
+ActionChains	../mysite/chat/tests.py	/^from selenium.webdriver.common.action_chains import ActionChains$/;"	kind:namespace	line:5
+AppConfig	../mysite/django_vises/apps.py	/^from django.apps import AppConfig$/;"	kind:namespace	line:5
+AppConfig	../mysite/influxdb_plotly/apps.py	/^from django.apps import AppConfig$/;"	kind:namespace	line:1
+AppConfig	../mysite/mzitu/apps.py	/^from django.apps import AppConfig$/;"	kind:namespace	line:1
+AppConfig	../mysite/polls/apps.py	/^from django.apps import AppConfig$/;"	kind:namespace	line:1
+AsyncWebsocketConsumer	../mysite/chat/consumers.py	/^from channels.generic.websocket import AsyncWebsocketConsumer$/;"	kind:namespace	line:3
+AuthMiddlewareStack	../mysite/mysite/routing.py	/^from channels.auth import AuthMiddlewareStack$/;"	kind:namespace	line:4
+BASE_DIR	../mysite/mysite/settings/base.py	/^BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))$/;"	kind:variable	line:16
+BaseCommand	../mysite/influxdb_plotly/management/commands/insert_data_to_influxdb.py	/^from django.core.management import BaseCommand$/;"	kind:namespace	line:1
+BaseCommand	../mysite/mzitu/management/commands/get_existed_filename_to_db.py	/^from django.core.management.base import BaseCommand$/;"	kind:namespace	line:2
+BeautifulSoup	../mysite/mzitu/runtimes/proxy_ip.py	/^from bs4 import BeautifulSoup$/;"	kind:namespace	line:8
+CHANNEL_LAYERS	../mysite/mysite/settings/settings.py	/^CHANNEL_LAYERS = {$/;"	kind:variable	line:10
+CHANNEL_LAYERS	../mysite/mysite/settings/settings_sample.py	/^CHANNEL_LAYERS = {$/;"	kind:variable	line:10
+ChannelsLiveServerTestCase	../mysite/chat/tests.py	/^from channels.testing import ChannelsLiveServerTestCase$/;"	kind:namespace	line:3
+ChatConsumer	../mysite/chat/consumers.py	/^class ChatConsumer(AsyncWebsocketConsumer):$/;"	kind:class	line:7
+ChatTests	../mysite/chat/tests.py	/^class ChatTests(ChannelsLiveServerTestCase):$/;"	kind:class	line:9
+Choice	../mysite/polls/models.py	/^class Choice(models.Model):$/;"	kind:class	line:20
+Choice	../mysite/polls/views.py	/^from .models import Question, Choice$/;"	kind:namespace	line:8
+Command	../mysite/influxdb_plotly/management/commands/insert_data_to_influxdb.py	/^class Command(BaseCommand):$/;"	kind:class	line:9
+Command	../mysite/mzitu/management/commands/get_existed_filename_to_db.py	/^class Command(BaseCommand):$/;"	kind:class	line:7
+Constants	../mysite/fabfile.py	/^class Constants(object):$/;"	kind:class	line:20
+DATABASES	../mysite/mysite/settings/base.py	/^DATABASES = {$/;"	kind:variable	line:82
+DEBUG	../mysite/mysite/settings/base.py	/^DEBUG = False$/;"	kind:variable	line:26
+DEBUG	../mysite/mysite/settings/settings.py	/^DEBUG = True$/;"	kind:variable	line:4
+DEBUG	../mysite/mysite/settings/settings_sample.py	/^DEBUG = True$/;"	kind:variable	line:4
+DeployLevel	../mysite/django_vises/deploy.py	/^class DeployLevel(IntEnum):$/;"	kind:class	line:9
+DeployLevel	../mysite/fabfile.py	/^from django_vises.deploy import DeployLevel$/;"	kind:namespace	line:17
+DetailView	../mysite/polls/views.py	/^class DetailView(generic.DeleteView):$/;"	kind:class	line:19
+DjangoVisesConfig	../mysite/django_vises/apps.py	/^class DjangoVisesConfig(AppConfig):$/;"	kind:class	line:8
+DownloadedSuit	../mysite/mzitu/management/commands/get_existed_filename_to_db.py	/^from mzitu.models import DownloadedSuit$/;"	kind:namespace	line:3
+DownloadedSuit	../mysite/mzitu/models.py	/^class DownloadedSuit(models.Model):$/;"	kind:class	line:15
+DownloadedSuit	../mysite/mzitu/runtimes/url_parser.py	/^from mzitu.models import DownloadedSuit$/;"	kind:namespace	line:17
+FlowPointSerializer	../mysite/influxdb_plotly/serializers/flow.py	/^class FlowPointSerializer(serializers.Serializer):$/;"	kind:class	line:7
+FlowSerializer	../mysite/influxdb_plotly/serializers/flow.py	/^class FlowSerializer(serializers.Serializer):$/;"	kind:class	line:17
+FlowSerializer	../mysite/influxdb_plotly/views.py	/^from influxdb_plotly.serializers.flow import FlowSerializer$/;"	kind:namespace	line:15
+FlowViewSet	../mysite/influxdb_plotly/views.py	/^class FlowViewSet(GenericViewSet):$/;"	kind:class	line:116
+GeneralObject	../mysite/django_vises/demos/general_object.py	/^from django_vises.models.general_object import GeneralObject$/;"	kind:namespace	line:5
+GenericViewSet	../mysite/influxdb_plotly/views.py	/^from rest_framework.viewsets import GenericViewSet$/;"	kind:namespace	line:10
+GetProxyIp	../mysite/mzitu/runtimes/proxy_ip.py	/^class GetProxyIp:$/;"	kind:class	line:17
+GetProxyIp	../mysite/mzitu/runtimes/url_parser.py	/^from mzitu.runtimes.proxy_ip import GetProxyIp$/;"	kind:namespace	line:15
+GetProxyIp	../mysite/mzitu/views.py	/^from mzitu.runtimes.proxy_ip import GetProxyIp$/;"	kind:namespace	line:5
+HTTP_HEADER_ENCODING	../mysite/django_vises/runtimes/misc.py	/^HTTP_HEADER_ENCODING = 'iso-8859-1'$/;"	kind:variable	line:9
+Http404	../mysite/polls/views.py	/^from django.http import HttpResponseRedirect, HttpResponse, Http404$/;"	kind:namespace	line:4
+HttpResponse	../mysite/mzitu/views.py	/^from django.http import HttpResponse$/;"	kind:namespace	line:3
+HttpResponse	../mysite/polls/views.py	/^from django.http import HttpResponseRedirect, HttpResponse, Http404$/;"	kind:namespace	line:4
+HttpResponseRedirect	../mysite/polls/views.py	/^from django.http import HttpResponseRedirect, HttpResponse, Http404$/;"	kind:namespace	line:4
+IMAGE_FOLDER	../mysite/mzitu/constants.py	/^IMAGE_FOLDER = 'C:\/Users\/26hui\/Desktop\/mzitu'$/;"	kind:variable	line:3
+IMAGE_FOLDER	../mysite/mzitu/management/commands/get_existed_filename_to_db.py	/^from mzitu.constants import IMAGE_FOLDER$/;"	kind:namespace	line:4
+IMAGE_FOLDER_UNIX_LIKE	../mysite/mzitu/constants.py	/^IMAGE_FOLDER_UNIX_LIKE = '\/tmp\/mzitu'$/;"	kind:variable	line:4
+INFLUXDB_CONF	../mysite/mysite/settings/base.py	/^INFLUXDB_CONF = {$/;"	kind:variable	line:133
+INSTALLED_APPS	../mysite/mysite/settings/base.py	/^INSTALLED_APPS = [$/;"	kind:variable	line:33
+IndexView	../mysite/polls/views.py	/^class IndexView(generic.ListView):$/;"	kind:class	line:11
+InfluxDBClient	../mysite/influxdb_plotly/runtimes/influxdb.py	/^from influxdb import InfluxDBClient$/;"	kind:namespace	line:1
+InfluxdbPlotlyConfig	../mysite/influxdb_plotly/apps.py	/^class InfluxdbPlotlyConfig(AppConfig):$/;"	kind:class	line:4
+IntEnum	../mysite/django_vises/deploy.py	/^from enum import IntEnum, unique$/;"	kind:namespace	line:5
+IsAuthenticated	../mysite/influxdb_plotly/views.py	/^from rest_framework.permissions import IsAuthenticated$/;"	kind:namespace	line:13
+JsonResponse	../mysite/influxdb_plotly/views.py	/^from django.http import JsonResponse$/;"	kind:namespace	line:2
+LANGUAGE_CODE	../mysite/mysite/settings/base.py	/^LANGUAGE_CODE = 'en-us'$/;"	kind:variable	line:116
+MAX_DOWNLOAD_WORKER	../mysite/mzitu/runtimes/url_parser.py	/^    MAX_DOWNLOAD_WORKER = 10$/;"	kind:variable	line:53
+MIDDLEWARE	../mysite/mysite/settings/base.py	/^MIDDLEWARE = [$/;"	kind:variable	line:48
+Meta	../mysite/django_vises/model_base.py	/^    class Meta(object):$/;"	kind:class	line:30
+Meta	../mysite/django_vises/model_base.py	/^    class Meta(object):$/;"	kind:class	line:44
+Meta	../mysite/django_vises/model_base.py	/^    class Meta(object):$/;"	kind:class	line:66
+Meta	../mysite/influxdb_plotly/serializers/flow.py	/^    class Meta:$/;"	kind:class	line:13
+Migration	../mysite/mzitu/migrations/0001_initial.py	/^class Migration(migrations.Migration):$/;"	kind:class	line:8
+Migration	../mysite/mzitu/migrations/0002_downloadedsuit.py	/^class Migration(migrations.Migration):$/;"	kind:class	line:7
+Migration	../mysite/mzitu/migrations/0003_downloadedsuit_tag.py	/^class Migration(migrations.Migration):$/;"	kind:class	line:6
+Migration	../mysite/polls/migrations/0001_initial.py	/^class Migration(migrations.Migration):$/;"	kind:class	line:9
+ModelBaseObject	../mysite/django_vises/model_base.py	/^class ModelBaseObject(ModelBaseObjectNoId):$/;"	kind:class	line:34
+ModelBaseObjectNoId	../mysite/django_vises/model_base.py	/^class ModelBaseObjectNoId(models.Model):$/;"	kind:class	line:16
+ModelBaseRecord	../mysite/django_vises/model_base.py	/^class ModelBaseRecord(models.Model):$/;"	kind:class	line:51
+MzituBase	../mysite/mzitu/runtimes/url_parser.py	/^class MzituBase:$/;"	kind:class	line:20
+MzituConfig	../mysite/mzitu/apps.py	/^class MzituConfig(AppConfig):$/;"	kind:class	line:4
+MzituOneSuite	../mysite/mzitu/runtimes/url_parser.py	/^class MzituOneSuite(MzituBase):$/;"	kind:class	line:51
+MzituOneSuite	../mysite/mzitu/views.py	/^from mzitu.runtimes.url_parser import MzituOneSuite, MzituThemePage$/;"	kind:namespace	line:10
+MzituThemePage	../mysite/mzitu/runtimes/url_parser.py	/^class MzituThemePage(MzituBase):$/;"	kind:class	line:227
+MzituThemePage	../mysite/mzitu/views.py	/^from mzitu.runtimes.url_parser import MzituOneSuite, MzituThemePage$/;"	kind:namespace	line:10
+PROXY_SOURCE_URL	../mysite/mzitu/constants.py	/^PROXY_SOURCE_URL = 'http:\/\/www.xicidaili.com\/nn\/'$/;"	kind:variable	line:1
+PollsConfig	../mysite/polls/apps.py	/^class PollsConfig(AppConfig):$/;"	kind:class	line:4
+ProtocolTypeRouter	../mysite/mysite/routing.py	/^from channels.routing import ProtocolTypeRouter, URLRouter$/;"	kind:namespace	line:3
+ProxyIp	../mysite/mzitu/models.py	/^class ProxyIp(models.Model):$/;"	kind:class	line:7
+ProxyIp	../mysite/mzitu/runtimes/sqlite.py	/^from mzitu.models import ProxyIp$/;"	kind:namespace	line:5
+Question	../mysite/polls/admin.py	/^from .models import Question$/;"	kind:namespace	line:3
+Question	../mysite/polls/models.py	/^class Question(models.Model):$/;"	kind:class	line:8
+Question	../mysite/polls/tests.py	/^from .models import Question$/;"	kind:namespace	line:7
+Question	../mysite/polls/views.py	/^from .models import Question, Choice$/;"	kind:namespace	line:8
+QuestionAdmin	../mysite/polls/admin.py	/^class QuestionAdmin(admin.ModelAdmin):$/;"	kind:class	line:6
+QuestionIndexViewTests	../mysite/polls/tests.py	/^class QuestionIndexViewTests(TestCase):$/;"	kind:class	line:46
+QuestionModelTests	../mysite/polls/tests.py	/^class QuestionModelTests(TestCase):$/;"	kind:class	line:10
+REMOTE	../mysite/fabfile.py	/^REMOTE = Constants()$/;"	kind:variable	line:81
+ROOT_URLCONF	../mysite/mysite/settings/base.py	/^ROOT_URLCONF = 'mysite.urls'$/;"	kind:variable	line:58
+RedisQueue	../mysite/mzitu/runtimes/redis.py	/^class RedisQueue(object):$/;"	kind:class	line:7
+Response	../mysite/influxdb_plotly/views.py	/^from rest_framework.response import Response$/;"	kind:namespace	line:12
+ResultsView	../mysite/polls/views.py	/^class ResultsView(generic.DeleteView):$/;"	kind:class	line:24
+STATIC_URL	../mysite/mysite/settings/base.py	/^STATIC_URL = '\/static\/'$/;"	kind:variable	line:130
+STREAM_MAX	../mysite/influxdb_plotly/management/commands/insert_data_to_influxdb.py	/^    STREAM_MAX = 10000  # MB$/;"	kind:variable	line:19
+STREAM_MIN	../mysite/influxdb_plotly/management/commands/insert_data_to_influxdb.py	/^    STREAM_MIN = 0$/;"	kind:variable	line:18
+TEMPLATES	../mysite/mysite/settings/base.py	/^TEMPLATES = [$/;"	kind:variable	line:60
+TIME_ZONE	../mysite/mysite/settings/base.py	/^TIME_ZONE = 'Asia\/Shanghai'$/;"	kind:variable	line:118
+TestCase	../mysite/polls/tests.py	/^from django.test import TestCase$/;"	kind:namespace	line:3
+URLRouter	../mysite/mysite/routing.py	/^from channels.routing import ProtocolTypeRouter, URLRouter$/;"	kind:namespace	line:3
+USER_AGENT_LIST	../mysite/mzitu/constants.py	/^USER_AGENT_LIST = [$/;"	kind:variable	line:6
+USE_I18N	../mysite/mysite/settings/base.py	/^USE_I18N = True$/;"	kind:variable	line:120
+USE_L10N	../mysite/mysite/settings/base.py	/^USE_L10N = True$/;"	kind:variable	line:122
+USE_TZ	../mysite/mysite/settings/base.py	/^USE_TZ = True$/;"	kind:variable	line:124
+WSGI_APPLICATION	../mysite/mysite/settings/base.py	/^WSGI_APPLICATION = 'mysite.wsgi.application'$/;"	kind:variable	line:76
+WebDriverWait	../mysite/chat/tests.py	/^from selenium.webdriver.support.wait import WebDriverWait$/;"	kind:namespace	line:6
+__all__	../mysite/django_vises/model_base.py	/^__all__ = ['ModelBaseObject', 'ModelBaseRecord']$/;"	kind:variable	line:11
+__init__	../mysite/fabfile.py	/^    def __init__(self):$/;"	kind:member	line:23
+__init__	../mysite/mzitu/runtimes/proxy_ip.py	/^    def __init__(self, url, user_agent):$/;"	kind:member	line:18
+__init__	../mysite/mzitu/runtimes/redis.py	/^    def __init__(self, name, namespace='queue', **redis_kwargs):$/;"	kind:member	line:10
+__init__	../mysite/mzitu/runtimes/url_parser.py	/^    def __init__(self, suite_url):$/;"	kind:member	line:56
+__init__	../mysite/mzitu/runtimes/url_parser.py	/^    def __init__(self, theme_url):$/;"	kind:member	line:229
+__init__.py	../mysite/chat/__init__.py	1;"	kind:file	line:1
+__init__.py	../mysite/chat/migrations/__init__.py	1;"	kind:file	line:1
+__init__.py	../mysite/django_vises/__init__.py	1;"	kind:file	line:1
+__init__.py	../mysite/django_vises/demos/__init__.py	1;"	kind:file	line:1
+__init__.py	../mysite/django_vises/migrations/__init__.py	1;"	kind:file	line:1
+__init__.py	../mysite/django_vises/models/__init__.py	1;"	kind:file	line:1
+__init__.py	../mysite/django_vises/runtimes/__init__.py	1;"	kind:file	line:1
+__init__.py	../mysite/django_vises/tests/__init__.py	1;"	kind:file	line:1
+__init__.py	../mysite/influxdb_plotly/__init__.py	1;"	kind:file	line:1
+__init__.py	../mysite/influxdb_plotly/management/commands/__init__.py	1;"	kind:file	line:1
+__init__.py	../mysite/influxdb_plotly/migrations/__init__.py	1;"	kind:file	line:1
+__init__.py	../mysite/influxdb_plotly/runtimes/__init__.py	1;"	kind:file	line:1
+__init__.py	../mysite/influxdb_plotly/serializers/__init__.py	1;"	kind:file	line:1
+__init__.py	../mysite/mysite/__init__.py	1;"	kind:file	line:1
+__init__.py	../mysite/mysite/settings/__init__.py	1;"	kind:file	line:1
+__init__.py	../mysite/mzitu/__init__.py	1;"	kind:file	line:1
+__init__.py	../mysite/mzitu/management/__init__.py	1;"	kind:file	line:1
+__init__.py	../mysite/mzitu/management/commands/__init__.py	1;"	kind:file	line:1
+__init__.py	../mysite/mzitu/migrations/__init__.py	1;"	kind:file	line:1
+__init__.py	../mysite/mzitu/runtimes/__init__.py	1;"	kind:file	line:1
+__init__.py	../mysite/polls/__init__.py	1;"	kind:file	line:1
+__init__.py	../mysite/polls/migrations/__init__.py	1;"	kind:file	line:1
+__str__	../mysite/django_vises/model_base.py	/^    def __str__(self):$/;"	kind:member	line:47
+__str__	../mysite/django_vises/model_base.py	/^    def __str__(self):$/;"	kind:member	line:69
+__str__	../mysite/polls/models.py	/^    def __str__(self):$/;"	kind:member	line:16
+__str__	../mysite/polls/models.py	/^    def __str__(self):$/;"	kind:member	line:25
+_chat_log_value	../mysite/chat/tests.py	/^    def _chat_log_value(self):$/;"	kind:member	line:102
+_close_all_new_windows	../mysite/chat/tests.py	/^    def _close_all_new_windows(self):$/;"	kind:member	line:88
+_contextmanager	../mysite/fabfile.py	/^from contextlib import contextmanager as _contextmanager$/;"	kind:namespace	line:14
+_enter_chat_room	../mysite/chat/tests.py	/^    def _enter_chat_room(self, room_name):$/;"	kind:member	line:77
+_open_new_window	../mysite/chat/tests.py	/^    def _open_new_window(self):$/;"	kind:member	line:84
+_post_message	../mysite/chat/tests.py	/^    def _post_message(self, message):$/;"	kind:member	line:98
+_switch_to_window	../mysite/chat/tests.py	/^    def _switch_to_window(self, window_index):$/;"	kind:member	line:95
+_update_code_base	../mysite/fabfile.py	/^def _update_code_base(django=False, celery=False):$/;"	kind:function	line:155
+abstract	../mysite/django_vises/model_base.py	/^        abstract = True$/;"	kind:variable	line:31
+abstract	../mysite/django_vises/model_base.py	/^        abstract = True$/;"	kind:variable	line:45
+abstract	../mysite/django_vises/model_base.py	/^        abstract = True$/;"	kind:variable	line:67
+action	../mysite/influxdb_plotly/views.py	/^from rest_framework.decorators import action$/;"	kind:namespace	line:11
+add_arguments	../mysite/influxdb_plotly/management/commands/insert_data_to_influxdb.py	/^    def add_arguments(self, parser):$/;"	kind:member	line:22
+admin	../mysite/mysite/urls.py	/^from django.contrib import admin$/;"	kind:namespace	line:17
+admin	../mysite/polls/admin.py	/^from django.contrib import admin$/;"	kind:namespace	line:1
+admin.py	../mysite/django_vises/admin.py	1;"	kind:file	line:1
+admin.py	../mysite/influxdb_plotly/admin.py	1;"	kind:file	line:1
+admin.py	../mysite/mzitu/admin.py	1;"	kind:file	line:1
+admin.py	../mysite/polls/admin.py	1;"	kind:file	line:1
+alpha	../mysite/django_vises/deploy.py	/^    alpha = 4$/;"	kind:variable	line:14
+app_name	../mysite/influxdb_plotly/urls.py	/^app_name = 'influxdb_plotly'$/;"	kind:variable	line:6
+app_name	../mysite/mzitu/urls.py	/^app_name = 'mzitu'$/;"	kind:variable	line:6
+app_name	../mysite/polls/urls.py	/^app_name = 'polls'$/;"	kind:variable	line:7
+application	../mysite/mysite/routing.py	/^application = ProtocolTypeRouter({$/;"	kind:variable	line:7
+application	../mysite/mysite/wsgi.py	/^application = get_wsgi_application()$/;"	kind:variable	line:16
+apps.py	../mysite/django_vises/apps.py	1;"	kind:file	line:1
+apps.py	../mysite/influxdb_plotly/apps.py	1;"	kind:file	line:1
+apps.py	../mysite/mzitu/apps.py	1;"	kind:file	line:1
+apps.py	../mysite/polls/apps.py	1;"	kind:file	line:1
+async_parse_and_download_one_suit	../mysite/mzitu/views.py	/^def async_parse_and_download_one_suit(request):$/;"	kind:function	line:50
+asyncio_for_mzitu.py	../mysite/mzitu/runtimes/asyncio_for_mzitu.py	1;"	kind:file	line:1
+auto_now	../mysite/django_vises/model_base.py	/^        auto_now=True,$/;"	kind:variable	line:26
+auto_now_add	../mysite/django_vises/model_base.py	/^        auto_now_add=True,$/;"	kind:variable	line:21
+auto_now_add	../mysite/django_vises/model_base.py	/^        auto_now_add=True,$/;"	kind:variable	line:62
+base.py	../mysite/mysite/settings/base.py	1;"	kind:file	line:1
+beta	../mysite/django_vises/deploy.py	/^    beta = 5$/;"	kind:variable	line:15
+chat_message	../mysite/chat/consumers.py	/^    async def chat_message(self, event):$/;"	kind:member	line:61
+chat_routing	../mysite/mysite/routing.py	/^from chat import routing as chat_routing$/;"	kind:namespace	line:5
+choice_text	../mysite/polls/models.py	/^    choice_text = models.CharField(max_length=200)$/;"	kind:variable	line:22
+ci	../mysite/django_vises/deploy.py	/^    ci = 2$/;"	kind:variable	line:12
+client	../mysite/influxdb_plotly/runtimes/influxdb.py	/^    client = InfluxDBClient($/;"	kind:variable	line:13
+connect	../mysite/chat/consumers.py	/^    async def connect(self):$/;"	kind:member	line:9
+constants.py	../mysite/mzitu/constants.py	1;"	kind:file	line:1
+consumers	../mysite/chat/routing.py	/^from . import consumers$/;"	kind:namespace	line:5
+consumers.py	../mysite/chat/consumers.py	1;"	kind:file	line:1
+context_object_name	../mysite/polls/views.py	/^    context_object_name = 'latest_question_list'$/;"	kind:variable	line:13
+create_question	../mysite/polls/tests.py	/^def create_question(question_text, days):$/;"	kind:function	line:41
+created_time	../mysite/mzitu/models.py	/^    created_time = models.DateTimeField(default=timezone.now)$/;"	kind:variable	line:12
+database	../mysite/influxdb_plotly/runtimes/influxdb.py	/^        database=database,$/;"	kind:variable	line:18
+datetime	../mysite/influxdb_plotly/management/commands/insert_data_to_influxdb.py	/^import datetime$/;"	kind:namespace	line:3
+datetime	../mysite/influxdb_plotly/views.py	/^import datetime$/;"	kind:namespace	line:8
+datetime	../mysite/polls/models.py	/^import datetime$/;"	kind:namespace	line:2
+datetime	../mysite/polls/tests.py	/^import datetime$/;"	kind:namespace	line:1
+datetime	../mysite/polls/views.py	/^import datetime$/;"	kind:namespace	line:1
+db	../mysite/polls/migrations/0001_initial.py	/^import django.db.models.deletion$/;"	kind:namespace	line:6
+db_index	../mysite/django_vises/model_base.py	/^        db_index=True,$/;"	kind:variable	line:22
+db_index	../mysite/django_vises/model_base.py	/^        db_index=True,$/;"	kind:variable	line:27
+db_index	../mysite/django_vises/model_base.py	/^        db_index=True,$/;"	kind:variable	line:63
+default	../mysite/django_vises/model_base.py	/^        default=uuid4,$/;"	kind:variable	line:41
+default	../mysite/django_vises/model_base.py	/^        default=uuid4,$/;"	kind:variable	line:58
+deletion	../mysite/polls/migrations/0001_initial.py	/^import django.db.models.deletion$/;"	kind:namespace	line:6
+demo	../mysite/django_vises/demos/general_object.py	/^def demo():$/;"	kind:function	line:8
+dependencies	../mysite/mzitu/migrations/0001_initial.py	/^    dependencies = [$/;"	kind:variable	line:12
+dependencies	../mysite/mzitu/migrations/0002_downloadedsuit.py	/^    dependencies = [$/;"	kind:variable	line:9
+dependencies	../mysite/mzitu/migrations/0003_downloadedsuit_tag.py	/^    dependencies = [$/;"	kind:variable	line:8
+dependencies	../mysite/polls/migrations/0001_initial.py	/^    dependencies = [$/;"	kind:variable	line:13
+deploy	../mysite/fabfile.py	/^def deploy():$/;"	kind:function	line:217
+deploy.py	../mysite/django_vises/deploy.py	1;"	kind:file	line:1
+develop	../mysite/django_vises/deploy.py	/^    develop = 1$/;"	kind:variable	line:11
+develop	../mysite/fabfile.py	/^def develop():$/;"	kind:function	line:84
+disconnect	../mysite/chat/consumers.py	/^    async def disconnect(self, close_code):$/;"	kind:member	line:38
+django	../mysite/manage.py	/^            import django$/;"	kind:namespace	line:14
+django	../mysite/mzitu/migrations/0001_initial.py	/^import django.utils.timezone$/;"	kind:namespace	line:4
+django	../mysite/polls/migrations/0001_initial.py	/^import django.db.models.deletion$/;"	kind:namespace	line:6
+download_images_to_local	../mysite/mzitu/runtimes/url_parser.py	/^    def download_images_to_local(self):$/;"	kind:member	line:186
+download_one_suit	../mysite/mzitu/runtimes/url_parser.py	/^    def download_one_suit(self):$/;"	kind:member	line:207
+download_one_theme	../mysite/mzitu/views.py	/^def download_one_theme(request):$/;"	kind:function	line:30
+empty	../mysite/mzitu/runtimes/redis.py	/^    def empty(self):$/;"	kind:member	line:19
+execute_from_command_line	../mysite/manage.py	/^        from django.core.management import execute_from_command_line$/;"	kind:namespace	line:8
+fabfile.py	../mysite/fabfile.py	1;"	kind:file	line:1
+field	../mysite/mzitu/migrations/0003_downloadedsuit_tag.py	/^            field=models.CharField(default='', max_length=100),$/;"	kind:variable	line:16
+field	../mysite/polls/migrations/0001_initial.py	/^            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='polls.Question'),$/;"	kind:variable	line:36
+fields	../mysite/influxdb_plotly/serializers/flow.py	/^        fields = ('time', 'value', 'region', 'host')$/;"	kind:variable	line:14
+fields	../mysite/mzitu/migrations/0001_initial.py	/^            fields=[$/;"	kind:variable	line:18
+fields	../mysite/mzitu/migrations/0002_downloadedsuit.py	/^            fields=[$/;"	kind:variable	line:16
+fields	../mysite/polls/migrations/0001_initial.py	/^            fields=[$/;"	kind:variable	line:19
+fields	../mysite/polls/migrations/0001_initial.py	/^            fields=[$/;"	kind:variable	line:27
+fieldsets	../mysite/polls/admin.py	/^    fieldsets = [$/;"	kind:variable	line:7
+file_supervisor_conf	../mysite/fabfile.py	/^    def file_supervisor_conf(self):$/;"	kind:member	line:65
+flow.py	../mysite/influxdb_plotly/serializers/flow.py	1;"	kind:file	line:1
+general_object.py	../mysite/django_vises/demos/general_object.py	1;"	kind:file	line:1
+generic	../mysite/polls/views.py	/^from django.views import generic$/;"	kind:namespace	line:5
+get	../mysite/mzitu/runtimes/redis.py	/^    def get(self, block=True, timeout=None):$/;"	kind:member	line:27
+get_authorization_header	../mysite/django_vises/runtimes/misc.py	/^def get_authorization_header(request):$/;"	kind:function	line:24
+get_authorization_token_from_header	../mysite/django_vises/runtimes/misc.py	/^def get_authorization_token_from_header(request):$/;"	kind:function	line:37
+get_existed_filename_to_db.py	../mysite/mzitu/management/commands/get_existed_filename_to_db.py	1;"	kind:file	line:1
+get_image_urls	../mysite/mzitu/runtimes/url_parser.py	/^    def get_image_urls(self):$/;"	kind:member	line:101
+get_ip_list	../mysite/mzitu/runtimes/proxy_ip.py	/^    def get_ip_list(self):$/;"	kind:member	line:24
+get_max_page_num	../mysite/mzitu/runtimes/url_parser.py	/^    def get_max_page_num(self):$/;"	kind:member	line:232
+get_max_page_num	../mysite/mzitu/runtimes/url_parser.py	/^    def get_max_page_num(self, html):$/;"	kind:member	line:59
+get_nowait	../mysite/mzitu/runtimes/redis.py	/^    def get_nowait(self):$/;"	kind:member	line:41
+get_object_or_404	../mysite/polls/views.py	/^from django.shortcuts import render, get_object_or_404, reverse$/;"	kind:namespace	line:3
+get_one_pic_url	../mysite/mzitu/runtimes/url_parser.py	/^    def get_one_pic_url(self, folder, i):$/;"	kind:member	line:151
+get_proxies	../mysite/mzitu/views.py	/^def get_proxies(request):$/;"	kind:function	line:42
+get_proxy_ip	../mysite/mzitu/runtimes/url_parser.py	/^    get_proxy_ip = GetProxyIp(PROXY_SOURCE_URL, random.choice(USER_AGENT_LIST))$/;"	kind:variable	line:22
+get_proxy_ip	../mysite/mzitu/runtimes/url_parser.py	/^    get_proxy_ip = GetProxyIp(PROXY_SOURCE_URL, random.choice(USER_AGENT_LIST))$/;"	kind:variable	line:54
+get_proxy_ip_valid	../mysite/mzitu/runtimes/sqlite.py	/^def get_proxy_ip_valid():$/;"	kind:function	line:24
+get_proxy_url	../mysite/mzitu/runtimes/url_parser.py	/^    def get_proxy_url(self, ip, port):$/;"	kind:member	line:24
+get_queryset	../mysite/polls/views.py	/^    def get_queryset(self):$/;"	kind:member	line:15
+get_random_ip	../mysite/mzitu/runtimes/proxy_ip.py	/^    def get_random_ip():$/;"	kind:member	line:49
+get_request_client_ip_address	../mysite/django_vises/runtimes/misc.py	/^def get_request_client_ip_address(request):$/;"	kind:function	line:12
+get_suite_urls_to_redis	../mysite/mzitu/runtimes/url_parser.py	/^    def get_suite_urls_to_redis(self):$/;"	kind:member	line:244
+get_wsgi_application	../mysite/mysite/wsgi.py	/^from django.core.wsgi import get_wsgi_application$/;"	kind:namespace	line:12
+glob	../mysite/mzitu/runtimes/url_parser.py	/^import glob$/;"	kind:namespace	line:8
+go	../mysite/influxdb_plotly/views.py	/^import plotly.graph_objs as go$/;"	kind:namespace	line:7
+handle	../mysite/influxdb_plotly/management/commands/insert_data_to_influxdb.py	/^    def handle(self, *args, **options):$/;"	kind:member	line:50
+handle	../mysite/mzitu/management/commands/get_existed_filename_to_db.py	/^    def handle(self, *args, **options):$/;"	kind:member	line:10
+header	../mysite/mzitu/runtimes/url_parser.py	/^    def header(self, referer):$/;"	kind:member	line:87
+help	../mysite/mzitu/management/commands/get_existed_filename_to_db.py	/^    help = '将已下载的套图信息放入数据库，下次好判断下载'$/;"	kind:variable	line:8
+host	../mysite/influxdb_plotly/runtimes/influxdb.py	/^        host=host,$/;"	kind:variable	line:14
+host	../mysite/influxdb_plotly/serializers/flow.py	/^    host = serializers.CharField(required=False)$/;"	kind:variable	line:11
+host_list	../mysite/influxdb_plotly/management/commands/insert_data_to_influxdb.py	/^    host_list = [$/;"	kind:variable	line:11
+id	../mysite/django_vises/model_base.py	/^    id = models.UUIDField($/;"	kind:variable	line:38
+id	../mysite/django_vises/model_base.py	/^    id = models.UUIDField($/;"	kind:variable	line:55
+id	../mysite/mzitu/models.py	/^    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)$/;"	kind:variable	line:16
+id	../mysite/mzitu/models.py	/^    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)$/;"	kind:variable	line:8
+include	../mysite/mysite/urls.py	/^from django.conf.urls import url, include$/;"	kind:namespace	line:16
+index	../mysite/chat/views.py	/^def index(request):$/;"	kind:function	line:6
+index	../mysite/influxdb_plotly/views.py	/^def index(request):$/;"	kind:function	line:18
+index	../mysite/mzitu/views.py	/^def index(request):$/;"	kind:function	line:14
+influxdb.py	../mysite/influxdb_plotly/runtimes/influxdb.py	1;"	kind:file	line:1
+influxdb_dbname	../mysite/influxdb_plotly/management/commands/insert_data_to_influxdb.py	/^    influxdb_dbname = 'test_plotly'$/;"	kind:variable	line:20
+influxdb_query	../mysite/influxdb_plotly/runtimes/influxdb.py	/^def influxdb_query(sql, client):$/;"	kind:function	line:25
+init_influxdb_client	../mysite/influxdb_plotly/runtimes/influxdb.py	/^def init_influxdb_client($/;"	kind:function	line:5
+initial	../mysite/mzitu/migrations/0001_initial.py	/^    initial = True$/;"	kind:variable	line:10
+initial	../mysite/polls/migrations/0001_initial.py	/^    initial = True$/;"	kind:variable	line:11
+insert_data_to_influxdb.py	../mysite/influxdb_plotly/management/commands/insert_data_to_influxdb.py	1;"	kind:file	line:1
+insert_proxy_ip	../mysite/mzitu/runtimes/sqlite.py	/^def insert_proxy_ip(ip, port, is_valid=1):$/;"	kind:function	line:47
+ip	../mysite/mzitu/models.py	/^    ip = models.CharField(max_length=16)$/;"	kind:variable	line:9
+is_valid	../mysite/mzitu/models.py	/^    is_valid = models.BooleanField(default=True)$/;"	kind:variable	line:11
+json	../mysite/chat/consumers.py	/^import json$/;"	kind:namespace	line:4
+json	../mysite/chat/views.py	/^import json$/;"	kind:namespace	line:3
+json	../mysite/mzitu/runtimes/url_parser.py	/^import json$/;"	kind:namespace	line:6
+logger	../mysite/django_vises/model_base.py	/^logger = logging.getLogger(__name__)$/;"	kind:variable	line:13
+logging	../mysite/django_vises/model_base.py	/^import logging$/;"	kind:namespace	line:6
+manage.py	../mysite/manage.py	1;"	kind:file	line:1
+mark_invalid_proxy_ip	../mysite/mzitu/runtimes/proxy_ip.py	/^    def mark_invalid_proxy_ip(ip, port):$/;"	kind:member	line:57
+mark_proxy_ip_not_valid	../mysite/mzitu/runtimes/sqlite.py	/^def mark_proxy_ip_not_valid(ip, port):$/;"	kind:function	line:35
+mark_safe	../mysite/chat/views.py	/^from django.utils.safestring import mark_safe$/;"	kind:namespace	line:2
+max_page	../mysite/mzitu/models.py	/^    max_page = models.IntegerField()$/;"	kind:variable	line:19
+measurement	../mysite/influxdb_plotly/management/commands/insert_data_to_influxdb.py	/^    measurement = 'stream'$/;"	kind:variable	line:17
+migrations	../mysite/mzitu/migrations/0001_initial.py	/^from django.db import migrations, models$/;"	kind:namespace	line:3
+migrations	../mysite/mzitu/migrations/0002_downloadedsuit.py	/^from django.db import migrations, models$/;"	kind:namespace	line:3
+migrations	../mysite/mzitu/migrations/0003_downloadedsuit_tag.py	/^from django.db import migrations, models$/;"	kind:namespace	line:3
+migrations	../mysite/polls/migrations/0001_initial.py	/^from django.db import migrations, models$/;"	kind:namespace	line:5
+misc.py	../mysite/django_vises/runtimes/misc.py	1;"	kind:file	line:1
+model	../mysite/polls/views.py	/^    model = Question$/;"	kind:variable	line:20
+model	../mysite/polls/views.py	/^    model = Question$/;"	kind:variable	line:25
+model_base.py	../mysite/django_vises/model_base.py	1;"	kind:file	line:1
+model_name	../mysite/mzitu/migrations/0003_downloadedsuit_tag.py	/^            model_name='downloadedsuit',$/;"	kind:variable	line:14
+model_name	../mysite/polls/migrations/0001_initial.py	/^            model_name='choice',$/;"	kind:variable	line:34
+models	../mysite/django_vises/model_base.py	/^from django.db import models$/;"	kind:namespace	line:8
+models	../mysite/mzitu/migrations/0001_initial.py	/^from django.db import migrations, models$/;"	kind:namespace	line:3
+models	../mysite/mzitu/migrations/0002_downloadedsuit.py	/^from django.db import migrations, models$/;"	kind:namespace	line:3
+models	../mysite/mzitu/migrations/0003_downloadedsuit_tag.py	/^from django.db import migrations, models$/;"	kind:namespace	line:3
+models	../mysite/mzitu/models.py	/^from django.db import models$/;"	kind:namespace	line:3
+models	../mysite/polls/migrations/0001_initial.py	/^from django.db import migrations, models$/;"	kind:namespace	line:5
+models	../mysite/polls/migrations/0001_initial.py	/^import django.db.models.deletion$/;"	kind:namespace	line:6
+models	../mysite/polls/models.py	/^from django.db import models$/;"	kind:namespace	line:4
+models.py	../mysite/influxdb_plotly/models.py	1;"	kind:file	line:1
+models.py	../mysite/mzitu/models.py	1;"	kind:file	line:1
+models.py	../mysite/polls/models.py	1;"	kind:file	line:1
+mzitu_image_queue	../mysite/mzitu/runtimes/redis.py	/^mzitu_image_queue = RedisQueue('mzitu_image')$/;"	kind:variable	line:46
+mzitu_image_queue	../mysite/mzitu/runtimes/url_parser.py	/^from mzitu.runtimes.redis import mzitu_image_queue$/;"	kind:namespace	line:16
+mzitu_url_queue	../mysite/mzitu/runtimes/redis.py	/^mzitu_url_queue = RedisQueue('mzitu_url')$/;"	kind:variable	line:47
+name	../mysite/django_vises/apps.py	/^    name = 'django_vises'$/;"	kind:variable	line:9
+name	../mysite/influxdb_plotly/apps.py	/^    name = 'influxdb_plotly'$/;"	kind:variable	line:5
+name	../mysite/mzitu/apps.py	/^    name = 'mzitu'$/;"	kind:variable	line:5
+name	../mysite/mzitu/migrations/0001_initial.py	/^            name='ProxyIp',$/;"	kind:variable	line:17
+name	../mysite/mzitu/migrations/0002_downloadedsuit.py	/^            name='DownloadedSuit',$/;"	kind:variable	line:15
+name	../mysite/mzitu/migrations/0003_downloadedsuit_tag.py	/^            name='tag',$/;"	kind:variable	line:15
+name	../mysite/mzitu/models.py	/^    name = models.CharField(max_length=60)$/;"	kind:variable	line:17
+name	../mysite/polls/apps.py	/^    name = 'polls'$/;"	kind:variable	line:5
+name	../mysite/polls/migrations/0001_initial.py	/^            name='Choice',$/;"	kind:variable	line:18
+name	../mysite/polls/migrations/0001_initial.py	/^            name='Question',$/;"	kind:variable	line:26
+name	../mysite/polls/migrations/0001_initial.py	/^            name='question',$/;"	kind:variable	line:35
+operations	../mysite/mzitu/migrations/0001_initial.py	/^    operations = [$/;"	kind:variable	line:15
+operations	../mysite/mzitu/migrations/0002_downloadedsuit.py	/^    operations = [$/;"	kind:variable	line:13
+operations	../mysite/mzitu/migrations/0003_downloadedsuit_tag.py	/^    operations = [$/;"	kind:variable	line:12
+operations	../mysite/polls/migrations/0001_initial.py	/^    operations = [$/;"	kind:variable	line:16
+os	../mysite/manage.py	/^import os$/;"	kind:namespace	line:2
+os	../mysite/mysite/settings/base.py	/^import os$/;"	kind:namespace	line:13
+os	../mysite/mysite/wsgi.py	/^import os$/;"	kind:namespace	line:10
+os	../mysite/mzitu/management/commands/get_existed_filename_to_db.py	/^import os$/;"	kind:namespace	line:1
+os	../mysite/mzitu/runtimes/url_parser.py	/^import os$/;"	kind:namespace	line:4
+parse_and_download_one_suit	../mysite/mzitu/views.py	/^def parse_and_download_one_suit(request):$/;"	kind:function	line:19
+password	../mysite/influxdb_plotly/runtimes/influxdb.py	/^        password=password,$/;"	kind:variable	line:17
+path	../mysite/polls/urls.py	/^from django.urls import path$/;"	kind:namespace	line:3
+path_django	../mysite/fabfile.py	/^    def path_django(self):$/;"	kind:member	line:44
+path_django_settings	../mysite/fabfile.py	/^    def path_django_settings(self):$/;"	kind:member	line:52
+path_running	../mysite/fabfile.py	/^    def path_running(self):$/;"	kind:member	line:73
+path_scripts	../mysite/fabfile.py	/^    def path_scripts(self):$/;"	kind:member	line:60
+path_venv	../mysite/fabfile.py	/^    def path_venv(self):$/;"	kind:member	line:36
+permission_classes	../mysite/influxdb_plotly/views.py	/^    permission_classes = (IsAuthenticated,)$/;"	kind:variable	line:123
+plotly	../mysite/influxdb_plotly/views.py	/^import plotly.graph_objs as go$/;"	kind:namespace	line:7
+points	../mysite/influxdb_plotly/serializers/flow.py	/^    points = FlowPointSerializer(many=True)$/;"	kind:variable	line:18
+port	../mysite/influxdb_plotly/runtimes/influxdb.py	/^        port=port,$/;"	kind:variable	line:15
+port	../mysite/mzitu/models.py	/^    port = models.IntegerField()$/;"	kind:variable	line:10
+primary_key	../mysite/django_vises/model_base.py	/^        primary_key=True,$/;"	kind:variable	line:39
+primary_key	../mysite/django_vises/model_base.py	/^        primary_key=True,$/;"	kind:variable	line:56
+proxy_ip.py	../mysite/mzitu/runtimes/proxy_ip.py	1;"	kind:file	line:1
+proxy_request	../mysite/mzitu/runtimes/url_parser.py	/^    def proxy_request(self, url):$/;"	kind:member	line:28
+proxy_request	../mysite/mzitu/runtimes/url_parser.py	/^    def proxy_request(self, url):$/;"	kind:member	line:64
+pub_date	../mysite/polls/models.py	/^    pub_date = models.DateTimeField('date published')$/;"	kind:variable	line:10
+put	../mysite/mzitu/runtimes/redis.py	/^    def put(self, item):$/;"	kind:member	line:23
+qsize	../mysite/mzitu/runtimes/redis.py	/^    def qsize(self):$/;"	kind:member	line:15
+question	../mysite/polls/models.py	/^    question = models.ForeignKey(Question, on_delete=models.CASCADE)$/;"	kind:variable	line:21
+question_text	../mysite/polls/models.py	/^    question_text = models.CharField(max_length=200)$/;"	kind:variable	line:9
+random	../mysite/influxdb_plotly/management/commands/insert_data_to_influxdb.py	/^import random$/;"	kind:namespace	line:2
+random	../mysite/mzitu/runtimes/url_parser.py	/^import random$/;"	kind:namespace	line:5
+random	../mysite/mzitu/views.py	/^import random$/;"	kind:namespace	line:1
+re	../mysite/mzitu/runtimes/url_parser.py	/^import re$/;"	kind:namespace	line:2
+receive	../mysite/chat/consumers.py	/^    async def receive(self, text_data=None, bytes_data=None):$/;"	kind:member	line:45
+redis	../mysite/mzitu/runtimes/redis.py	/^import redis$/;"	kind:namespace	line:4
+redis.py	../mysite/mzitu/runtimes/redis.py	1;"	kind:file	line:1
+region	../mysite/influxdb_plotly/serializers/flow.py	/^    region = serializers.CharField(required=False)$/;"	kind:variable	line:10
+release	../mysite/django_vises/deploy.py	/^    release = 6$/;"	kind:variable	line:16
+release	../mysite/fabfile.py	/^def release():$/;"	kind:function	line:100
+rename_celery_tasks_with_app_name	../mysite/django_vises/runtimes/misc.py	/^def rename_celery_tasks_with_app_name(app_name, tasks, tasks_folder='tasks'):$/;"	kind:function	line:71
+render	../mysite/chat/views.py	/^from django.shortcuts import render$/;"	kind:namespace	line:1
+render	../mysite/influxdb_plotly/views.py	/^from django.shortcuts import render$/;"	kind:namespace	line:1
+render	../mysite/mzitu/views.py	/^from django.shortcuts import render$/;"	kind:namespace	line:2
+render	../mysite/polls/views.py	/^from django.shortcuts import render, get_object_or_404, reverse$/;"	kind:namespace	line:3
+requests	../mysite/mzitu/runtimes/proxy_ip.py	/^import requests$/;"	kind:namespace	line:7
+requests	../mysite/mzitu/runtimes/url_parser.py	/^import requests$/;"	kind:namespace	line:1
+requests_get	../mysite/mzitu/runtimes/url_parser.py	/^    def requests_get(self, url, headers=None):$/;"	kind:member	line:172
+reverse	../mysite/polls/tests.py	/^from django.urls import reverse$/;"	kind:namespace	line:5
+reverse	../mysite/polls/views.py	/^from django.shortcuts import render, get_object_or_404, reverse$/;"	kind:namespace	line:3
+room	../mysite/chat/views.py	/^def room(request, room_name):$/;"	kind:function	line:10
+routing.py	../mysite/chat/routing.py	1;"	kind:file	line:1
+routing.py	../mysite/mysite/routing.py	1;"	kind:file	line:1
+serializer_class	../mysite/influxdb_plotly/views.py	/^    serializer_class = FlowSerializer$/;"	kind:variable	line:117
+serializers	../mysite/influxdb_plotly/serializers/flow.py	/^from rest_framework import serializers$/;"	kind:namespace	line:4
+serve_static	../mysite/chat/tests.py	/^    serve_static = True  # emulate StaticLiveServerTestCase$/;"	kind:variable	line:12
+set	../mysite/fabfile.py	/^def set(level=DeployLevel.develop.name):$/;"	kind:function	line:205
+setUpClass	../mysite/chat/tests.py	/^    def setUpClass(cls):$/;"	kind:member	line:15
+settings	../mysite/influxdb_plotly/runtimes/influxdb.py	/^from django.conf import settings$/;"	kind:namespace	line:2
+settings.py	../mysite/mysite/settings/settings.py	1;"	kind:file	line:1
+settings_sample.py	../mysite/mysite/settings/settings_sample.py	1;"	kind:file	line:1
+shell_env	../mysite/fabfile.py	/^from fabric.context_managers import shell_env$/;"	kind:namespace	line:15
+sqlite.py	../mysite/mzitu/runtimes/sqlite.py	1;"	kind:file	line:1
+store_to_sqlite	../mysite/mzitu/runtimes/proxy_ip.py	/^    def store_to_sqlite(ip_list):$/;"	kind:member	line:37
+str_to_boolean	../mysite/django_vises/runtimes/misc.py	/^def str_to_boolean(text):$/;"	kind:function	line:88
+stream_data	../mysite/influxdb_plotly/views.py	/^def stream_data(request):$/;"	kind:function	line:27
+supervisor_start	../mysite/fabfile.py	/^def supervisor_start():$/;"	kind:function	line:120
+supervisor_stop	../mysite/fabfile.py	/^def supervisor_stop():$/;"	kind:function	line:132
+sys	../mysite/manage.py	/^import sys$/;"	kind:namespace	line:3
+tag	../mysite/mzitu/models.py	/^    tag = models.CharField(max_length=100, default='')$/;"	kind:variable	line:20
+tearDownClass	../mysite/chat/tests.py	/^    def tearDownClass(cls):$/;"	kind:member	line:26
+template_name	../mysite/polls/views.py	/^    template_name = 'polls\/detail.html'$/;"	kind:variable	line:21
+template_name	../mysite/polls/views.py	/^    template_name = 'polls\/index.html'$/;"	kind:variable	line:12
+template_name	../mysite/polls/views.py	/^    template_name = 'polls\/results.html'$/;"	kind:variable	line:26
+test	../mysite/django_vises/deploy.py	/^    test = 3$/;"	kind:variable	line:13
+test	../mysite/polls/views.py	/^def test(request):$/;"	kind:function	line:48
+test_no_questions	../mysite/polls/tests.py	/^    def test_no_questions(self):$/;"	kind:member	line:47
+test_past_question	../mysite/polls/tests.py	/^    def test_past_question(self):$/;"	kind:member	line:53
+test_was_published_recently_with_future_question	../mysite/polls/tests.py	/^    def test_was_published_recently_with_future_question(self):$/;"	kind:member	line:12
+test_was_published_recently_with_old_question	../mysite/polls/tests.py	/^    def test_was_published_recently_with_old_question(self):$/;"	kind:member	line:22
+test_was_published_recently_with_recent_question	../mysite/polls/tests.py	/^    def test_was_published_recently_with_recent_question(self):$/;"	kind:member	line:31
+test_when_chat_message_posted_then_not_seen_by_anyone_in_different_room	../mysite/chat/tests.py	/^    def test_when_chat_message_posted_then_not_seen_by_anyone_in_different_room(self):$/;"	kind:member	line:52
+test_when_chat_message_posted_then_seen_by_everyone_in_same_room	../mysite/chat/tests.py	/^    def test_when_chat_message_posted_then_seen_by_everyone_in_same_room(self):$/;"	kind:member	line:30
+tests.py	../mysite/chat/tests.py	1;"	kind:file	line:1
+tests.py	../mysite/influxdb_plotly/tests.py	1;"	kind:file	line:1
+tests.py	../mysite/mzitu/tests.py	1;"	kind:file	line:1
+tests.py	../mysite/polls/tests.py	1;"	kind:file	line:1
+text_type	../mysite/django_vises/runtimes/misc.py	/^from django.utils.six import text_type$/;"	kind:namespace	line:5
+threading	../mysite/mzitu/runtimes/url_parser.py	/^import threading$/;"	kind:namespace	line:7
+time	../mysite/influxdb_plotly/serializers/flow.py	/^    time = serializers.DateTimeField(required=True)$/;"	kind:variable	line:8
+time	../mysite/mzitu/runtimes/url_parser.py	/^import time$/;"	kind:namespace	line:3
+time_created	../mysite/django_vises/model_base.py	/^    time_created = models.DateTimeField($/;"	kind:variable	line:20
+time_created	../mysite/django_vises/model_base.py	/^    time_created = models.DateTimeField($/;"	kind:variable	line:61
+time_last_updated	../mysite/django_vises/model_base.py	/^    time_last_updated = models.DateTimeField($/;"	kind:variable	line:25
+timeout	../mysite/influxdb_plotly/runtimes/influxdb.py	/^        timeout=timeout,$/;"	kind:variable	line:19
+timezone	../mysite/mzitu/migrations/0001_initial.py	/^import django.utils.timezone$/;"	kind:namespace	line:4
+timezone	../mysite/mzitu/models.py	/^from django.utils import timezone$/;"	kind:namespace	line:4
+timezone	../mysite/polls/models.py	/^from django.utils import timezone$/;"	kind:namespace	line:5
+timezone	../mysite/polls/tests.py	/^from django.utils import timezone$/;"	kind:namespace	line:4
+timezone	../mysite/polls/views.py	/^from django.utils import timezone$/;"	kind:namespace	line:6
+top_hosts	../mysite/influxdb_plotly/views.py	/^    def top_hosts(self, request):$/;"	kind:member	line:126
+unicode_literals	../mysite/polls/migrations/0001_initial.py	/^from __future__ import unicode_literals$/;"	kind:namespace	line:3
+unique	../mysite/django_vises/deploy.py	/^from enum import IntEnum, unique$/;"	kind:namespace	line:5
+unique	../mysite/django_vises/model_base.py	/^        unique=True,$/;"	kind:variable	line:40
+unique	../mysite/django_vises/model_base.py	/^        unique=True,$/;"	kind:variable	line:57
+upgrade_venv	../mysite/fabfile.py	/^def upgrade_venv():$/;"	kind:function	line:142
+url	../mysite/chat/routing.py	/^from django.conf.urls import url$/;"	kind:namespace	line:3
+url	../mysite/chat/urls.py	/^from django.conf.urls import url$/;"	kind:namespace	line:3
+url	../mysite/influxdb_plotly/urls.py	/^from django.conf.urls import url$/;"	kind:namespace	line:2
+url	../mysite/mysite/urls.py	/^from django.conf.urls import url, include$/;"	kind:namespace	line:16
+url	../mysite/mzitu/models.py	/^    url = models.URLField(max_length=200)$/;"	kind:variable	line:18
+url	../mysite/mzitu/urls.py	/^from django.conf.urls import url$/;"	kind:namespace	line:2
+url	../mysite/polls/urls.py	/^from django.conf.urls import url$/;"	kind:namespace	line:2
+url_parser.py	../mysite/mzitu/runtimes/url_parser.py	1;"	kind:file	line:1
+urlpatterns	../mysite/chat/urls.py	/^urlpatterns = [$/;"	kind:variable	line:7
+urlpatterns	../mysite/influxdb_plotly/urls.py	/^urlpatterns = [$/;"	kind:variable	line:7
+urlpatterns	../mysite/mysite/urls.py	/^urlpatterns = [$/;"	kind:variable	line:19
+urlpatterns	../mysite/mzitu/urls.py	/^urlpatterns = [$/;"	kind:variable	line:7
+urlpatterns	../mysite/polls/urls.py	/^urlpatterns = [$/;"	kind:variable	line:8
+urls.py	../mysite/chat/urls.py	1;"	kind:file	line:1
+urls.py	../mysite/influxdb_plotly/urls.py	1;"	kind:file	line:1
+urls.py	../mysite/mysite/urls.py	1;"	kind:file	line:1
+urls.py	../mysite/mzitu/urls.py	1;"	kind:file	line:1
+urls.py	../mysite/polls/urls.py	1;"	kind:file	line:1
+username	../mysite/influxdb_plotly/runtimes/influxdb.py	/^        username=username,$/;"	kind:variable	line:16
+utils	../mysite/mzitu/migrations/0001_initial.py	/^import django.utils.timezone$/;"	kind:namespace	line:4
+uuid	../mysite/mzitu/migrations/0001_initial.py	/^import uuid$/;"	kind:namespace	line:5
+uuid	../mysite/mzitu/migrations/0002_downloadedsuit.py	/^import uuid$/;"	kind:namespace	line:4
+uuid	../mysite/mzitu/models.py	/^import uuid$/;"	kind:namespace	line:1
+uuid4	../mysite/django_vises/model_base.py	/^from uuid import uuid4$/;"	kind:namespace	line:5
+value	../mysite/influxdb_plotly/serializers/flow.py	/^    value = serializers.IntegerField(required=True)$/;"	kind:variable	line:9
+venv	../mysite/fabfile.py	/^def venv():$/;"	kind:function	line:112
+views	../mysite/chat/urls.py	/^from . import views$/;"	kind:namespace	line:5
+views	../mysite/influxdb_plotly/urls.py	/^from . import views$/;"	kind:namespace	line:4
+views	../mysite/mzitu/urls.py	/^from . import views$/;"	kind:namespace	line:4
+views	../mysite/polls/urls.py	/^from . import views$/;"	kind:namespace	line:5
+views.py	../mysite/chat/views.py	1;"	kind:file	line:1
+views.py	../mysite/django_vises/views.py	1;"	kind:file	line:1
+views.py	../mysite/influxdb_plotly/views.py	1;"	kind:file	line:1
+views.py	../mysite/mzitu/views.py	1;"	kind:file	line:1
+views.py	../mysite/polls/views.py	1;"	kind:file	line:1
+vote	../mysite/polls/views.py	/^def vote(request, question_id):$/;"	kind:function	line:29
+votes	../mysite/polls/models.py	/^    votes = models.IntegerField(default=0)$/;"	kind:variable	line:23
+was_published_recently	../mysite/polls/models.py	/^    def was_published_recently(self):$/;"	kind:member	line:12
+webdriver	../mysite/chat/tests.py	/^from selenium import webdriver$/;"	kind:namespace	line:4
+websocket_urlpatterns	../mysite/chat/routing.py	/^websocket_urlpatterns = [$/;"	kind:variable	line:7
+wsgi.py	../mysite/mysite/wsgi.py	1;"	kind:file	line:1

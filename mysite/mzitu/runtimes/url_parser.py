@@ -7,19 +7,12 @@ import json
 import threading
 import glob
 
-from mzitu.constants import (
-    PROXY_SOURCE_URL,
-    USER_AGENT_LIST,
-    IMAGE_FOLDER,
-)
-from mzitu.runtimes.proxy_ip import GetProxyIp
+from mzitu.constants import USER_AGENT_LIST
 from mzitu.runtimes.redis import mzitu_image_queue
-from mzitu.models import DownloadedSuit
+from mzitu.models.downloaded_suit import DownloadedSuit
 
 
 class MzituBase:
-
-    get_proxy_ip = GetProxyIp(PROXY_SOURCE_URL, random.choice(USER_AGENT_LIST))
 
     def get_proxy_url(self, ip, port):
         proxy_url = "http://{}:{}".format(ip, port)
@@ -51,7 +44,6 @@ class MzituBase:
 class MzituOneSuite(MzituBase):
 
     MAX_DOWNLOAD_WORKER = 10
-    get_proxy_ip = GetProxyIp(PROXY_SOURCE_URL, random.choice(USER_AGENT_LIST))
 
     def __init__(self, suite_url):
         self.suite_url = suite_url
