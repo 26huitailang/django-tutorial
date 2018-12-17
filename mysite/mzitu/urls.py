@@ -13,7 +13,7 @@ __all__ = [
     # 'theme_urlpatterns',
 ]
 
-# app_name = 'mzitu'
+app_name = 'mzitu'
 
 suit_router = routers.DefaultRouter()
 suit_router.register(

@@ -152,7 +152,7 @@ INFLUXDB_CONF = {
     'TIMEOUT': 5,
 }
 
-# REST_FRAMEWORK = {
+REST_FRAMEWORK = {
 #     'DEFAULT_AUTHENTICATION_CLASSES': (
 #         'rest_framework.authentication.BasicAuthentication',
 #         'rest_framework.authentication.SessionAuthentication',
@@ -160,7 +160,9 @@ INFLUXDB_CONF = {
 #     'DEFAULT_PERMISSION_CLASSES': (
 #         'rest_framework.permissions.IsAuthenticated',
 #     ),
-# }
+    # todo!!!: do not work
+    'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.NamespaceVersioning',
+}
 
 # Sessions
 SESSION_COOKIE_AGE = 43200
