@@ -47,7 +47,6 @@ INSTALLED_APPS = [
     'mzitu',
     'polls',
     'influxdb_plotly',  # 试验用influxdb作为后端api提供数据的方案
-    # 'chat',
     'users',
 ]
 
@@ -215,3 +214,8 @@ CELERY_TIMEZONE = 'Asia/Shanghai'
 #         'schedule': crontab(minute='*/1'),
 #     },
 # }
+
+# 获取proxy_ip 的地方
+PROXY_SOURCE_URL = 'http://www.xicidaili.com/nn/'
+
+IMAGE_FOLDER = 'PATH_YOUR_IMAGE_FOLDER'

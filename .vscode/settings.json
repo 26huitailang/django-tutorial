@@ -1,0 +1,7 @@
+{
+    "python.pythonPath": "/Users/26huitailang/.virtualenvs/django-tutorial/bin/python",
+    "git.ignoreLimitWarning": true,
+    "python.linting.pylintArgs": [
+        "--load-plugins=pylint_django"
+    ],
+}
