@@ -9,7 +9,7 @@ from . import views
 
 __all__ = [
     'urlpatterns',
-    # 'suit_urlpatterns',
+    # 'suite_urlpatterns',
     # 'theme_urlpatterns',
 ]
 
@@ -34,7 +34,7 @@ proxyip_router.register(
     base_name='api-mzitu-proxyip',
 )
 
-suit_urlpatterns = [
+suite_urlpatterns = [
     re_path(r'^', include(suit_router.urls)),
 ]
 theme_urlpatterns = [
@@ -49,8 +49,7 @@ urlpatterns = [
     url(r'^$', views.suit.index, name='index'),
     url(r'^download_one_suit$', views.suit.parse_and_download_one_suit, name='download_one_suit'),
     url(r'^download_one_theme$', views.suit.download_one_theme, name='download_one_theme'),
-    url(r'^get_proxies$', views.suit.get_proxies, name='get_proxies'),
-    path('suit/', include(suit_urlpatterns)),
+    path('suit/', include(suite_urlpatterns)),
     path('theme/', include(theme_urlpatterns)),
     path('proxyip/', include(proxyip_urlpatterns)),
 ]

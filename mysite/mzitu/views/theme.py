@@ -3,7 +3,7 @@
 from rest_framework.viewsets import GenericViewSet
 from rest_framework.decorators import action
 
-from mzitu.models import DownloadedSuit
+from mzitu.models.downloaded_suit import DownloadedSuit
 from mzitu.serializers import MzituDownloadedSuitSerializer
 
 

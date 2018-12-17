@@ -23,7 +23,6 @@ urlpatterns = [
     url(r'mzitu/', include(mzitu_urlpatterns)),
     # url(r'mzitu/', include(theme_urlpatterns)),
     url(r'influxdb_plotly/', include('influxdb_plotly.urls')),
-    url(r'chat/', include('chat.urls')),
     url(r'users/', include(users_urlpatterns)),
     url(r'auth/', include(auth_urlpatterns))
 ]
