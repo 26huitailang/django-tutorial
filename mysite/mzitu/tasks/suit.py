@@ -26,6 +26,9 @@ logger = get_task_logger(__name__)
 MAX_DOWNLOAD_WORKER = 10
 
 
+# todo: refactor this page functions
+
+
 def get_header(referer):
     headers = {
         'Host': 'i.meizitu.net',
