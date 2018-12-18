@@ -25,7 +25,8 @@ from . import api as api_urls
 urlpatterns = [
     # api versioning，在view中做版本的管理，在这里路由到不同的views下面
     # [参考](https://gearheart.io/blog/api-versioning-with-django-rest-framework/)
-    path('api/', include(api_urls)),
+    path('api/v1/', include((api_urls, 'v1'), namespace='v1')),
+    path('api/v2/', include((api_urls, 'v2'), namespace='v2')),
     path('', TemplateView.as_view(template_name="index.html")),
 ]
 

@@ -257,8 +257,8 @@ get_one_pic_url	../mysite/mzitu/runtimes/url_parser.py	/^    def get_one_pic_url
 get_proxies	../mysite/mzitu/views.py	/^def get_proxies(request):$/;"	kind:function	line:42
 get_proxy_ip	../mysite/mzitu/runtimes/url_parser.py	/^    get_proxy_ip = GetProxyIp(PROXY_SOURCE_URL, random.choice(USER_AGENT_LIST))$/;"	kind:variable	line:22
 get_proxy_ip	../mysite/mzitu/runtimes/url_parser.py	/^    get_proxy_ip = GetProxyIp(PROXY_SOURCE_URL, random.choice(USER_AGENT_LIST))$/;"	kind:variable	line:54
-get_proxy_ip_valid	../mysite/mzitu/runtimes/sqlite.py	/^def get_proxy_ip_valid():$/;"	kind:function	line:24
-get_proxy_url	../mysite/mzitu/runtimes/url_parser.py	/^    def get_proxy_url(self, ip, port):$/;"	kind:member	line:24
+get_valid_random_proxy_ip	../mysite/mzitu/runtimes/sqlite.py	/^def get_valid_random_proxy_ip():$/;"	kind:function	line:24
+generate_proxies	../mysite/mzitu/runtimes/url_parser.py	/^    def generate_proxies(self, ip, port):$/;"	kind:member	line:24
 get_queryset	../mysite/polls/views.py	/^    def get_queryset(self):$/;"	kind:member	line:15
 get_random_ip	../mysite/mzitu/runtimes/proxy_ip.py	/^    def get_random_ip():$/;"	kind:member	line:49
 get_request_client_ip_address	../mysite/django_vises/runtimes/misc.py	/^def get_request_client_ip_address(request):$/;"	kind:function	line:12
@@ -298,7 +298,7 @@ logger	../mysite/django_vises/model_base.py	/^logger = logging.getLogger(__name_
 logging	../mysite/django_vises/model_base.py	/^import logging$/;"	kind:namespace	line:6
 manage.py	../mysite/manage.py	1;"	kind:file	line:1
 mark_invalid_proxy_ip	../mysite/mzitu/runtimes/proxy_ip.py	/^    def mark_invalid_proxy_ip(ip, port):$/;"	kind:member	line:57
-mark_proxy_ip_not_valid	../mysite/mzitu/runtimes/sqlite.py	/^def mark_proxy_ip_not_valid(ip, port):$/;"	kind:function	line:35
+set_proxy_ip_not_valid	../mysite/mzitu/runtimes/sqlite.py	/^def set_proxy_ip_not_valid(ip, port):$/;"	kind:function	line:35
 mark_safe	../mysite/chat/views.py	/^from django.utils.safestring import mark_safe$/;"	kind:namespace	line:2
 max_page	../mysite/mzitu/models.py	/^    max_page = models.IntegerField()$/;"	kind:variable	line:19
 measurement	../mysite/influxdb_plotly/management/commands/insert_data_to_influxdb.py	/^    measurement = 'stream'$/;"	kind:variable	line:17

@@ -8,6 +8,7 @@ from rest_framework.decorators import action, permission_classes
 from rest_framework.response import Response
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import IsAdminUser
+from rest_framework.versioning import URLPathVersioning
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from django.shortcuts import get_object_or_404
@@ -26,9 +27,8 @@ logger = logging.getLogger(__name__)
 class UsersViewSet(GenericViewSet):
     """通过session确定认证，这个viewset下面的api需要session认证通过才能访问"""
     authentication_classes = (SessionAuthentication, )
-
+    # versioning_class = URLPathVersioning
     serializer_class = UserSerializer
-
     queryset = User.objects
 
     @permission_classes((IsAdminUser, ))
@@ -43,6 +43,7 @@ class UsersViewSet(GenericViewSet):
     def list(self, request):
         """users列表
         """
+        print(request.version)
         users = self.queryset.values('id', 'username', 'is_staff')
         return Response({'data': users})
 
