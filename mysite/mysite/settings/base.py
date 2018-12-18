@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+import raven
 from mysite.deploy_level import DeployLevel
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -40,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'raven.contrib.django.raven_compat',  # sentry
     'drf_yasg',  # api docs
     # 'channels',  # websocket
     'rest_framework',
@@ -162,6 +164,8 @@ REST_FRAMEWORK = {
 #     ),
     # todo!!!: do not work
     'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.NamespaceVersioning',
+    # 'DEFAULT_VERSION': 'v1',
+    'ALLOWED_VERSIONS': ['v1', 'v2'],
 }
 
 # Sessions
@@ -204,20 +208,26 @@ CELERY_BROKER_URL = 'redis://localhost:6379/0'
 # timezone
 CELERY_TIMEZONE = 'Asia/Shanghai'
 
-# CELERY_BEAT_SCHEDULE = {
-#     # 每x分钟 ------------------------------------------------------------
-#     # 检查任务
-#     'check_msf_jobs_every_minute': {
-#         'task': 'app_penetrator.tasks.msf_rpc.check_msf_jobs',
-#         'schedule': crontab(minute='*/1'),
-#     },
-#     'check_msfrpcd_status_every_two_minute': {
-#         'task': 'app_penetrator.tasks.msf_rpc.check_msfrpcd_status',
-#         'schedule': crontab(minute='*/1'),
-#     },
-# }
+# todo: 定时检查proxy_ip的机制，并做标记
+CELERY_BEAT_SCHEDULE = {
+    # 每x分钟 ------------------------------------------------------------
+    # 检查任务
+    'check-proxy-ip-per-20-seconds': {
+        'task': 'mzitu.tasks.proxy_ip.check_proxy_ip',
+        'schedule': 300,
+    },
+}
 
 # 获取proxy_ip 的地方
 PROXY_SOURCE_URL = 'http://www.xicidaili.com/nn/'
 
 IMAGE_FOLDER = 'PATH_YOUR_IMAGE_FOLDER'
+
+# ------------------------------------------------------------
+# Sentry
+RAVEN_CONFIG = {
+    'dsn': None,
+    # If you are using git, you can also automatically configure the
+    # release based on the git info.
+    'release': raven.fetch_git_sha(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))),
+}
