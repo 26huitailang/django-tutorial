@@ -1,11 +1,14 @@
 # coding: utf-8
 
+from rest_framework import status
 from rest_framework.viewsets import GenericViewSet
 from rest_framework.decorators import action
+from rest_framework.response import Response
 
 from mzitu.models.downloaded_suit import DownloadedSuit
 from mzitu.serializers import MzituDownloadedSuitSerializer
-
+from mzitu.runtimes.theme import get_suite_urls_to_redis
+from mzitu.tasks.suit import download_one_suit
 
 class MzituThemeViewSet(GenericViewSet):
     serializer_class = MzituDownloadedSuitSerializer
@@ -22,4 +25,10 @@ class MzituThemeViewSet(GenericViewSet):
     @action(detail=False, methods=['post'])
     def download(self, request):
         """获取要下载图片的suit列表，并下载到文件夹"""
-        return
+        # todo: debug, socket timeout 问题
+        theme_url = request.GET['theme_url']
+        suite_url_list = get_suite_urls_to_redis(theme_url)
+        for i in suite_url_list:
+            download_one_suit(i)
+        return Response('delayed: \n{}'.format('\n'.join(suite_url_list)),
+                        status=status.HTTP_202_ACCEPTED)

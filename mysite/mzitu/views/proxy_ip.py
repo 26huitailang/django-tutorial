@@ -6,7 +6,7 @@ from rest_framework.response import Response
 
 from mzitu.models.proxy_ip import ProxyIp
 from mzitu.serializers import MzituDownloadedSuitSerializer
-from mzitu.tasks.proxy_ip import update_ip_list
+from mzitu.tasks.proxy_ip import get_ip_list
 
 
 class ProxyIpViewSet(GenericViewSet):
@@ -16,7 +16,7 @@ class ProxyIpViewSet(GenericViewSet):
     def create(self, request):
         """获取新的proxy ip"""
         # todo: 异步任务，之前是class，分解为function，celery目前推荐的用法
-        update_ip_list.delay()
+        get_ip_list.delay()
 
         return Response('accepted, check later', status=status.HTTP_202_ACCEPTED)
 

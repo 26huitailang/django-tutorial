@@ -12,7 +12,6 @@ from drf_yasg.utils import swagger_auto_schema
 from mzitu.constants import (
     USER_AGENT_LIST,
 )
-from mzitu.runtimes.url_parser import MzituOneSuite, MzituThemePage
 from mzitu.models.downloaded_suit import DownloadedSuit
 from mzitu.serializers import MzituDownloadedSuitSerializer
 from mzitu.tasks.suit import download_one_suit
@@ -53,26 +52,3 @@ class MzituSuitViewSet(GenericViewSet):
 def index(request):
 
     return render(request, 'mzitu/index.html')
-
-
-def parse_and_download_one_suit(request):
-
-    suite_url = request.GET['suite_url']
-
-    # 线程
-    mzitu_one_suite = MzituOneSuite(suite_url)
-    mzitu_one_suite.download_one_suit()
-
-    return HttpResponse("下载完成")
-
-
-def download_one_theme(request):
-    theme_url = request.GET['theme_url']
-
-    mzitu_theme = MzituThemePage(theme_url)
-    suite_url_list = mzitu_theme.get_suite_urls_to_redis()
-    for i in suite_url_list:
-        mzitu_one_suite = MzituOneSuite(i)
-        mzitu_one_suite.download_one_suit()
-
-    return HttpResponse("下载完成")

@@ -10,7 +10,10 @@ from users import views
 
 __all__ = [
     'users_urlpatterns',
+    'auth_urlpatterns',
 ]
+
+app_name = 'users'
 
 auth_router = routers.DefaultRouter()
 auth_router.register(r'',

@@ -5,3 +5,7 @@ __pycache__/
 *.rdb
 .DS_Store
 mysite/mysite/settings/settings.py
+
+# celery
+celerybeat.pid
+celerybeat-schedule.db

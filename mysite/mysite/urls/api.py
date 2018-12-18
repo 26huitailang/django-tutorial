@@ -17,7 +17,7 @@ from django.conf.urls import url, include
 from users.urls import users_urlpatterns, auth_urlpatterns
 from mzitu.urls import urlpatterns as mzitu_urlpatterns
 
-
+# api base v1
 urlpatterns = [
     url(r'polls/', include('polls.urls')),
     url(r'mzitu/', include(mzitu_urlpatterns)),

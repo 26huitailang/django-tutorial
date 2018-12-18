@@ -6,71 +6,21 @@ import re
 import time
 import json
 import glob
-import random
-import requests
 import threading
-from bs4 import BeautifulSoup
 from celery import shared_task
 from celery.utils.log import get_task_logger
 from django.conf import settings
 
-from mzitu.models.proxy_ip import ProxyIp
 from mzitu.models.downloaded_suit import DownloadedSuit
-from mzitu.constants import USER_AGENT_LIST
 from mzitu.runtimes.redis import mzitu_image_queue
-from mzitu.runtimes.proxy_ip import get_random_ip
-
+from mzitu.runtimes.suit import requests_get, proxy_request, get_header
 
 logger = get_task_logger(__name__)
 
-MAX_DOWNLOAD_WORKER = 10
+MAX_DOWNLOAD_WORKER = 6
 
 
 # todo: refactor this page functions
-
-
-def get_header(referer):
-    headers = {
-        'Host': 'i.meizitu.net',
-        'Pragma': 'no-cache',
-        'Accept-Encoding': 'gzip, deflate',
-        'Accept-Language': 'zh-CN,zh;q=0.8,en;q=0.6',
-        'Cache-Control': 'no-cache',
-        'Connection': 'keep-alive',
-        'User-Agent': random.choice(USER_AGENT_LIST),
-        'Accept': 'image/webp,image/apng,image/*,*/*;q=0.8',
-        'Referer': '{}'.format(referer),
-    }
-    return headers
-
-
-def get_proxy_url(ip, port):
-    proxy_url = "http://{}:{}".format(ip, port)
-    return proxy_url
-
-
-def proxy_request(url):
-    """请求链接，返回页面html内容"""
-    flag = True
-    page = None
-
-    while flag:
-        ip, port = get_random_ip()
-        try:
-            time.sleep(0.5)
-            proxy_url = get_proxy_url(ip, port)
-            proxies = {"https": proxy_url}
-            # proxies = {"http": proxy_url, "https": proxy_url}
-            response = requests.get(url, proxies=proxies)
-        except requests.exceptions.ProxyError as e:
-            logger.error(e)
-            ProxyIp.mark_proxy_ip_not_valid(ip, port)
-        else:
-            flag = False
-            page = response.content.decode('utf-8')
-            response.connection.close()
-
-    return page
 
 
 def get_max_page_num(html):
@@ -100,6 +50,8 @@ def get_one_pic_url(suite_url, folder, i):
     mzitu_image_queue.put(json.dumps({'filename': filename, 'url': img_url, 'header_url': url}))
 
     return
+
+
 def get_image_urls(suite_url):
     """获得图片的url"""
     suit_info = DownloadedSuit.objects.filter(url=suite_url).first()
@@ -150,20 +102,6 @@ def get_image_urls(suite_url):
     for t in threads:
         t.join()
     return
-
-
-def requests_get(url, headers=None):
-    """一个get请求"""
-    ip, port = get_random_ip()
-    proxy_url = get_proxy_url(ip, port)
-    proxies = {"https": proxy_url}
-    try:
-        result = requests.get(url, headers=headers, proxies=proxies, timeout=5)
-    except TimeoutError:
-        print("Timeout: {}".format(url))
-        result = None
-
-    return result
 
 
 def download_images_to_local():
