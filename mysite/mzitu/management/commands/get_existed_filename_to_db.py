@@ -10,9 +10,9 @@ class Command(BaseCommand):
         for f in os.listdir(settings.IMAGE_FOLDER):
             f_path = os.path.join(settings.IMAGE_FOLDER, f)
             if os.path.isdir(f_path) and f != '__pycache__':
-                suit = DownloadedSuit(
+                suite = DownloadedSuit(
                     name=f,
                     url='',
                     max_page=len(os.listdir(f_path))
                 )
-                suit.save()
+                suite.save()

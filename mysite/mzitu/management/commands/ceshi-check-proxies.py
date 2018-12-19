@@ -2,7 +2,7 @@
 
 from django.core.management.base import BaseCommand
 import requests
-from mzitu.runtimes.suit import generate_proxies
+from mzitu.runtimes.suite import generate_proxies
 
 
 class Command(BaseCommand):

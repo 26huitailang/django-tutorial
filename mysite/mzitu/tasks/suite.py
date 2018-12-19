@@ -15,7 +15,7 @@ from django_vises.runtimes.instance_serializer import serialize_instance, unseri
 
 from mzitu.models.downloaded_suit import DownloadedSuit
 from mzitu.runtimes.redis import mzitu_image_queue
-from mzitu.runtimes.suit import requests_get, proxy_request, generate_headers, PicJsonRedis
+from mzitu.runtimes.suite import requests_get, proxy_request, generate_headers, PicJsonRedis
 
 logger = get_task_logger(__name__)
 
@@ -109,32 +109,28 @@ def get_image_urls(suite_url):
 
 def download_images_to_local():
     """下载到磁盘"""
-    # todo: 不能确保suite一次下载的完整性，检查问题在哪儿
     while not mzitu_image_queue.empty():
         item = mzitu_image_queue.get()
         pic_instance = json.loads(item, object_hook=unserialize_object)
 
         if os.path.isfile(pic_instance.full_path):
-            print("已存在：{}".format(pic_instance.full_path))
+            logger.info("已存在：{}".format(pic_instance.full_path))
             continue
 
         img_bytes = None
         while not img_bytes:
-            img_bytes = requests_get(pic_instance.url, headers=generate_headers(pic_instance.header_url))
-            # if img_bytes is None:
-            #     # todo: 这个continue会导致suite不完整
-            #     continue
+            img_bytes = requests_get(pic_instance.url, headers=generate_headers(pic_instance.header_referer))
 
         with open(pic_instance.full_path, 'wb') as f:
             f.write(img_bytes.content)
-        print("Downloaded {}".format(pic_instance.url))
+        logger.info("Downloaded {}".format(pic_instance.url))
         time.sleep(1)
 
     return
 
 
 @shared_task
-def download_one_suit(suite_url):
+def download_one_suite(suite_url):
     resp = get_image_urls(suite_url)
     if resp is False:
         return

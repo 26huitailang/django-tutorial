@@ -8,7 +8,7 @@ from rest_framework.response import Response
 from mzitu.models.downloaded_suit import DownloadedSuit
 from mzitu.serializers import MzituDownloadedSuitSerializer
 from mzitu.runtimes.theme import get_suite_urls_to_redis
-from mzitu.tasks.suit import download_one_suit
+from mzitu.tasks.suite import download_one_suite
 
 class MzituThemeViewSet(GenericViewSet):
     serializer_class = MzituDownloadedSuitSerializer
@@ -29,6 +29,6 @@ class MzituThemeViewSet(GenericViewSet):
         theme_url = request.GET['theme_url']
         suite_url_list = get_suite_urls_to_redis(theme_url)
         for suite in suite_url_list:
-            download_one_suit.delay(suite)
+            download_one_suite.delay(suite)
         return Response({'message': 'delayed {}'.format(len(suite_url_list)), 'themes': suite_url_list},
                         status=status.HTTP_202_ACCEPTED)

@@ -51,7 +51,7 @@ def proxy_request(url):
             time.sleep(0.5)
             proxies = generate_proxies(ip, port)
             response = requests.get(url, proxies=proxies, timeout=(5, 30))
-        except (requests.exceptions.ProxyError, requests.exceptions.ReadTimeout) as e:
+        except Exception as e:
             logger.error(e)
             ProxyIp.set_score_change(ip, port, -1)
         else:

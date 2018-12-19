@@ -4,6 +4,6 @@
 
 from . import (  # noqa: F401
     proxy_ip,
-    suit,
+    suite,
     theme,
 )

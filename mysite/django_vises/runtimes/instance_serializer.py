@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding=utf-8
 
-from mzitu.runtimes.suit import PicJsonRedis
+from mzitu.runtimes.suite import PicJsonRedis
 
 # Dictionary mapping names to known classes
 _classes = {
@@ -14,7 +14,7 @@ def serialize_instance(obj) -> dict:
 
     json.dumps(obj, default=serialize_instance)
     """
-    d = {'__classname__' : type(obj).__name__}
+    d = {'__classname__': type(obj).__name__}
     d.update(vars(obj))
     return d
 

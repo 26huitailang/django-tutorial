@@ -18,8 +18,8 @@ app_name = 'mzitu'
 suit_router = routers.DefaultRouter()
 suit_router.register(
     r'',
-    views.suit.MzituSuitViewSet,
-    base_name='api-mzitu-suit'
+    views.suite.MzituSuiteViewSet,
+    base_name='api-mzitu-suite'
 )
 theme_router = routers.DefaultRouter()
 theme_router.register(
@@ -46,8 +46,8 @@ proxyip_urlpatterns = [
 
 urlpatterns = [
     # ex: /mzitu/
-    url(r'^$', views.suit.index, name='index'),
-    path('suit/', include(suite_urlpatterns)),
+    url(r'^$', views.suite.index, name='index'),
+    path('suite/', include(suite_urlpatterns)),
     path('theme/', include(theme_urlpatterns)),
     path('proxyip/', include(proxyip_urlpatterns)),
 ]

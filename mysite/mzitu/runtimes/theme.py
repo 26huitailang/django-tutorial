@@ -5,7 +5,7 @@
 """
 
 import re
-from mzitu.runtimes.suit import proxy_request
+from mzitu.runtimes.suite import proxy_request
 
 
 def get_max_page_num_of_theme(theme_url):
@@ -21,7 +21,8 @@ def get_max_page_num_of_theme(theme_url):
 
 def get_suite_urls_to_redis(theme_url):
     suite_url_list = []
-    for i in range(1, get_max_page_num_of_theme(theme_url) + 1):
+    page_num = get_max_page_num_of_theme(theme_url)
+    for i in range(1, page_num + 1):
         page_url = theme_url + 'page/{}/'.format(i)
         html = proxy_request(page_url)
         pattern = re.compile(r'<li(.+?) href=\"(.+?)\" target=')
