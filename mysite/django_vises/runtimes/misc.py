@@ -68,23 +68,6 @@ def get_authorization_token_from_header(request):
     return token
 
 
-def rename_celery_tasks_with_app_name(app_name, tasks, tasks_folder='tasks'):
-    """根据传入的任务配置，重新组合成celery beat的系统配置
-
-    任务名中加入了app名和运行周期
-    """
-    new_tasks = dict()
-    for period, task_list in tasks.items():
-        for task in task_list:
-            task_name = app_name + "." + period + "." + task[1].split('.')[-1]
-            new_tasks[task_name] = {
-                'task': app_name + "." + tasks_folder + "." + task[1],
-                'schedule': task[0],
-            }
-
-    return new_tasks
-
-
 def str_to_boolean(text):
     """将字符转为布尔值，if条件可以扩展"""
     if text.lower() in ['false']:

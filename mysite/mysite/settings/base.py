@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 
 import os
 import raven
+import datetime
+from celery.schedules import crontab
 from mysite.deploy_level import DeployLevel
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -162,7 +164,6 @@ REST_FRAMEWORK = {
 #     'DEFAULT_PERMISSION_CLASSES': (
 #         'rest_framework.permissions.IsAuthenticated',
 #     ),
-    # todo!!!: do not work
     'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.NamespaceVersioning',
     # 'DEFAULT_VERSION': 'v1',
     'ALLOWED_VERSIONS': ['v1', 'v2'],
@@ -208,13 +209,18 @@ CELERY_BROKER_URL = 'redis://localhost:6379/0'
 # timezone
 CELERY_TIMEZONE = 'Asia/Shanghai'
 
-# todo: 定时检查proxy_ip的机制，并做标记
+# todo: 这种管理不优雅
 CELERY_BEAT_SCHEDULE = {
-    # 每x分钟 ------------------------------------------------------------
+    # timedelta ------------------------------------------------------------
     # 检查任务
-    'check-proxy-ip-per-20-seconds': {
+    'check-proxy-ip-per-5-minute': {
         'task': 'mzitu.tasks.proxy_ip.check_proxy_ip',
-        'schedule': 300,
+        'schedule': datetime.timedelta(minutes=5),
+    },
+    # crontab ------------------------------------------------------------
+    'get-proxy-ip-and-delete-invalid-per-6-hour': {
+        'task': 'mzitu.tasks.proxy_ip.get_proxy_ips_crontab',
+        'schedule': crontab(hour='*/6'),
     },
 }
 
