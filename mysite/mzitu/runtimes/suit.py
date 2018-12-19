@@ -26,14 +26,15 @@ def generate_proxies(ip, port) -> dict:
     return proxies
 
 
-def requests_get(url, headers=None)-> requests.Response:
+def requests_get(url, headers=None):
     """利用代理ip构建的requests.get请求"""
+    # todo: 重试机制
     ip, port = get_random_ip()
     proxies = generate_proxies(ip, port)
     try:
-        result = requests.get(url, headers=headers, proxies=proxies, timeout=5)
-    except TimeoutError:
-        print("Timeout: {}".format(url))
+        result = requests.get(url, headers=headers, proxies=proxies, timeout=(5, 30))
+    except Exception as e:  # todo: 更精准的捕获
+        print("{} {}".format(url, e))
         result = None
 
     return result
@@ -49,7 +50,7 @@ def proxy_request(url):
         try:
             time.sleep(0.5)
             proxies = generate_proxies(ip, port)
-            response = requests.get(url, proxies=proxies, timeout=5)
+            response = requests.get(url, proxies=proxies, timeout=(5, 30))
         except (requests.exceptions.ProxyError, requests.exceptions.ReadTimeout) as e:
             logger.error(e)
             ProxyIp.set_score_change(ip, port, -1)
@@ -61,7 +62,7 @@ def proxy_request(url):
     return page
 
 
-def get_header(referer):
+def generate_headers(referer):
     headers = {
         'Host': 'i.meizitu.net',
         'Pragma': 'no-cache',
@@ -74,3 +75,11 @@ def get_header(referer):
         'Referer': '{}'.format(referer),
     }
     return headers
+
+
+class PicJsonRedis(object):
+    """pic存于redis中的数据结构"""
+    def __init__(self, full_path=None, url=None, header_referer=None):
+        self.full_path = full_path
+        self.url = url
+        self.header_referer = header_referer

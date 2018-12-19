@@ -20,9 +20,9 @@ from mzitu.runtimes.suit import generate_proxies
 logger = get_task_logger(__name__)
 
 
-@shared_task
-def get_ip_list():
+def _get_proxy_ip_list():
     """从网站获取proxy_ip list，并存入DB"""
+    # todo: 获取更多的代理ip，现在仅获取了首页
     headers = {'User-Agent': random.choice(USER_AGENT_LIST)}
     web_data = requests.get(settings.PROXY_SOURCE_URL, headers=headers, timeout=5)
     soup = BeautifulSoup(web_data.text, 'lxml')
@@ -34,8 +34,32 @@ def get_ip_list():
         ip_list.append((tds[1].text, tds[2].text))
     logger.info(ip_list)
 
+    return ip_list
+
+
+@shared_task
+def get_proxy_ips_and_insert_db():
+    """for api"""
+    ip_list = _get_proxy_ip_list()
     for ip_tuple in ip_list:
         ProxyIp.insert_proxy_ip(ip_tuple[0], ip_tuple[1])
+    return
+
+
+# todo: shared_task 不能通过app.on_after_configure.connect 注册
+@shared_task
+def get_proxy_ips_crontab():
+    """for crontab"""
+    # 获取并插入数据库
+    ip_list = _get_proxy_ip_list()
+    logger.info("insert ProxyIp: %s", len(ip_list))
+    for ip_tuple in ip_list:
+        ProxyIp.insert_proxy_ip(ip_tuple[0], ip_tuple[1])
+
+    # 定时删除，后删除可以避免周期内重复的但是无效的代理又进入数据库
+    count = ProxyIp.delete_invalid_items()
+    logger.info("delete ProxyIp: %s", count)
+    return
 
 
 @shared_task
@@ -51,7 +75,7 @@ def check_proxy_ip():
     for item in items:
         valid = True
         try:
-            r = requests.get(url, proxies=generate_proxies(item.ip, item.port), timeout=4)
+            r = requests.get(url, proxies=generate_proxies(item.ip, item.port), timeout=(4, 30))
         except Exception as e:
             logger.warning(e)
             valid = False

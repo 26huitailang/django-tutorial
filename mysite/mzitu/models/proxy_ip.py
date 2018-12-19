@@ -64,3 +64,8 @@ class ProxyIp(models.Model):
             item.score = cls.MAX_SCORE
             item.save()
         return item
+
+    @classmethod
+    def delete_invalid_items(self):
+        count, _ = ProxyIp.objects.filter(is_valid=False).delete()
+        return count

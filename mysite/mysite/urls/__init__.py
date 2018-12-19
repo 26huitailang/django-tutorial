@@ -19,17 +19,16 @@ from django.contrib import admin
 from django.views.generic.base import TemplateView
 from mysite.deploy_level import DeployLevel
 
-from . import api as api_urls
-
+from .api import v1_urlpatterns as v1_api_urlpatterns
+from .api import v2_urlpatterns as v2_api_urlpatterns
 
 urlpatterns = [
     # api versioning，在view中做版本的管理，在这里路由到不同的views下面
     # [参考](https://gearheart.io/blog/api-versioning-with-django-rest-framework/)
-    path('api/v1/', include((api_urls, 'v1'), namespace='v1')),
-    path('api/v2/', include((api_urls, 'v2'), namespace='v2')),
+    # path('api/v1/', include((api_urls, 'v1'), namespace='v1')),
+    # path('api/v2/', include((api_urls, 'v2'), namespace='v2')),
     path('', TemplateView.as_view(template_name="index.html")),
 ]
-
 
 if settings.DEPLOY_LEVEL <= DeployLevel.develop:
     # for admin
@@ -38,5 +37,13 @@ if settings.DEPLOY_LEVEL <= DeployLevel.develop:
     ]
 
     # for swagger
+    # swagger version control, in separate page
     from . import api_doc
-    urlpatterns += api_doc.urlpatterns
+    v1_api_urlpatterns += api_doc.urlpatterns
+    v2_api_urlpatterns += api_doc.urlpatterns
+
+# todo: include app_name problem，精确到viewset的版本控制
+urlpatterns += [
+    path('api/v1/', include((v1_api_urlpatterns, 'v1'), namespace='v1')),
+    path('api/v2/', include((v2_api_urlpatterns, 'v2'), namespace='v2')),
+]

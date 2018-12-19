@@ -11,9 +11,11 @@ from celery import shared_task
 from celery.utils.log import get_task_logger
 from django.conf import settings
 
+from django_vises.runtimes.instance_serializer import serialize_instance, unserialize_object
+
 from mzitu.models.downloaded_suit import DownloadedSuit
 from mzitu.runtimes.redis import mzitu_image_queue
-from mzitu.runtimes.suit import requests_get, proxy_request, get_header
+from mzitu.runtimes.suit import requests_get, proxy_request, generate_headers, PicJsonRedis
 
 logger = get_task_logger(__name__)
 
@@ -23,31 +25,32 @@ MAX_DOWNLOAD_WORKER = 6
 # todo: refactor this page functions
 
 
-def get_max_page_num(html):
-    """获取最大页码"""
+def get_max_page_num_of_suite(html):
+    """获取suite下image最大页码"""
     pattern = re.compile(r'<span>(\d+)</span>')
     page_num = pattern.findall(html)
     return int(page_num[-1])
 
 
-def get_one_pic_url(suite_url, folder, i):
+def get_one_pic_url(suite_url, suite_folder, nth_pic):
     """分析一个图片的url，并放入redis队列"""
-    filename = os.path.join(folder, "{:0>2d}.jpg".format(i))
+    pic_full_path = os.path.join(suite_folder, "{:0>2d}.jpg".format(nth_pic))
 
-    # urllib.request.urlretrieve(img_url, filename, check_rate)
-    if os.path.isfile(filename):
-        print("已存在：{}".format(filename))
+    if os.path.isfile(pic_full_path):
+        # image已经存在
+        print("已存在：{}".format(pic_full_path))
         return
 
     time.sleep(0.5)
-    url = suite_url + '/{}'.format(i)
-    page = proxy_request(url)
+    page_url = suite_url + '/{}'.format(nth_pic)
+    page = proxy_request(page_url)
 
     img_url = re.search(r'class=\"main-image(.+?)src=\"(.+?)\"', page)
     img_url = img_url.groups()[1]
     print(img_url)
 
-    mzitu_image_queue.put(json.dumps({'filename': filename, 'url': img_url, 'header_url': url}))
+    pic_instance = PicJsonRedis(pic_full_path, img_url, page_url)
+    mzitu_image_queue.put(json.dumps(pic_instance, default=serialize_instance))
 
     return
 
@@ -72,17 +75,17 @@ def get_image_urls(suite_url):
 
     page = proxy_request(suite_url)
 
-    max_page_num = get_max_page_num(page)
+    max_page_num = get_max_page_num_of_suite(page)
     title = re.search(r'class=\"main-title\">(.+?)</', page)
     title = title.group(1).strip()
     title = re.sub(r'[/\\:*?"<>|]', '-', title)  # windows 非法文件夹名字符
     print(title)
 
-    folder = settings.IMAGE_FOLDER
-    folder = os.path.join(folder, title)
+    suite_folder = settings.IMAGE_FOLDER
+    suite_folder = os.path.join(suite_folder, title)
 
-    if not os.path.isdir(folder):
-        os.makedirs(folder, exist_ok=True)
+    if not os.path.isdir(suite_folder):
+        os.makedirs(suite_folder, exist_ok=True)
 
     # 保存下载内容到sqlite
     if re_download is False:
@@ -95,7 +98,7 @@ def get_image_urls(suite_url):
 
     threads = []
     for i in range(1, max_page_num + 1):
-        thread = threading.Thread(target=get_one_pic_url, args=(suite_url, folder, i,))
+        thread = threading.Thread(target=get_one_pic_url, args=(suite_url, suite_folder, i,))
         thread.start()
         threads.append(thread)
 
@@ -106,21 +109,25 @@ def get_image_urls(suite_url):
 
 def download_images_to_local():
     """下载到磁盘"""
+    # todo: 不能确保suite一次下载的完整性，检查问题在哪儿
     while not mzitu_image_queue.empty():
         item = mzitu_image_queue.get()
-        item = json.loads(item)
+        pic_instance = json.loads(item, object_hook=unserialize_object)
 
-        if os.path.isfile(item['filename']):
-            print("已存在：{}".format(item['filename']))
+        if os.path.isfile(pic_instance.full_path):
+            print("已存在：{}".format(pic_instance.full_path))
             continue
 
-        img_bytes = requests_get(item['url'], headers=get_header(item['header_url']))
-        if img_bytes is None:
-            continue
+        img_bytes = None
+        while not img_bytes:
+            img_bytes = requests_get(pic_instance.url, headers=generate_headers(pic_instance.header_url))
+            # if img_bytes is None:
+            #     # todo: 这个continue会导致suite不完整
+            #     continue
 
-        with open(item['filename'], 'wb') as f:
+        with open(pic_instance.full_path, 'wb') as f:
             f.write(img_bytes.content)
-        print("Downloaded {}".format(item['url']))
+        print("Downloaded {}".format(pic_instance.url))
         time.sleep(1)
 
     return
