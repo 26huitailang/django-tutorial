@@ -28,7 +28,7 @@ class MzituThemeViewSet(GenericViewSet):
         # todo: debug, socket timeout 问题
         theme_url = request.GET['theme_url']
         suite_url_list = get_suite_urls_to_redis(theme_url)
-        for i in suite_url_list:
-            download_one_suit(i)
-        return Response('delayed: \n{}'.format('\n'.join(suite_url_list)),
+        for suite in suite_url_list:
+            download_one_suit.delay(suite)
+        return Response({'message': 'delayed {}'.format(len(suite_url_list)), 'themes': suite_url_list},
                         status=status.HTTP_202_ACCEPTED)
