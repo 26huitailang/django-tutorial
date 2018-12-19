@@ -15,7 +15,7 @@ from django.conf import settings
 
 from mzitu.constants import USER_AGENT_LIST
 from mzitu.models.proxy_ip import ProxyIp
-from mzitu.runtimes.suit import generate_proxies
+from mzitu.runtimes.suite import generate_proxies
 
 logger = get_task_logger(__name__)
 

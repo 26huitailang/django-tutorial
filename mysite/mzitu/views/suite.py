@@ -14,10 +14,10 @@ from mzitu.constants import (
 )
 from mzitu.models.downloaded_suit import DownloadedSuit
 from mzitu.serializers import MzituDownloadedSuitSerializer
-from mzitu.tasks.suit import download_one_suit
+from mzitu.tasks.suite import download_one_suite
 
 
-class MzituSuitViewSet(GenericViewSet):
+class MzituSuiteViewSet(GenericViewSet):
     serializer_class = MzituDownloadedSuitSerializer
     queryset = DownloadedSuit.objects.all()
 
@@ -45,7 +45,7 @@ class MzituSuitViewSet(GenericViewSet):
 
         # 线程
         # todo: 同步可以执行，异步会timeout
-        download_one_suit.delay(suite_url)
+        download_one_suite.delay(suite_url)
         return Response('delayed, check later', status=status.HTTP_202_ACCEPTED)
 
 
