@@ -13,7 +13,7 @@ from django.conf import settings
 
 from django_vises.runtimes.instance_serializer import serialize_instance, unserialize_object
 
-from mzitu.models.downloaded_suit import DownloadedSuit
+from mzitu.models.downloaded_suite import DownloadedSuite
 from mzitu.runtimes.redis import mzitu_image_queue
 from mzitu.runtimes.suite import requests_get, proxy_request, generate_headers, PicJsonRedis
 
@@ -57,13 +57,13 @@ def get_one_pic_url(suite_url, suite_folder, nth_pic):
 
 def get_image_urls(suite_url):
     """获得图片的url"""
-    suit_info = DownloadedSuit.objects.filter(url=suite_url).first()
+    suite_info = DownloadedSuite.objects.filter(url=suite_url).first()
 
     re_download = False
-    if suit_info:
+    if suite_info:
         print("该套牌已在DB中，确认是否存在，确认套图是否完整...")
-        file_name = suit_info.name
-        max_page_num = suit_info.max_page
+        file_name = suite_info.name
+        max_page_num = suite_info.max_page
         suit_folder = os.path.join(settings.IMAGE_FOLDER, file_name)
         item_list = glob.glob('{}/*.jpg'.format(suit_folder))
         if len(item_list) >= max_page_num:
@@ -89,12 +89,12 @@ def get_image_urls(suite_url):
 
     # 保存下载内容到sqlite
     if re_download is False:
-        suit_info = DownloadedSuit(
+        suite_info = DownloadedSuite(
             name=title,
             url=suite_url,
             max_page=max_page_num,
         )
-        suit_info.save()
+        suite_info.save()
 
     threads = []
     for i in range(1, max_page_num + 1):

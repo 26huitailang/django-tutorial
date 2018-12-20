@@ -5,12 +5,12 @@ from rest_framework.viewsets import GenericViewSet
 from rest_framework.response import Response
 
 from mzitu.models.proxy_ip import ProxyIp
-from mzitu.serializers import MzituDownloadedSuitSerializer
+from mzitu.serializers import MzituDownloadedSuiteSerializer
 from mzitu.tasks.proxy_ip import get_proxy_ips_and_insert_db
 
 
 class ProxyIpViewSet(GenericViewSet):
-    serializer_class = MzituDownloadedSuitSerializer
+    serializer_class = MzituDownloadedSuiteSerializer
     queryset = ProxyIp.objects.all()
 
     def create(self, request):
