@@ -5,14 +5,14 @@ from rest_framework.viewsets import GenericViewSet
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
-from mzitu.models.downloaded_suit import DownloadedSuit
-from mzitu.serializers import MzituDownloadedSuitSerializer
+from mzitu.models.downloaded_suite import DownloadedSuite
+from mzitu.serializers import MzituDownloadedSuiteSerializer
 from mzitu.runtimes.theme import get_suite_urls_to_redis
 from mzitu.tasks.suite import download_one_suite
 
 class MzituThemeViewSet(GenericViewSet):
-    serializer_class = MzituDownloadedSuitSerializer
-    queryset = DownloadedSuit.objects.all()
+    serializer_class = MzituDownloadedSuiteSerializer
+    queryset = DownloadedSuite.objects.all()
 
     def create(self, request):
         """获取主题但不下载"""
