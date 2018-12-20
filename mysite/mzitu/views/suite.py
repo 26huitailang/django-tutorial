@@ -12,14 +12,14 @@ from drf_yasg.utils import swagger_auto_schema
 from mzitu.constants import (
     USER_AGENT_LIST,
 )
-from mzitu.models.downloaded_suit import DownloadedSuit
-from mzitu.serializers import MzituDownloadedSuitSerializer
+from mzitu.models.downloaded_suite import DownloadedSuite
+from mzitu.serializers import MzituDownloadedSuiteSerializer
 from mzitu.tasks.suite import download_one_suite
 
 
 class MzituSuiteViewSet(GenericViewSet):
-    serializer_class = MzituDownloadedSuitSerializer
-    queryset = DownloadedSuit.objects.all()
+    serializer_class = MzituDownloadedSuiteSerializer
+    queryset = DownloadedSuite.objects.all()
 
     @swagger_auto_schema(deprecated=True)
     def create(self, request):
@@ -38,7 +38,7 @@ class MzituSuiteViewSet(GenericViewSet):
 
     @action(detail=False, methods=['post'])
     def download(self, request):
-        """获取要下载图片的suit列表，并下载到文件夹"""
+        """获取要下载图片的suite列表，并下载到文件夹"""
         suite_url = request.GET.get('suite_url', None)
         if not suite_url:
             return Response('no suite_url', status=status.HTTP_400_BAD_REQUEST)

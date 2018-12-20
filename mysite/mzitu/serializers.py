@@ -2,11 +2,11 @@
 # coding: utf-8
 
 from rest_framework import serializers
-from mzitu.models.downloaded_suit import DownloadedSuit
+from mzitu.models.downloaded_suite import DownloadedSuite
 
 
-class MzituDownloadedSuitSerializer(serializers.ModelSerializer):
+class MzituDownloadedSuiteSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = DownloadedSuit
+        model = DownloadedSuite
         fields = '__all__'

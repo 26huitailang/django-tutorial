@@ -41,9 +41,9 @@ DeployLevel	../mysite/django_vises/deploy.py	/^class DeployLevel(IntEnum):$/;"	k
 DeployLevel	../mysite/fabfile.py	/^from django_vises.deploy import DeployLevel$/;"	kind:namespace	line:17
 DetailView	../mysite/polls/views.py	/^class DetailView(generic.DeleteView):$/;"	kind:class	line:19
 DjangoVisesConfig	../mysite/django_vises/apps.py	/^class DjangoVisesConfig(AppConfig):$/;"	kind:class	line:8
-DownloadedSuit	../mysite/mzitu/management/commands/get_existed_filename_to_db.py	/^from mzitu.models import DownloadedSuit$/;"	kind:namespace	line:3
-DownloadedSuit	../mysite/mzitu/models.py	/^class DownloadedSuit(models.Model):$/;"	kind:class	line:15
-DownloadedSuit	../mysite/mzitu/runtimes/url_parser.py	/^from mzitu.models import DownloadedSuit$/;"	kind:namespace	line:17
+DownloadedSuite	../mysite/mzitu/management/commands/get_existed_filename_to_db.py	/^from mzitu.models import DownloadedSuite$/;"	kind:namespace	line:3
+DownloadedSuite	../mysite/mzitu/models.py	/^class DownloadedSuite(models.Model):$/;"	kind:class	line:15
+DownloadedSuite	../mysite/mzitu/runtimes/url_parser.py	/^from mzitu.models import DownloadedSuite$/;"	kind:namespace	line:17
 FlowPointSerializer	../mysite/influxdb_plotly/serializers/flow.py	/^class FlowPointSerializer(serializers.Serializer):$/;"	kind:class	line:7
 FlowSerializer	../mysite/influxdb_plotly/serializers/flow.py	/^class FlowSerializer(serializers.Serializer):$/;"	kind:class	line:17
 FlowSerializer	../mysite/influxdb_plotly/views.py	/^from influxdb_plotly.serializers.flow import FlowSerializer$/;"	kind:namespace	line:15
@@ -330,7 +330,7 @@ name	../mysite/django_vises/apps.py	/^    name = 'django_vises'$/;"	kind:variabl
 name	../mysite/influxdb_plotly/apps.py	/^    name = 'influxdb_plotly'$/;"	kind:variable	line:5
 name	../mysite/mzitu/apps.py	/^    name = 'mzitu'$/;"	kind:variable	line:5
 name	../mysite/mzitu/migrations/0001_initial.py	/^            name='ProxyIp',$/;"	kind:variable	line:17
-name	../mysite/mzitu/migrations/0002_downloadedsuit.py	/^            name='DownloadedSuit',$/;"	kind:variable	line:15
+name	../mysite/mzitu/migrations/0002_downloadedsuit.py	/^            name='DownloadedSuite',$/;"	kind:variable	line:15
 name	../mysite/mzitu/migrations/0003_downloadedsuit_tag.py	/^            name='tag',$/;"	kind:variable	line:15
 name	../mysite/mzitu/models.py	/^    name = models.CharField(max_length=60)$/;"	kind:variable	line:17
 name	../mysite/polls/apps.py	/^    name = 'polls'$/;"	kind:variable	line:5
