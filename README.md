@@ -6,10 +6,10 @@
 
 - mysite: main app
 - users: auth/users resource
-- chat: asgi application/websocket
+- chat: asgi application/websocket(`removed`, will be another project)
 - influxdb_plotly: read data from influxdb and plot by plotly
 - polls: official practice
-- mzitu: crawler
+- mzitu: api (work with celery)
 
 ## How-to-Use
 
@@ -20,6 +20,7 @@
 
 ## Update
 
+- [x] 将vue放入django项目中，返回`dist/index.html`文件
 - [x] 2018/10/23，利用drf提供前端访问的API，users app
 - [x] 2018/08/20，试试使用react
 - [x] 2018/08/19，截止这个之前，应用有polls/mzitu/influxdb_plotly/chat，其中chat是ws可以尝试用asgi来启动
@@ -35,6 +36,10 @@
 查看migrations文件的操作，不会执行，打印他的SQL语句：
 
     $ python manage.py sqlmigrate polls 0001
+
+回退操作：
+
+    python manage.py migrate APP 0004_xxxxx(the migration name)
 
 ### 一对多，多对多
 
@@ -76,13 +81,13 @@ class Pizza(models.Model):
 
 ## 项目
 
-检查项目问题，不会生成migrations也不会碰数据库：
+检查项目问题，不会生成migrations也不会动数据库：
 
     $ python manage.py check
 
 ### 交互shell
 
-如果要使用ipython作为交互的terminal，先安装ipython。
+如果要使用ipython作为交互的terminal，并集成django的环境，先安装ipython。
 
 $ python manage.py shell
 
