@@ -1,41 +1,36 @@
 <template>
   <div id="app">
-
-    <el-container>
-      <el-header class="header">
-        <v-header />
-      </el-header>
-      <el-container>
-        <el-aside width="200px">
-          <nav-menu></nav-menu>
-        </el-aside>
-        <el-main>
-          <router-view></router-view>
-        </el-main>
-      </el-container>
-    </el-container>
-
+    <img src="./assets/logo.png">
+    <div>
+      <p>
+        If Element is successfully added to this project, you'll see an
+        <code v-text="'<el-button>'"></code>
+        below
+      </p>
+      <el-button>el-button</el-button>
+    </div>
+    <HelloWorld msg="Welcome to Your Mzitu App"/>
   </div>
 </template>
 
 <script>
-import NavMenu from '@/components/NavMenu'
-import Header from '@/components/Header'
+import HelloWorld from './components/HelloWorld.vue'
 
 export default {
   name: 'app',
   components: {
-    'nav-menu': NavMenu,
-    'v-header': Header
+    HelloWorld
   }
 }
-
 </script>
 
 <style>
-.header {
-  background-color: #409EFF;
-  color: #fff;
-  line-height: 60px;
+#app {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
 }
 </style>
