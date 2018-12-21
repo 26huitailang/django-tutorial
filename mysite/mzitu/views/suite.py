@@ -32,9 +32,10 @@ class MzituSuiteViewSet(GenericViewSet):
 
     @swagger_auto_schema(deprecated=True)
     def list(self, request):
+        """Suite list
         """
-        """
-        return
+        serializer = MzituDownloadedSuiteSerializer(self.queryset, many=True)
+        return Response(serializer.data)
 
     @action(detail=False, methods=['post'])
     def download(self, request):
