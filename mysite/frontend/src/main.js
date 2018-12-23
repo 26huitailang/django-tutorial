@@ -6,7 +6,7 @@ import Icon from 'vue-awesome/components/Icon'
 import axios from 'axios'
 import App from './App'
 import './plugins/element.js'
-
+import router from './router'
 Vue.config.productionTip = false
 
 Vue.use(ElementUI)
@@ -16,6 +16,7 @@ Vue.prototype.axios = axios
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
+  router,
   template: '<App/>',
   components: { App }
 })

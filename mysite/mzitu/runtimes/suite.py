@@ -79,7 +79,8 @@ def generate_headers(referer):
 
 class PicJsonRedis(object):
     """pic存于redis中的数据结构"""
-    def __init__(self, full_path=None, url=None, header_referer=None):
+    def __init__(self, full_path=None, url=None, header_referer=None, suite_url=None):
         self.full_path = full_path
         self.url = url
         self.header_referer = header_referer
+        self.suite_url = suite_url  # 后面用于查找外键

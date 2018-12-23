@@ -1,30 +1,31 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
+    <h1>{{ suite_title }}</h1>
     <ul>
-      <li v-for="(item, index) in items" v-bind:key="item.id">{{ index }}. {{ item.url }} {{item.max_page }}</li>
+      <li v-for="(item, index) in images" v-bind:key="item.id">{{ index + 1 }}.
+        <img :src="'http://127.0.0.1:8000' + item.image" />
+      </li>
       <!-- todo: not support absolute path -->
-      <img src="/Users/chensijian/Desktop/super-luck.jpg" />
     </ul>
   </div>
 </template>
 
 <script>
   export default {
-    name: "HelloWorld",
+    name: "MzituSuiteDetail",
     props: {
-      msg: String
+      mssuite_titleg: String
     },
     data() {
       return {
-        items: []
+        images: []
       };
     },
     mounted() {
       this.axios
-        .get("http://127.0.0.1:8000/api/v1/mzitu/suite/")
+        .get("http://127.0.0.1:8000/api/v1/mzitu/suite/" + this.$route.params.id)
         .then(response => (
-          this.items = response.data
+          this.images = response.data.images
         ))
     }
   };

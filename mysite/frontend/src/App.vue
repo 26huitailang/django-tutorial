@@ -9,17 +9,23 @@
       </p>
       <el-button>el-button</el-button>
     </div>
-    <HelloWorld msg="Welcome to Your Mzitu App"/>
+    <ul>
+      <li><router-link to="/mzitu">Mzitu</router-link></li>
+    </ul>
+    <!-- <MzituSuite msg="Welcome to Your Mzitu App"/> -->
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import MzituSuite from './components/MzituSuite.vue'
+import MzituSuiteDetail from './components/MzituSuiteDetail.vue'
 
 export default {
   name: 'app',
   components: {
-    HelloWorld
+    MzituSuite,
+    MzituSuiteDetail,
   }
 }
 </script>

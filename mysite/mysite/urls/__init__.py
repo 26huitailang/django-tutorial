@@ -13,7 +13,9 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
+from django.views.static import serve
 from django.urls import include, path
+from django.conf.urls import url
 from django.conf import settings
 from django.contrib import admin
 from django.views.generic.base import TemplateView
@@ -34,6 +36,8 @@ if settings.DEPLOY_LEVEL <= DeployLevel.develop:
     # for admin
     urlpatterns += [
         path('admin/', admin.site.urls),
+        # 根据MEDIA_ROOT结合url来访问文件
+        url(r'^media/(?P<path>.*)', serve, {"document_root": settings.MEDIA_ROOT}),
     ]
 
     # for swagger
