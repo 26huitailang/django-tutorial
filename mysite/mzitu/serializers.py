@@ -2,11 +2,22 @@
 # coding: utf-8
 
 from rest_framework import serializers
-from mzitu.models.downloaded_suite import DownloadedSuite
+from mzitu.models.downloaded_suite import DownloadedSuite, SuiteImageMap
+
+
+class SuiteImageMapSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = SuiteImageMap
+        fields = '__all__'
 
 
 class MzituDownloadedSuiteSerializer(serializers.ModelSerializer):
+    images = SuiteImageMapSerializer(many=True, read_only=True)
 
     class Meta:
         model = DownloadedSuite
-        fields = '__all__'
+        fields = ('id', 'name', 'url', 'max_page', 'tag', 'images')
+
+    # def get_field_images(self, obj):
+    #     return obj.suiteimagemap_set.all()

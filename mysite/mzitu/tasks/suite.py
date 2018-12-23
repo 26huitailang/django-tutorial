@@ -10,10 +10,11 @@ import threading
 from celery import shared_task
 from celery.utils.log import get_task_logger
 from django.conf import settings
+from django.db import IntegrityError
 
 from django_vises.runtimes.instance_serializer import serialize_instance, unserialize_object
 
-from mzitu.models.downloaded_suite import DownloadedSuite
+from mzitu.models.downloaded_suite import DownloadedSuite, SuiteImageMap
 from mzitu.runtimes.redis import mzitu_image_queue
 from mzitu.runtimes.suite import requests_get, proxy_request, generate_headers, PicJsonRedis
 
@@ -49,7 +50,8 @@ def get_one_pic_url(suite_url, suite_folder, nth_pic):
     img_url = img_url.groups()[1]
     print(img_url)
 
-    pic_instance = PicJsonRedis(pic_full_path, img_url, page_url)
+    # suite_url 用于后面标示map的外键
+    pic_instance = PicJsonRedis(pic_full_path, img_url, page_url, suite_url)
     mzitu_image_queue.put(json.dumps(pic_instance, default=serialize_instance))
 
     return
@@ -123,8 +125,22 @@ def download_images_to_local():
 
         with open(pic_instance.full_path, 'wb') as f:
             f.write(img_bytes.content)
+
+        suite_obj = DownloadedSuite.objects.get(url=pic_instance.suite_url)
+        suite_image_map = SuiteImageMap(
+            suite=suite_obj,
+            url=pic_instance.url,
+            image=SuiteImageMap.get_image_path(
+                suite_obj.name,
+                pic_instance.full_path.split('/')[-1],  # filename
+            )
+        )
+        try:
+            suite_image_map.save()
+        except IntegrityError as e:
+            logger.warning(e)
         logger.info("Downloaded {}".format(pic_instance.url))
-        time.sleep(1)
+        time.sleep(0.5)
 
     return
 
@@ -138,7 +154,7 @@ def download_one_suite(suite_url):
     time.sleep(3)
 
     # 打开对应的文件夹
-    os.system("start explorer {}".format(settings.IMAGE_FOLDER.replace('/', '\\')))
+    # os.system("start explorer {}".format(settings.IMAGE_FOLDER.replace('/', '\\')))
 
     threads = []
     for i in range(MAX_DOWNLOAD_WORKER):

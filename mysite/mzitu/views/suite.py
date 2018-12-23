@@ -30,10 +30,18 @@ class MzituSuiteViewSet(GenericViewSet):
         """
         return
 
-    @swagger_auto_schema(deprecated=True)
+    def retrieve(self, request, pk: str = None):
+        """Suite detail
+        """
+        # todo: order by
+        item = self.queryset.get(id=pk)
+        serializer = MzituDownloadedSuiteSerializer(item)
+        return Response(serializer.data)
+
     def list(self, request):
         """Suite list
         """
+        # todo: order by
         serializer = MzituDownloadedSuiteSerializer(self.queryset, many=True)
         return Response(serializer.data)
 
