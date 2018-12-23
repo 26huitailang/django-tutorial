@@ -2,6 +2,7 @@
 
 # Django
 Django>=2.0
+pillow  # image field
 djangorestframework
 drf-nested-routers
 django-cors-headers
