@@ -15,12 +15,13 @@ from django.db import IntegrityError
 from django_vises.runtimes.instance_serializer import serialize_instance, unserialize_object
 
 from mzitu.models.downloaded_suite import DownloadedSuite, SuiteImageMap
+from mzitu.models.tag import Tag
 from mzitu.runtimes.redis import mzitu_image_queue
 from mzitu.runtimes.suite import requests_get, proxy_request, generate_headers, PicJsonRedis
 
 logger = get_task_logger(__name__)
 
-MAX_DOWNLOAD_WORKER = 6
+MAX_DOWNLOAD_WORKER = 5
 
 
 # todo: refactor this page functions
@@ -31,6 +32,18 @@ def get_max_page_num_of_suite(html):
     pattern = re.compile(r'<span>(\d+)</span>')
     page_num = pattern.findall(html)
     return int(page_num[-1])
+
+
+def get_tags_of_suite(page_content):
+    """获取套图的tags和tag href"""
+    tags_pattern = r'class=\"main-tags(.+?)</span>(.+?)</div>'
+    tags_result = re.search(tags_pattern, page_content)
+    tags_html_text = tags_result.groups()[1]
+    a_pattern = r'href=\"(.+?)\"(.+?)>(.+?)</a>'
+    a_result = re.findall(a_pattern, tags_html_text)
+    href_and_name = [(x[0], x[2]) for x in a_result]
+
+    return href_and_name
 
 
 def get_one_pic_url(suite_url, suite_folder, nth_pic):
@@ -59,29 +72,13 @@ def get_one_pic_url(suite_url, suite_folder, nth_pic):
 
 def get_image_urls(suite_url):
     """获得图片的url"""
-    suite_info = DownloadedSuite.objects.filter(url=suite_url).first()
-
-    re_download = False
-    if suite_info:
-        print("该套牌已在DB中，确认是否存在，确认套图是否完整...")
-        file_name = suite_info.name
-        max_page_num = suite_info.max_page
-        suit_folder = os.path.join(settings.IMAGE_FOLDER, file_name)
-        item_list = glob.glob('{}/*.jpg'.format(suit_folder))
-        if len(item_list) >= max_page_num:
-            print("已完整下载，跳过")
-            return False
-        else:
-            print("该套图不完整，重新下载")
-            re_download = True
-
     page = proxy_request(suite_url)
 
     max_page_num = get_max_page_num_of_suite(page)
     title = re.search(r'class=\"main-title\">(.+?)</', page)
     title = title.group(1).strip()
     title = re.sub(r'[/\\:*?"<>|]', '-', title)  # windows 非法文件夹名字符
-    print(title)
+    logger.debug(title)
 
     suite_folder = settings.IMAGE_FOLDER
     suite_folder = os.path.join(suite_folder, title)
@@ -89,15 +86,33 @@ def get_image_urls(suite_url):
     if not os.path.isdir(suite_folder):
         os.makedirs(suite_folder, exist_ok=True)
 
-    # 保存下载内容到sqlite
-    if re_download is False:
-        suite_info = DownloadedSuite(
-            name=title,
-            url=suite_url,
-            max_page=max_page_num,
-        )
-        suite_info.save()
+    suite_instance, is_created = DownloadedSuite.objects.get_or_create(
+        name=title,
+        defaults={'url': suite_url, 'max_page': max_page_num}
+    )
 
+    # 获取tags
+    if not suite_instance.tags.all():
+        tags_href_and_name = get_tags_of_suite(page)
+        tag_instances = []
+        for href, name in tags_href_and_name:
+            tag_instance, _ = Tag.objects.update_or_create(name=name, defaults={'url': href})
+            tag_instances.append(tag_instance)
+        suite_instance.tags.set(tag_instances)
+
+    if is_created is False:
+        print("该套牌已在DB中，确认是否存在，确认套图是否完整...")
+        file_name = suite_instance.name
+        max_page_num = suite_instance.max_page
+        suit_folder = os.path.join(settings.IMAGE_FOLDER, file_name)
+        item_list = glob.glob('{}/*.jpg'.format(suit_folder))
+        if len(item_list) >= max_page_num:
+            print("已完整下载，跳过")
+            return False
+        else:
+            print("该套图不完整，重新下载")
+
+    # 分析每页
     threads = []
     for i in range(1, max_page_num + 1):
         thread = threading.Thread(target=get_one_pic_url, args=(suite_url, suite_folder, i,))
@@ -148,6 +163,7 @@ def download_images_to_local():
 @shared_task
 def download_one_suite(suite_url):
     resp = get_image_urls(suite_url)
+    # todo: 这个resp似乎没有意义
     if resp is False:
         return
 
