@@ -33,6 +33,12 @@ proxyip_router.register(
     views.proxy_ip.ProxyIpViewSet,
     base_name='api-mzitu-proxyip',
 )
+tag_router = routers.DefaultRouter()
+tag_router.register(
+    r'',
+    views.tag.TagViewSet,
+    base_name='api-mzitu-tag',
+)
 
 suite_urlpatterns = [
     re_path(r'^', include(suite_router.urls)),
@@ -47,7 +53,8 @@ proxyip_urlpatterns = [
 urlpatterns = [
     # ex: /mzitu/
     url(r'^$', views.suite.index, name='index'),
-    path('suite/', include(suite_urlpatterns)),
-    path('theme/', include(theme_urlpatterns)),
-    path('proxyip/', include(proxyip_urlpatterns)),
+    path('suites/', include(suite_urlpatterns)),
+    path('themes/', include(theme_urlpatterns)),
+    path('proxyips/', include(proxyip_urlpatterns)),
+    re_path(r'^tags/', include(tag_router.urls)),
 ]
