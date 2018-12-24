@@ -7,18 +7,25 @@ from mzitu.models.tag import Tag
 
 class DownloadedSuite(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.CharField(max_length=60)
+    name = models.CharField(max_length=60, unique=True)
     url = models.URLField(max_length=200)
     max_page = models.IntegerField()
-    tags = models.ManyToManyField(Tag)  # todo: 去获取tags
+    tags = models.ManyToManyField(Tag)
     created_time = models.DateTimeField(default=timezone.now)
 
     class Meta:
         ordering = ['-created_time']
 
+    def __str__(self):
+        return "{} {} {} {}".format(
+            self.created_time,
+            self.name,
+            [x.name for x in self.tags.all()],
+            self.url,
+        )
+
 
 class SuiteImageMap(models.Model):
-    # todo: 还没有应用
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     suite = models.ForeignKey(DownloadedSuite, related_name='images', on_delete=models.CASCADE)
     url = models.URLField(max_length=300)
