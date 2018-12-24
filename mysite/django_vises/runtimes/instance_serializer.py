@@ -5,7 +5,7 @@ from mzitu.runtimes.suite import PicJsonRedis
 
 # Dictionary mapping names to known classes
 _classes = {
-    'PicJsonRedis' : PicJsonRedis
+    'PicJsonRedis': PicJsonRedis,
 }
 
 
@@ -27,7 +27,7 @@ def unserialize_object(d):
     clsname = d.pop('__classname__', None)
     if clsname:
         cls = _classes[clsname]
-        obj = cls.__new__(cls) # Make instance without calling __init__
+        obj = cls.__new__(cls)  # Make instance without calling __init__
         for key, value in d.items():
             setattr(obj, key, value)
         return obj

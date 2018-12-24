@@ -229,7 +229,7 @@ PROXY_SOURCE_URL = 'http://www.xicidaili.com/nn/'
 
 MEDIA_ROOT = '/tmp/'
 MEDIA_URL = '/media/'
-IMAGE_FOLDER = 'PATH_YOUR_IMAGE_FOLDER'
+IMAGE_FOLDER = 'PATH_YOUR_IMAGE_FOLDER'  # todo 应该是依据MEDIA_ROOT的设计
 
 # ------------------------------------------------------------
 # Sentry

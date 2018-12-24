@@ -3,6 +3,7 @@ from django.core.management.base import BaseCommand
 from mzitu.models.downloaded_suite import DownloadedSuite
 from django.conf import settings
 
+
 class Command(BaseCommand):
     help = '将已下载的套图信息放入数据库，下次好判断下载'
 
