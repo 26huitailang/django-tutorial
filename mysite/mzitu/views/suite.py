@@ -1,17 +1,12 @@
 # coding: utf-8
 
-import random
 from django.shortcuts import render
-from django.http import HttpResponse
 from rest_framework import status
 from rest_framework.viewsets import GenericViewSet
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from drf_yasg.utils import swagger_auto_schema
 
-from mzitu.constants import (
-    USER_AGENT_LIST,
-)
 from mzitu.models.downloaded_suite import DownloadedSuite
 from mzitu.serializers import MzituDownloadedSuiteSerializer
 from mzitu.tasks.suite import download_one_suite

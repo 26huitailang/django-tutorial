@@ -50,7 +50,7 @@ class ProxyIp(models.Model):
         return item
 
     @classmethod
-    def set_score_change(cls, ip, port, change_value:int = 0):
+    def set_score_change(cls, ip, port, change_value: int = 0):
         item = ProxyIp.objects.filter(ip=ip, port=port).first()
         if item:
             item.score += change_value
@@ -66,6 +66,6 @@ class ProxyIp(models.Model):
         return item
 
     @classmethod
-    def delete_invalid_items(self):
+    def delete_invalid_items(cls):
         count, _ = ProxyIp.objects.filter(is_valid=False).delete()
         return count

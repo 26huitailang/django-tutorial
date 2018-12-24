@@ -10,6 +10,7 @@ from mzitu.serializers import MzituDownloadedSuiteSerializer
 from mzitu.runtimes.theme import get_suite_urls_to_redis
 from mzitu.tasks.suite import download_one_suite
 
+
 class MzituThemeViewSet(GenericViewSet):
     serializer_class = MzituDownloadedSuiteSerializer
     queryset = DownloadedSuite.objects.all()
