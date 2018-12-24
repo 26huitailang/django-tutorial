@@ -8,7 +8,6 @@ from rest_framework.decorators import action, permission_classes
 from rest_framework.response import Response
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import IsAdminUser
-from rest_framework.versioning import URLPathVersioning
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from django.shortcuts import get_object_or_404

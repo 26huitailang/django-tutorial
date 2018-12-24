@@ -6,4 +6,5 @@ exclude =
     __pycache__,
     manage.py,
     settings,
+    frontend,
 max-complexity = 10

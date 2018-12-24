@@ -18,6 +18,3 @@ class MzituDownloadedSuiteSerializer(serializers.ModelSerializer):
     class Meta:
         model = DownloadedSuite
         fields = ('id', 'name', 'url', 'max_page', 'tag', 'images')
-
-    # def get_field_images(self, obj):
-    #     return obj.suiteimagemap_set.all()
