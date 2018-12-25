@@ -7,10 +7,10 @@
         <code v-text="'<el-button>'"></code>
         below
       </p>
-      <el-button>el-button</el-button>
     </div>
     <ul>
-      <li><router-link to="/mzitu">Mzitu</router-link></li>
+      <li><router-link to="/mzitu">Suite</router-link></li>
+      <li><router-link to="/mzitu/tags">Tags</router-link></li>
     </ul>
     <!-- <MzituSuite msg="Welcome to Your Mzitu App"/> -->
     <router-view></router-view>
@@ -20,12 +20,14 @@
 <script>
 import MzituSuite from './components/MzituSuite.vue'
 import MzituSuiteDetail from './components/MzituSuiteDetail.vue'
+import MzituTag from './components/MzituTag.vue'
 
 export default {
   name: 'app',
   components: {
     MzituSuite,
     MzituSuiteDetail,
+    MzituTag,
   }
 }
 </script>
