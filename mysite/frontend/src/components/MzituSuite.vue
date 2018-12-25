@@ -23,7 +23,7 @@
     },
     mounted() {
       this.axios
-        .get("http://127.0.0.1:8000/api/v1/mzitu/suite/")
+        .get("http://127.0.0.1:8000/api/v1/mzitu/suites/")
         .then(response => (
           this.suites = response.data
         ))

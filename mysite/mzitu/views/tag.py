@@ -18,7 +18,7 @@ class TagViewSet(GenericViewSet):
 
     def list(self, request):
         """tag list"""
-        serializer = self.get_serializer(self.get_queryset(), many=True)
+        serializer = self.get_serializer(self.queryset.order_by('is_like', 'name'), many=True)
 
         return Response(serializer.data)
 
