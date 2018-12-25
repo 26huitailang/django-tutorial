@@ -1,9 +1,9 @@
 <template>
   <div class="hello">
-    <h1>{{ suite_title }}</h1>
+    <h1>{{ msg }}</h1>
     <ul>
-      <li v-for="(item, index) in images" v-bind:key="item.id">{{ index + 1 }}.
-        <img :src="'http://127.0.0.1:8000' + item.image" />
+      <li v-for="(item, index) in tags" v-bind:key="item.id">{{ index + 1 }}.
+        <a href="#">{{ item.name }} {{item.is_like }}</a>
       </li>
       <!-- todo: not support absolute path -->
     </ul>
@@ -12,20 +12,20 @@
 
 <script>
   export default {
-    name: "MzituSuiteDetail",
+    name: "MzituTag",
     props: {
-      mssuite_titleg: String
+      msg: String
     },
     data() {
       return {
-        images: []
+        tags: []
       };
     },
     mounted() {
       this.axios
-        .get("http://127.0.0.1:8000/api/v1/mzitu/suites/" + this.$route.params.id)
+        .get("http://127.0.0.1:8000/api/v1/mzitu/tags/")
         .then(response => (
-          this.images = response.data.images
+          this.tags = response.data
         ))
     }
   };
