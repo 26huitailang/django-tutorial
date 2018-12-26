@@ -14,7 +14,7 @@
   export default {
     name: "MzituSuiteDetail",
     props: {
-      mssuite_titleg: String
+      suite_title: String
     },
     data() {
       return {

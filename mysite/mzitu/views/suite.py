@@ -18,7 +18,7 @@ class MzituSuiteViewSet(GenericViewSet):
 
     @swagger_auto_schema(deprecated=True)
     def create(self, request):
-        """todo: 获取URL但是不下载
+        """todo: 获取URL但是不下载，如果要实现这个功能的话，需要修改suite的task流程，现在是下载后才持久化img_url
 
         :param request:
         :return:
@@ -28,7 +28,6 @@ class MzituSuiteViewSet(GenericViewSet):
     def retrieve(self, request, pk: str = None):
         """Suite detail
         """
-        # todo: order by
         item = self.queryset.get(id=pk)
         serializer = MzituDownloadedSuiteSerializer(item)
         return Response(serializer.data)
@@ -36,13 +35,13 @@ class MzituSuiteViewSet(GenericViewSet):
     def list(self, request):
         """Suite list
         """
-        # todo: order by
         serializer = MzituDownloadedSuiteSerializer(self.queryset, many=True)
         return Response(serializer.data)
 
     @action(detail=False, methods=['post'])
     def download(self, request):
         """获取要下载图片的suite列表，并下载到文件夹"""
+        # todo: 改为form或者post body
         suite_url = request.GET.get('suite_url', None)
         if not suite_url:
             return Response('no suite_url', status=status.HTTP_400_BAD_REQUEST)

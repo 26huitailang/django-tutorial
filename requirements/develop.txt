@@ -7,3 +7,6 @@ drf-yasg[validation]
 
 # 测试
 selenium
+
+# celery monitor
+flower

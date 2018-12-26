@@ -223,6 +223,12 @@ CELERY_BEAT_SCHEDULE = {
         'schedule': crontab(hour='*/6'),
     },
 }
+# 限制任务的速率，这样每分钟只允许处理 10 个该类型的任务
+CELERY_TASK_ANNOTATIONS = {
+    'mzitu.tasks.proxy_ip.check_proxy_ip': {'rate_limit': '2/m'},
+    'mzitu.tasks.proxy_ip.get_proxy_ips_crontab': {'rate_limit': '1/h'},
+    # '*': {'rate_limit': '3/h'}
+}
 
 # 获取proxy_ip 的地方
 PROXY_SOURCE_URL = 'http://www.xicidaili.com/nn/'

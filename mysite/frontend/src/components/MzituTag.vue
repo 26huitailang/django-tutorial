@@ -1,15 +1,44 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <ul>
-      <li v-for="(item, index) in tags" v-bind:key="item.id">{{ index + 1 }}.
-        <a href="#">{{ item.name }} {{item.is_like }}</a>
-      </li>
-      <!-- todo: not support absolute path -->
-    </ul>
-  </div>
+  <el-table
+    :data="tableMzituTags"
+    style="width: 100%">
+    <el-table-column
+      label="喜欢"
+      width="180">
+      <template slot-scope="scope">
+        <el-switch
+          v-model=scope.row.is_like
+          @change="handleLikeToggle(scope.row.id, !scope.row.is_like, scope.$index)"
+          active-color="#13ce66"
+          inactive-color="#ff4949">
+        </el-switch>
+      </template>
+    </el-table-column>
+    <el-table-column
+      label="标签"
+      width="180">
+      <template slot-scope="scope">
+        <el-popover trigger="hover" placement="top">
+          <p>{{ scope.row.url }}</p>
+          <div slot="reference" class="name-wrapper">
+            <el-tag size="medium">{{ scope.row.name }}</el-tag>
+          </div>
+        </el-popover>
+      </template>
+    </el-table-column>
+    <el-table-column label="操作">
+      <template slot-scope="scope">
+        <el-button
+          size="mini"
+          @click="handleLikeToggle(scope.$index, scope.row)">编辑</el-button>
+        <el-button
+          size="mini"
+          type="danger"
+          @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+      </template>
+    </el-table-column>
+  </el-table>
 </template>
-
 <script>
   export default {
     name: "MzituTag",
@@ -18,15 +47,26 @@
     },
     data() {
       return {
-        tags: []
+        tableMzituTags: [],
       };
     },
     mounted() {
       this.axios
         .get("http://127.0.0.1:8000/api/v1/mzitu/tags/")
         .then(response => (
-          this.tags = response.data
+          this.tableMzituTags = response.data
         ))
+    },
+    methods: {
+      handleLikeToggle(id, is_like, index) {
+        console.log(id, is_like);
+        this.axios
+          .post('http://127.0.0.1:8000/api/v1/mzitu/tags/' + id + '/like_toggle/')
+          .then(response => (
+            this.tableMzituTags[index].is_like = response.data.is_like
+          ));
+        console.log(id, this.tableMzituTags[index].is_like)
+      },
     }
   };
 </script>
@@ -50,5 +90,12 @@
 
   a {
     color: #42b983;
+  }
+  .el-table .warning-row {
+    background: oldlace;
+  }
+
+  .el-table .success-row {
+    background: #f0f9eb;
   }
 </style>
