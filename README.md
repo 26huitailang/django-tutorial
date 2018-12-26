@@ -16,7 +16,14 @@
 - choose apps you want to use in `mysite/settings/base.py`, comment the apps you do not want
 - virtualenv a python3 environment, then `pip install -r requirements.txt`
 - start app `./manage.py runserver`
-- access `127.0.0.1:8000`
+- todo: package the frontend
+- access
+    - web 127.0.0.1:8000
+    - api 127.0.0.1:8000/api/{VERSION}/swagger/
+- flower `celery flower -A mysite --address=127.0.0.1 --port=5555`
+- celery
+    - celery -A mysite worker -l debug
+    - celery -A mysite beat -l debug
 
 ## Update
 
@@ -97,11 +104,4 @@ Out[3]: <QuerySet [<Question: What's up?>]>
 
 In [4]: Question.objects.filter(question_text__startswith='What')
 Out[4]: <QuerySet [<Question: What's up?>]>
-```
-
-## Celery
-
-```
-celery -A mysite worker -l debug
-celery -A mysite beat -l debug
 ```

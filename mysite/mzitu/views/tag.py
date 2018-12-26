@@ -8,8 +8,6 @@ from rest_framework.response import Response
 
 from mzitu.models.tag import Tag
 from mzitu.serializers import TagSerailizer
-from mzitu.runtimes.theme import get_suite_urls_to_redis
-from mzitu.tasks.suite import download_one_suite
 
 
 class TagViewSet(GenericViewSet):
@@ -18,7 +16,7 @@ class TagViewSet(GenericViewSet):
 
     def list(self, request):
         """tag list"""
-        serializer = self.get_serializer(self.queryset.order_by('is_like', 'name'), many=True)
+        serializer = self.get_serializer(self.queryset.order_by('-is_like', 'name'), many=True)
 
         return Response(serializer.data)
 
