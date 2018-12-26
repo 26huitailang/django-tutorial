@@ -1,8 +1,12 @@
 <template>
   <el-table
     :data="tableMzituTags"
-    style="width: 100%">
+    style="width: 100%"
+    :default-sort="{prop: 'is_like', order: 'descending'}"
+    >
     <el-table-column
+      sortable
+      prop="is_like"
       label="喜欢"
       width="180">
       <template slot-scope="scope">
@@ -15,16 +19,25 @@
       </template>
     </el-table-column>
     <el-table-column
+      sortable
+      prop="tag"
       label="标签"
       width="180">
       <template slot-scope="scope">
         <el-popover trigger="hover" placement="top">
           <p>{{ scope.row.url }}</p>
           <div slot="reference" class="name-wrapper">
-            <el-tag size="medium">{{ scope.row.name }}</el-tag>
+            <el-tag size="medium"><a :href=scope.row.url target="_blank">{{ scope.row.name }}</a></el-tag>
           </div>
         </el-popover>
       </template>
+    </el-table-column>
+    <el-table-column
+      label="数量"
+      sortable
+      prop="suites_count"
+      width="180"
+      >
     </el-table-column>
     <el-table-column label="操作">
       <template slot-scope="scope">
