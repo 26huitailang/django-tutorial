@@ -56,5 +56,5 @@ urlpatterns = [
     path('suites/', include(suite_urlpatterns)),
     path('themes/', include(theme_urlpatterns)),
     path('proxyips/', include(proxyip_urlpatterns)),
-    re_path(r'^tags/', include(tag_router.urls)),
+    re_path(r'tags/', include(tag_router.urls)),
 ]

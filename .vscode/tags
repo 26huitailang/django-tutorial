@@ -247,10 +247,10 @@ get	../mysite/mzitu/runtimes/redis.py	/^    def get(self, block=True, timeout=No
 get_authorization_header	../mysite/django_vises/runtimes/misc.py	/^def get_authorization_header(request):$/;"	kind:function	line:24
 get_authorization_token_from_header	../mysite/django_vises/runtimes/misc.py	/^def get_authorization_token_from_header(request):$/;"	kind:function	line:37
 get_existed_filename_to_db.py	../mysite/mzitu/management/commands/get_existed_filename_to_db.py	1;"	kind:file	line:1
-get_image_urls	../mysite/mzitu/runtimes/url_parser.py	/^    def get_image_urls(self):$/;"	kind:member	line:101
+get_suite_pages_and_start_threads	../mysite/mzitu/runtimes/url_parser.py	/^    def get_suite_pages_and_start_threads(self):$/;"	kind:member	line:101
 get_ip_list	../mysite/mzitu/runtimes/proxy_ip.py	/^    def get_ip_list(self):$/;"	kind:member	line:24
-get_max_page_num_of_suite	../mysite/mzitu/runtimes/url_parser.py	/^    def get_max_page_num_of_suite(self):$/;"	kind:member	line:232
-get_max_page_num_of_suite	../mysite/mzitu/runtimes/url_parser.py	/^    def get_max_page_num_of_suite(self, html):$/;"	kind:member	line:59
+parse_max_page_num_of_suite	../mysite/mzitu/runtimes/url_parser.py	/^    def parse_max_page_num_of_suite(self):$/;"	kind:member	line:232
+parse_max_page_num_of_suite	../mysite/mzitu/runtimes/url_parser.py	/^    def parse_max_page_num_of_suite(self, html):$/;"	kind:member	line:59
 get_nowait	../mysite/mzitu/runtimes/redis.py	/^    def get_nowait(self):$/;"	kind:member	line:41
 get_object_or_404	../mysite/polls/views.py	/^from django.shortcuts import render, get_object_or_404, reverse$/;"	kind:namespace	line:3
 get_one_pic_url	../mysite/mzitu/runtimes/url_parser.py	/^    def get_one_pic_url(self, folder, i):$/;"	kind:member	line:151

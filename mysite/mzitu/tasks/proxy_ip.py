@@ -12,6 +12,7 @@ from bs4 import BeautifulSoup
 from celery import shared_task
 from celery.utils.log import get_task_logger
 from django.conf import settings
+from concurrent.futures import ThreadPoolExecutor
 
 from mzitu.constants import USER_AGENT_LIST
 from mzitu.models.proxy_ip import ProxyIp
@@ -62,6 +63,40 @@ def get_proxy_ips_crontab():
     return
 
 
+def _update_proxy_ip_score(proxy_ip_instance, url):
+    """更新每个proxy ip的分数，为0标记为is_valid=False"""
+    valid = True
+    try:
+        r = requests.get(url, proxies=generate_proxies(proxy_ip_instance.ip, proxy_ip_instance.port), timeout=(4, 12))
+    except Exception as e:
+        logger.warning(e)
+        valid = False
+    else:
+        try:
+            result = r.json()['origin']
+            valid = True if proxy_ip_instance.ip == result else False
+        except Exception as e:
+            logger.warning(e)
+            valid = False
+    finally:
+        if valid:
+            if proxy_ip_instance.score < 100 and proxy_ip_instance.score != 10:
+                logger.info("加1: %s", proxy_ip_instance.ip)
+                proxy_ip_instance.score += 1
+            elif proxy_ip_instance.score == 10:
+                logger.info("设为100: %s", proxy_ip_instance.ip)
+                proxy_ip_instance.score = 100
+        else:  # invalid
+            if proxy_ip_instance.score > 0:
+                logger.info("减1: %s", proxy_ip_instance.ip)
+                proxy_ip_instance.score -= 1
+            else:
+                logger.info("失效: %s", proxy_ip_instance.ip)
+                proxy_ip_instance.is_valid = False
+        proxy_ip_instance.save()
+    return
+
+
 @shared_task
 def check_proxy_ip():
     """测试代理ip是否有效
@@ -69,36 +104,13 @@ def check_proxy_ip():
     如果是10分可用的话，标记为100分，其他按是否有效+/-1分
     如果为0分，则标记为not valid
     """
-    # todo: 检查代理ip有效性的定时任务
+    MAX_WORKERS = 50
     url = 'http://httpbin.org/ip'
     items = ProxyIp.objects.filter(is_valid=True).order_by('created_time').all()
-    for item in items:
-        valid = True
-        try:
-            r = requests.get(url, proxies=generate_proxies(item.ip, item.port), timeout=(4, 30))
-        except Exception as e:
-            logger.warning(e)
-            valid = False
-        else:
-            try:
-                result = r.json()['origin']
-                valid = True if item.ip == result else False
-            except Exception as e:
-                logger.warning(e)
-                valid = False
-        finally:
-            if valid:
-                if item.score < 100 and item.score != 10:
-                    logger.info("加1: %s", item.ip)
-                    item.score += 1
-                elif item.score == 10:
-                    logger.info("设为100: %s", item.ip)
-                    item.score = 100
-            else:  # invalid
-                if item.score > 0:
-                    logger.info("减1: %s", item.ip)
-                    item.score -= 1
-                else:
-                    logger.info("失效: %s", item.ip)
-                    item.is_valid = False
-            item.save()
+    # todo: 多线程，但是控制数量
+    with ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
+        for item in items:
+            executor.submit(_update_proxy_ip_score, item, url)
+    # for item in items:
+    #     _update_proxy_ip_score(item, url)
+    return

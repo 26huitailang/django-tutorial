@@ -6,9 +6,9 @@ import MzituTag from '../components/MzituTag.vue'
 Vue.use(VueRouter)
 
 const routes = [
-  { 'path': '*', redirect: '/mzitu' },
-  { 'path': '/mzitu', 'name': 'mzitu-suite-list', component: MzituSuite },
-  { 'path': '/mzitu/:id', 'name': 'mzitu-suite-detail', component: MzituSuiteDetail },
+  { 'path': '*', redirect: '/mzitu/suites' },
+  { 'path': '/mzitu/suites', 'name': 'mzitu-suite-list', component: MzituSuite },
+  { 'path': '/mzitu/suites/:id', 'name': 'mzitu-suite-detail', component: MzituSuiteDetail },
   { 'path': '/mzitu/tags', 'name': 'mzitu-tags-list', component: MzituTag },
 ]
 

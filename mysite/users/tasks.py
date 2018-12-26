@@ -5,6 +5,7 @@
 celery example
 """
 
+from celery import shared_task
 from celery.utils.log import get_task_logger
 
 from mysite.celery import app
@@ -26,3 +27,8 @@ class AddTwoTask(app.Task):
 
 
 add_two_nums = app.register_task(AddTwoTask())
+
+
+@shared_task
+def add_two(x, y):
+    return x + y

@@ -3,7 +3,7 @@
     <h1>{{ msg }}</h1>
     <ul>
       <li v-for="(item, index) in suites" v-bind:key="item.id">
-        <router-link :to="{ name: 'mzitu-detail', params: { id: item.id }}">{{ index }}. {{ item.url }} {{item.max_page }}</router-link>
+        <router-link :to="{ name: 'mzitu-suite-detail', params: { id: item.id }}">{{ index }}. {{ item.url }} {{item.max_page }}</router-link>
       </li>
       <!-- todo: not support absolute path -->
     </ul>

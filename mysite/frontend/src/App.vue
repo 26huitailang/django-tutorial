@@ -9,7 +9,7 @@
       </p>
     </div>
     <ul>
-      <li><router-link to="/mzitu">Suite</router-link></li>
+      <li><router-link to="/mzitu/suites">Suite</router-link></li>
       <li><router-link to="/mzitu/tags">Tags</router-link></li>
     </ul>
     <!-- <MzituSuite msg="Welcome to Your Mzitu App"/> -->
@@ -18,16 +18,16 @@
 </template>
 
 <script>
-import MzituSuite from './components/MzituSuite.vue'
-import MzituSuiteDetail from './components/MzituSuiteDetail.vue'
-import MzituTag from './components/MzituTag.vue'
+// import MzituSuite from './components/MzituSuite.vue'
+// import MzituSuiteDetail from './components/MzituSuiteDetail.vue'
+// import MzituTag from './components/MzituTag.vue'
 
 export default {
   name: 'app',
   components: {
-    MzituSuite,
-    MzituSuiteDetail,
-    MzituTag,
+    // MzituSuite,
+    // MzituSuiteDetail,
+    // MzituTag,
   }
 }
 </script>
