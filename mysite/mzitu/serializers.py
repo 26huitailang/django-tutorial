@@ -13,19 +13,22 @@ class SuiteImageMapSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class TagSerailizer(serializers.ModelSerializer):
+class TagSerializer(serializers.ModelSerializer):
+    suites_count = serializers.SerializerMethodField()
 
     class Meta:
         model = Tag
         fields = '__all__'
 
+    def get_suites_count(self, obj):
+        count = obj.downloadedsuite_set.count()
+        return count
+
 
 class MzituDownloadedSuiteSerializer(serializers.ModelSerializer):
     images = SuiteImageMapSerializer(many=True, read_only=True)
-    tags = TagSerailizer(many=True, read_only=True)  # todo: serailizer.SerializerMethodField
+    tags = TagSerializer(many=True, read_only=True)  # todo: serailizer.SerializerMethodField
 
     class Meta:
         model = DownloadedSuite
         fields = ('id', 'name', 'url', 'max_page', 'tags', 'images')
-
-
