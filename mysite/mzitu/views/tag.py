@@ -7,11 +7,11 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 
 from mzitu.models.tag import Tag
-from mzitu.serializers import TagSerailizer
+from mzitu.serializers import TagSerializer
 
 
 class TagViewSet(GenericViewSet):
-    serializer_class = TagSerailizer
+    serializer_class = TagSerializer
     queryset = Tag.objects.all()
 
     def list(self, request):
