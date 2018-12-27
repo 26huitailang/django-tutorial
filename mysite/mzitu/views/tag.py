@@ -7,7 +7,10 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 
 from mzitu.models.tag import Tag
-from mzitu.serializers import TagSerializer
+from mzitu.serializers import (
+    TagSerializer,
+    MzituDownloadedSuiteSerializer,
+)
 
 
 class TagViewSet(GenericViewSet):
@@ -20,11 +23,18 @@ class TagViewSet(GenericViewSet):
 
         return Response(serializer.data)
 
+    @action(detail=True, methods=['get'])
+    def suites(self, request, pk: str = None):
+        instance = get_object_or_404(Tag, id=pk)
+        suite_instances = instance.downloadedsuite_set.order_by('-created_time').all()
+        serializer = MzituDownloadedSuiteSerializer(suite_instances, many=True)
+        return Response(serializer.data)
+
     @action(detail=True, methods=['post'])
     def like_toggle(self, request, pk: str = None):
         """标记like"""
         instance = get_object_or_404(Tag, id=pk)
         instance.is_like = not instance.is_like
         instance.save()
-        return Response({ 'name': instance.name, 'is_like': instance.is_like},
+        return Response(self.get_serializer(instance).data,
                         status=status.HTTP_202_ACCEPTED)
