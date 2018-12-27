@@ -1,13 +1,6 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <div>
-      <p>
-        If Element is successfully added to this project, you'll see an
-        <code v-text="'<el-button>'"></code>
-        below
-      </p>
-    </div>
+    <img src="./assets/logo.png" width="100px">
     <ul>
       <li><router-link to="/mzitu/suites">Suite</router-link></li>
       <li><router-link to="/mzitu/tags">Tags</router-link></li>

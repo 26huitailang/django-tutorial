@@ -212,22 +212,24 @@ CELERY_TIMEZONE = 'Asia/Shanghai'
 # todo: 这种管理不优雅
 CELERY_BEAT_SCHEDULE = {
     # timedelta ------------------------------------------------------------
-    # 检查任务
     'check-proxy-ip-per-5-minute': {
+        # 检查任务
         'task': 'mzitu.tasks.proxy_ip.check_proxy_ip',
         'schedule': datetime.timedelta(minutes=5),
     },
-    # crontab ------------------------------------------------------------
     'get-proxy-ip-and-delete-invalid-per-6-hour': {
+        # 获得新代理ip，删除失效代理ip
         'task': 'mzitu.tasks.proxy_ip.get_proxy_ips_crontab',
-        'schedule': crontab(hour='*/6'),
+        # 'schedule': crontab(hour='*/2'),
+        'schedule': datetime.timedelta(hours=2),
     },
+    # crontab ------------------------------------------------------------
 }
-# 限制任务的速率，这样每分钟只允许处理 10 个该类型的任务
+# 限制任务的速率，这样每分钟只允许处理 12 个该类型的任务
+CELERY_TASK_DEFAULT_RATE_LIMIT = '12/m'  # 5 seconds interval time between tow tasks
 CELERY_TASK_ANNOTATIONS = {
     'mzitu.tasks.proxy_ip.check_proxy_ip': {'rate_limit': '2/m'},
-    'mzitu.tasks.proxy_ip.get_proxy_ips_crontab': {'rate_limit': '1/h'},
-    # '*': {'rate_limit': '3/h'}
+    # 'mzitu.tasks.proxy_ip.get_proxy_ips_crontab': {'rate_limit': '1/h'},  # todo: celery4.2.1会导致所有的间隔都变为1hour
 }
 
 # 获取proxy_ip 的地方
