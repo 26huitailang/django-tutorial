@@ -1,13 +1,15 @@
 <template>
-  <MzituSuiteTemplate :msg="msg" :suites="suites"></MzituSuiteTemplate>
+  <!-- <MzituSuiteTemplate :msg="msg" :suites="suites"></MzituSuiteTemplate> -->
+  <MzituSuiteCard :msg="msg" :suites="suites"></MzituSuiteCard>
 </template>
 
 <script>
 import MzituSuiteTemplate from './MzituSuiteTemplate.vue'
+import MzituSuiteCard from './MzituSuiteCard.vue'
 import { get } from '../http'
 export default {
   name: "MzituSuites",
-  components: { MzituSuiteTemplate },
+  components: { MzituSuiteCard },
   data() {
     return {
       msg: "Mzitu Suites",
