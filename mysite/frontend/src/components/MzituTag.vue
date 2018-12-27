@@ -12,7 +12,7 @@
       <template slot-scope="scope">
         <el-switch
           v-model=scope.row.is_like
-          @change="handleLikeToggle(scope.row.id, !scope.row.is_like, scope.$index)"
+          @change="handleLikeToggle(scope.row.id, scope.row.is_like, scope.$index)"
           active-color="#13ce66"
           inactive-color="#ff4949">
         </el-switch>
@@ -27,7 +27,7 @@
         <el-popover trigger="hover" placement="top">
           <p>{{ scope.row.url }}</p>
           <div slot="reference" class="name-wrapper">
-            <el-tag size="medium"><a :href=scope.row.url target="_blank">{{ scope.row.name }}</a></el-tag>
+            <el-tag size="medium"><a :href=scope.row.url target="_blank">{{ scope.$index }}{{ scope.row.name }}</a></el-tag>
           </div>
         </el-popover>
       </template>
@@ -36,8 +36,10 @@
       label="数量"
       sortable
       prop="suites_count"
-      width="180"
-      >
+      width="180">
+      <template slot-scope="scope">
+        <a @click="handleClickTagCount(scope.row.id)">{{ scope.row.suites_count }}</a>
+      </template>
     </el-table-column>
     <el-table-column label="操作">
       <template slot-scope="scope">
@@ -53,35 +55,49 @@
   </el-table>
 </template>
 <script>
-  export default {
-    name: "MzituTag",
-    props: {
-      msg: String
-    },
-    data() {
-      return {
-        tableMzituTags: [],
-      };
-    },
-    mounted() {
-      this.axios
-        .get("http://127.0.0.1:8000/api/v1/mzitu/tags/")
+import { get, post } from '../http'
+export default {
+  name: "MzituTag",
+  props: {
+    msg: String
+  },
+  data() {
+    return {
+      tableMzituTags: [],
+    };
+  },
+  mounted() {
+    get("mzitu/tags/")
+      .then(response => (
+        this.tableMzituTags = response.data
+      ))
+  },
+  methods: {
+    handleLikeToggle(id, is_like, index) {  // 这个scope传入的index和tableMzituTags 不是同一个排序
+      post('mzitu/tags/' + id + '/like_toggle/')
         .then(response => (
-          this.tableMzituTags = response.data
+          // 这种写法vue不是响应式的，返回新的对象
+          // this.tableMzituTags[index].is_like = response.data.is_like
+          this.tableMzituTags.forEach(function (item) {
+            if (item.id === id) {
+              item.is_like = response.data.is_like
+            }
+          })
+        ))
+        .catch(error => (
+          console.log(error, error.response),
+          this.tableMzituTags.forEach(function (item) {
+            if (item.id === id) {
+              item.is_like = is_like
+            }
+          })
         ))
     },
-    methods: {
-      handleLikeToggle(id, is_like, index) {
-        console.log(id, is_like);
-        this.axios
-          .post('http://127.0.0.1:8000/api/v1/mzitu/tags/' + id + '/like_toggle/')
-          .then(response => (
-            this.tableMzituTags[index].is_like = response.data.is_like
-          ));
-        console.log(id, this.tableMzituTags[index].is_like)
-      },
+    handleClickTagCount(id) {
+      this.$router.push(`/mzitu/tags/${id}/suites`)
     }
-  };
+  }
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

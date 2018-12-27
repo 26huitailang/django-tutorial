@@ -11,24 +11,13 @@
 </template>
 
 <script>
-  export default {
-    name: "MzituSuite",
-    props: {
-      msg: String
-    },
-    data() {
-      return {
-        suites: []
-      };
-    },
-    mounted() {
-      this.axios
-        .get("http://127.0.0.1:8000/api/v1/mzitu/suites/")
-        .then(response => (
-          this.suites = response.data
-        ))
-    }
-  };
+export default {
+  name: "MzituSuiteTemplate",
+  props: {
+    msg: String,
+    suites: Array,
+  }
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
