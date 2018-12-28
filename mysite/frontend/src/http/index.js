@@ -3,7 +3,7 @@ import router from '../router';
 
 // 创建axios实例
 const service = axios.create({
-  baseURL: 'http://127.0.0.1:8000/api/v1/',
+  baseURL: 'http://192.168.2.101:8000/api/v1/',
   timeout: 3000 // 请求超时时间
 })
 
