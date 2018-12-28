@@ -1,34 +1,44 @@
 <template>
   <div class="hello">
     <h1>{{ suite_title }}</h1>
-    <ul>
+    <!-- <ul>
       <li v-for="(item, index) in images" v-bind:key="item.id">{{ index + 1 }}.
-        <img :src="'http://192.168.2.101:8000' + item.image" />
-      </li>
+        <div class="cover">
+          <img :src="'http://192.168.2.101:8000' + item.image" class="image" />
+        </div>
+      </li> -->
+    <!-- </ul> -->
       <!-- todo: not support absolute path -->
-    </ul>
+      <el-row :gutter="10">
+        <el-col :span="24"
+          v-for="item in images" :key="item.id"
+        >
+          <img :src="'http://192.168.2.101:8000' + item.image" class="image" />
+        </el-col>
+      </el-row>
   </div>
 </template>
 
 <script>
-  export default {
-    name: "MzituSuiteDetail",
-    props: {
-      suite_title: String
-    },
-    data() {
-      return {
-        images: []
-      };
-    },
-    mounted() {
-      this.axios
-        .get("http://192.168.2.101:8000/api/v1/mzitu/suites/" + this.$route.params.id)
-        .then(response => (
-          this.images = response.data.images
-        ))
-    }
-  };
+import { MZITU } from "../http/api.js";
+export default {
+  name: "MzituSuiteDetail",
+  props: {
+    suite_title: String
+  },
+  data() {
+    return {
+      images: []
+    };
+  },
+  mounted() {
+    this.axios
+      .get(MZITU().SuitesList + this.$route.params.id)
+      .then(response => (
+        this.images = response.data.images
+      ))
+  }
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -50,5 +60,11 @@
 
   a {
     color: #42b983;
+  }
+  .image {
+    margin: 10px 0 0;
+    width: 500px;
+    height: 100%;
+    display: block;
   }
 </style>
