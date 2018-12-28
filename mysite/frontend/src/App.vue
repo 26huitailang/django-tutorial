@@ -1,26 +1,39 @@
 <template>
   <div id="app">
     <img src="./assets/logo.png" width="100px">
-    <ul>
-      <li><router-link to="/mzitu/suites">Suite</router-link></li>
-      <li><router-link to="/mzitu/tags">Tags</router-link></li>
-    </ul>
     <!-- <MzituSuite msg="Welcome to Your Mzitu App"/> -->
-    <router-view></router-view>
+    <el-tabs type="border-card" v-model="activeName" @tab-click="handleTabClick">
+      <el-tab-pane label="Suites" name="suites"></el-tab-pane>
+      <el-tab-pane label="Tags" name="tags"></el-tab-pane>
+      <!-- 路由对应的组件渲染的地方 -->
+      <router-view></router-view>
+    </el-tabs>
   </div>
 </template>
 
 <script>
-// import MzituSuite from './components/MzituSuite.vue'
-// import MzituSuiteDetail from './components/MzituSuiteDetail.vue'
-// import MzituTag from './components/MzituTag.vue'
 
 export default {
   name: 'app',
-  components: {
-    // MzituSuite,
-    // MzituSuiteDetail,
-    // MzituTag,
+  data() {
+    return {
+      activeName: 'suites',
+    }
+  },
+  methods: {
+    handleTabClick() {
+      switch (this.activeName) {
+        case "suites":
+          this.$router.push('/mzitu/suites');
+          break;
+        case "tags":
+          this.$router.push('/mzitu/tags');
+          break;
+        default:
+          this.$router.push('/mzitu/suites')
+          break;
+      }
+    }
   }
 }
 </script>
