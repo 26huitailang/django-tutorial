@@ -37,7 +37,7 @@ if settings.DEPLOY_LEVEL <= DeployLevel.develop:
     urlpatterns += [
         path('admin/', admin.site.urls),
         # 根据MEDIA_ROOT结合url来访问文件
-        url(r'^media/(?P<path>.*)', serve, {"document_root": settings.MEDIA_ROOT}),
+        url(r'^media/(?P<path>.*)$', serve, {"document_root": settings.MEDIA_ROOT}),
     ]
 
     # for swagger

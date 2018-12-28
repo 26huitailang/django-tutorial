@@ -3,7 +3,7 @@
     <h1>{{ suite_title }}</h1>
     <ul>
       <li v-for="(item, index) in images" v-bind:key="item.id">{{ index + 1 }}.
-        <img :src="'http://127.0.0.1:8000' + item.image" />
+        <img :src="'http://192.168.2.101:8000' + item.image" />
       </li>
       <!-- todo: not support absolute path -->
     </ul>
@@ -23,7 +23,7 @@
     },
     mounted() {
       this.axios
-        .get("http://127.0.0.1:8000/api/v1/mzitu/suites/" + this.$route.params.id)
+        .get("http://192.168.2.101:8000/api/v1/mzitu/suites/" + this.$route.params.id)
         .then(response => (
           this.images = response.data.images
         ))
