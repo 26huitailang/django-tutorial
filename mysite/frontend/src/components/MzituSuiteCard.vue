@@ -2,17 +2,20 @@
   <div class="hello">
     <h1>{{ msg }}</h1>
     <el-row>
-      <el-col :span="elColSpan" v-for="item in suites" :key="item.id" :offset="elColOffset">
-        <el-card :body-style="{ padding: '10px' }" shadow="hover">
+      <el-col
+        :span="elColSpan" v-for="(item, index) in suites" :key="item.id" :offset="0">
+        <el-card
+          :body-style="{ padding: '10px', height: cardHeight }"
+          shadow="hover">
           <!-- todo: development usage -->
           <div class="cover">
             <img :src="coverImage(item.images[0].image)" class="image">
           </div>
-          <div style="padding: 14px;">
+          <div style="padding: 5px 10px; height: 130px">
             <router-link
               :to="{ name: 'mzitu-suite-detail', params: { id: item.id }}"
               >
-              {{ item.name }} | {{item.max_page }}张
+              <p style="font-size: 12px;">{{ item.name }} | {{item.max_page }}张</p>
             </router-link>
             <div class="bottom clearfix">
               <!-- todo: loop for tags -->
@@ -40,13 +43,15 @@ export default {
     return {
       elColSpan: 24,
       elColOffset: 0,
+      cardHeight: '470px',
     }
   },
   beforeMount: function () {
     //可用于设置自适应屏幕，根据获得的可视宽度（兼容性）判断是否显示
     let w = document.documentElement.offsetWidth || document.body.offsetWidth;
     if (w < 1000) {
-      this.elColSpan = 24
+      this.elColSpan = 24,
+      this.cardHeight = '100%'
     } else {
       this.elColSpan = 8
     }
@@ -65,6 +70,9 @@ export default {
 </script>
 
 <style scoped>
+.el-card {
+  margin: 1em 1em;
+}
 .time {
   padding: 0;
   font-size: 13px;
@@ -90,7 +98,7 @@ export default {
 } */
 .image {
   width: 100%;
-  height: 300px;
+  height: 360px;
   left: 50%;
   display: block;
   object-fit: cover;
