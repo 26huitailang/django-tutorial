@@ -11,16 +11,16 @@
       <!-- todo: not support absolute path -->
       <el-row :gutter="10">
         <el-col :span="24"
-          v-for="item in images" :key="item.id"
+          v-for="(item, index) in images" :key="item.id"
         >
-          <img :src="'http://192.168.2.101:8000' + item.image" class="image" />
+          {{ index + 1 }}<img :src="getImgUrl(item.image)" class="image" />
         </el-col>
       </el-row>
   </div>
 </template>
 
 <script>
-import { MZITU } from "../http/api.js";
+import { apiBase, MZITU } from "../http/api.js";
 export default {
   name: "MzituSuiteDetail",
   props: {
@@ -30,6 +30,11 @@ export default {
     return {
       images: []
     };
+  },
+  methods: {
+    getImgUrl: function (media_url) {
+      return apiBase() + media_url
+    }
   },
   mounted() {
     this.axios
