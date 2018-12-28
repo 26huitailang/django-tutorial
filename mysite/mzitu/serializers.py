@@ -28,7 +28,9 @@ class TagSerializer(serializers.ModelSerializer):
 class MzituDownloadedSuiteSerializer(serializers.ModelSerializer):
     images = SuiteImageMapSerializer(many=True, read_only=True)
     tags = TagSerializer(many=True, read_only=True)  # todo: serailizer.SerializerMethodField
+    created_time = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
 
     class Meta:
         model = DownloadedSuite
-        fields = ('id', 'name', 'url', 'max_page', 'tags', 'images')
+        # fields = ('id', 'name', 'url', 'max_page', 'tags', 'images')
+        fields = '__all__'

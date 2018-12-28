@@ -6,9 +6,10 @@
     >
     <el-table-column
       sortable
+      fixed
       prop="is_like"
       label="喜欢"
-      width="180">
+      width="100%">
       <template slot-scope="scope">
         <el-switch
           v-model=scope.row.is_like
@@ -22,7 +23,7 @@
       sortable
       prop="tag"
       label="标签"
-      width="180">
+      width="100%">
       <template slot-scope="scope">
         <el-popover trigger="hover" placement="top">
           <p>{{ scope.row.url }}</p>
@@ -36,7 +37,7 @@
       label="数量"
       sortable
       prop="suites_count"
-      width="180">
+      width="100%">
       <template slot-scope="scope">
         <a @click="handleClickTagCount(scope.row.id)">{{ scope.row.suites_count }}</a>
       </template>
