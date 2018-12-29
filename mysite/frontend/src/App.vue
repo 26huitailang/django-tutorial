@@ -17,7 +17,7 @@ export default {
   name: 'app',
   data() {
     return {
-      activeName: 'suites',
+      activeName: this.getCurrentActiveName(),
     }
   },
   methods: {
@@ -33,6 +33,14 @@ export default {
           this.$router.push('/mzitu/suites')
           break;
       }
+    },
+    getCurrentActiveName() {  // 解决Tabs刷新初始化的问题
+      const currentRoute = this.$router.currentRoute.path
+      if (currentRoute.startsWith('/mzitu/suites')) {
+        return 'suites'
+      } else if (currentRoute.startsWith('/mzitu/tags')) {
+        return 'tags'
+      }
     }
   }
 }
@@ -45,6 +53,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  margin-top: 1em;
 }
 </style>

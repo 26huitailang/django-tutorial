@@ -3,7 +3,7 @@
     <h1>{{ msg }}</h1>
     <el-row>
       <el-col
-        :span="elColSpan" v-for="(item, index) in suites" :key="item.id" :offset="0">
+        :span="elColSpan" v-for="item in suites" :key="item.id" :offset="0">
         <el-card
           :body-style="{ padding: '10px', height: cardHeight }"
           shadow="hover">
