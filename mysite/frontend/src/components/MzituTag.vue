@@ -28,7 +28,7 @@
         <el-popover trigger="hover" placement="top">
           <p>{{ scope.row.url }}</p>
           <div slot="reference" class="name-wrapper">
-            <el-tag size="medium"><a :href=scope.row.url target="_blank">{{ scope.$index }}{{ scope.row.name }}</a></el-tag>
+            <el-tag size="medium"><a :href=scope.row.url target="_blank">{{ scope.row.name }}</a></el-tag>
           </div>
         </el-popover>
       </template>
@@ -45,12 +45,17 @@
     <el-table-column label="操作">
       <template slot-scope="scope">
         <el-button
+          type="primary"
+          icon="el-icon-edit"
+          circle
           size="mini"
-          @click="handleLikeToggle(scope.$index, scope.row)">编辑</el-button>
+          @click="handleLikeToggle(scope.$index, scope.row)"></el-button>
         <el-button
-          size="mini"
           type="danger"
-          @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+          icon="el-icon-delete"
+          circle
+          size="mini"
+          @click="handleLikeToggle(scope.$index, scope.row)"></el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -127,5 +132,9 @@ export default {
 
   .el-table .success-row {
     background: #f0f9eb;
+  }
+  .el-button {
+    margin: 10px 0;
+    display: inline-block;
   }
 </style>
