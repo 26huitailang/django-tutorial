@@ -11,11 +11,20 @@
       <!-- todo: not support absolute path -->
       <el-row :gutter="10">
         <el-col :span="24"
-          v-for="(item, index) in images" :key="item.id"
+          v-for="(item, index) in currentPageImages" :key="item.id"
         >
-          {{ index + 1 }}<img :src="getImgUrl(item.image)" class="image" />
+          <!-- {{ index + 1 }}<img :src="getImgUrl(item.image)" class="image" /> -->
+          {{ index + 1 }}<img v-lazy="getImgUrl(item.image)" class="image" alt="" />
         </el-col>
       </el-row>
+      <el-pagination
+        @current-change="handleCurrentChange"
+        :current-page="currentPage"
+        :page-size="pageSize"
+        :pager-count="6"
+        layout="prev, pager, next"
+        :total="allImages.length">
+      </el-pagination>
   </div>
 </template>
 
@@ -28,19 +37,29 @@ export default {
   },
   data() {
     return {
-      images: []
+      currentPage: 1,
+      pageSize: 5,
+      allImages: [],
     };
   },
   methods: {
     getImgUrl: function (media_url) {
       return apiBase() + media_url
+    },
+    handleCurrentChange(currentPage) {
+      this.currentPage = currentPage
+    }
+  },
+  computed: {
+    currentPageImages: function () {
+      return this.allImages.slice(this.pageSize * (this.currentPage - 1), this.pageSize * this.currentPage)
     }
   },
   mounted() {
     this.axios
       .get(MZITU().SuitesList + this.$route.params.id)
       .then(response => (
-        this.images = response.data.images
+        this.allImages = response.data.images
       ))
   }
 };
@@ -65,6 +84,8 @@ export default {
 
   a {
     color: #42b983;
+  }
+  img[lazy="loaded"] {
   }
   .image {
     margin: 10px 0 0;

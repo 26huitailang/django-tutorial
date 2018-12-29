@@ -8,6 +8,8 @@ import Error404 from '../components/Error404.vue';
 Vue.use(VueRouter)
 
 const routes = [
+  // todo: home page
+  { 'path': '/', redirect: '/mzitu/suites' },
   { 'path': '/mzitu/suites', 'name': 'mzitu-suite-list', component: MzituSuites },
   { 'path': '/mzitu/suites/:id', 'name': 'mzitu-suite-detail', component: MzituSuiteDetail },
   { 'path': '/mzitu/tags', 'name': 'mzitu-tags-list', component: MzituTag },
