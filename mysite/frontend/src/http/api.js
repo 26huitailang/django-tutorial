@@ -1,6 +1,6 @@
 export function apiBase() {
   let hostname = window.location.hostname;
-  let API_BASE_URL = 'http://192.168.2.101:8000';  //默认环境
+  let API_BASE_URL = 'http://localhost:8000';  //默认环境
   if (hostname === 'production.com') {  //正式环境
     API_BASE_URL = 'http://production.com';
   } else if (hostname === 'test.production.com') {  //公网测试环境
