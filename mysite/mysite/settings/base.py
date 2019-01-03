@@ -235,9 +235,10 @@ CELERY_TASK_ANNOTATIONS = {
 # 获取proxy_ip 的地方
 PROXY_SOURCE_URL = 'http://www.xicidaili.com/nn/'
 
-MEDIA_ROOT = '/tmp/'
 MEDIA_URL = '/media/'
-IMAGE_FOLDER = 'PATH_YOUR_IMAGE_FOLDER'  # todo 应该是依据MEDIA_ROOT的设计
+home_path = os.environ.get('HOME')
+MEDIA_ROOT = os.path.join(home_path, 'Downloads')
+IMAGE_FOLDER = os.path.join(MEDIA_ROOT, 'mzitu')  # todo 应该是依据MEDIA_ROOT的设计
 
 # ------------------------------------------------------------
 # Sentry

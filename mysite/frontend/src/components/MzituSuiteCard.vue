@@ -9,7 +9,7 @@
           shadow="hover">
           <!-- todo: development usage -->
           <div class="cover">
-            <img :src="coverImage(item.images[0].image)" class="image">
+            <img v-lazy="coverImage(item.images[0].image)" class="image">
           </div>
           <div style="padding: 5px 10px; height: 130px">
             <router-link
