@@ -9,7 +9,7 @@
       fixed
       prop="is_like"
       label="喜欢"
-      width="100%">
+      width="80px">
       <template slot-scope="scope">
         <el-switch
           v-model=scope.row.is_like
@@ -23,7 +23,7 @@
       sortable
       prop="tag"
       label="标签"
-      width="100%">
+      width="150px">
       <template slot-scope="scope">
         <el-popover trigger="hover" placement="top">
           <p>{{ scope.row.url }}</p>
