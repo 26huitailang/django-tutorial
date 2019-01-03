@@ -105,3 +105,9 @@ Out[3]: <QuerySet [<Question: What's up?>]>
 In [4]: Question.objects.filter(question_text__startswith='What')
 Out[4]: <QuerySet [<Question: What's up?>]>
 ```
+
+## Apache ab test
+
+example:
+
+    ab -c 10 -n 40 http://127.0.0.1:8000/api/v1/mzitu/tags/
