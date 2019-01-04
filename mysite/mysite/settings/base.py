@@ -226,7 +226,7 @@ CELERY_BEAT_SCHEDULE = {
     # crontab ------------------------------------------------------------
 }
 # 限制任务的速率，这样每分钟只允许处理 12 个该类型的任务
-CELERY_TASK_DEFAULT_RATE_LIMIT = '12/m'  # 5 seconds interval time between tow tasks
+# CELERY_TASK_DEFAULT_RATE_LIMIT = '60/m'  # 5 seconds interval time between tow tasks
 CELERY_TASK_ANNOTATIONS = {
     'mzitu.tasks.proxy_ip.check_proxy_ip': {'rate_limit': '2/m'},
     # 'mzitu.tasks.proxy_ip.get_proxy_ips_crontab': {'rate_limit': '1/h'},  # todo: celery4.2.1会导致所有的间隔都变为1hour
@@ -238,7 +238,7 @@ PROXY_SOURCE_URL = 'http://www.xicidaili.com/nn/'
 MEDIA_URL = '/media/'
 home_path = os.environ.get('HOME')
 MEDIA_ROOT = os.path.join(home_path, 'Downloads')
-IMAGE_FOLDER = os.path.join(MEDIA_ROOT, 'mzitu')  # todo 应该是依据MEDIA_ROOT的设计
+IMAGE_FOLDER = os.path.join(MEDIA_ROOT, 'mzitu')
 
 # ------------------------------------------------------------
 # Sentry

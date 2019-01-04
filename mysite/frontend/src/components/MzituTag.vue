@@ -25,12 +25,11 @@
       label="标签"
       width="150px">
       <template slot-scope="scope">
-        <el-popover trigger="hover" placement="top">
-          <p>{{ scope.row.url }}</p>
-          <div slot="reference" class="name-wrapper">
-            <el-tag size="medium"><a :href=scope.row.url target="_blank">{{ scope.row.name }}</a></el-tag>
-          </div>
-        </el-popover>
+        <el-tag size="medium">
+          <a :href=scope.row.url target="_blank" :title="scope.row.name">
+            <div class="tag-name">{{ scope.row.name }}</div>
+          </a>
+        </el-tag>
       </template>
     </el-table-column>
     <el-table-column
@@ -125,6 +124,13 @@ export default {
 
   a {
     color: #42b983;
+  }
+  .tag-name {
+    overflow: hidden;
+    width: 100px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-align: center;
   }
   .el-table .warning-row {
     background: oldlace;
