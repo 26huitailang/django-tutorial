@@ -24,6 +24,7 @@
 - celery
     - celery -A mysite worker -l debug
     - celery -A mysite beat -l debug
+    - with gevent `celery -A mysite worker -l debug -P gevent -c 100`
 
 ## Update
 
@@ -34,11 +35,11 @@
 
 ## ORM
 
-### 三步改变model
+### 3 steps for models
 
-1. 修改models.py
-2. python manage.py makemigrations [APP]创建改变的迁移文件，APP可选
-3. python manage.py migrate 应用这些改变到DB
+1. write your models.py
+2. python manage.py makemigrations [APP] (APP optional)
+3. python manage.py migrate [APP] (APP optional)
 
 查看migrations文件的操作，不会执行，打印他的SQL语句：
 
@@ -46,7 +47,7 @@
 
 回退操作：
 
-    python manage.py migrate APP 0004_xxxxx(the migration name)
+    python manage.py migrate APP 0004_xxxxx(the migration name, number must)
 
 ### 一对多，多对多
 
