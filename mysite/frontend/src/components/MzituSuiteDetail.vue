@@ -4,8 +4,7 @@
     <el-table
       header-row-class-name="center"
       :data="currentPageImages"
-      row-style="margin: 0 auto;"
-      style="width: 800px;">
+      style="width: 600px;">
       <el-table-column
         align="center"
         prop="image"
@@ -45,7 +44,7 @@ export default {
       currentPage: 1,
       pageSize: 1,
       allImages: [],
-      pagerCount: 6,
+      pagerCount: 5,
       title: "Unknown"
     };
   },
@@ -62,7 +61,7 @@ export default {
     // todo: 点击图片翻页的操作，之后用漂亮的弹窗替换
     handleImgClick() {
       if (this.currentPage === this.allImages.length) {
-        alert("已经是最后一页")
+        this.$message('已是最后一页');
       } else {
         this.currentPage += 1
       }
@@ -101,8 +100,7 @@ export default {
   a {
     color: #42b983;
   }
-  img[lazy="loaded"] {
-  }
+  img[lazy="loaded"] {}
   .image {
     margin: 10px auto;
     width: 500px;

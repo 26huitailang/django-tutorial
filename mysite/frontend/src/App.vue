@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png" width="100px">
+    <img src="./assets/logo.png" width="50px">
     <!-- <MzituSuite msg="Welcome to Your Mzitu App"/> -->
     <el-tabs type="border-card" v-model="activeName" @tab-click="handleTabClick">
       <el-tab-pane label="Suites" name="suites"></el-tab-pane>

@@ -9,7 +9,11 @@
           shadow="hover">
           <!-- todo: development usage -->
           <div class="cover">
-            <img v-lazy="coverImage(item.images[0].image)" class="image">
+            <router-link
+              :to="{ name: 'mzitu-suite-detail', params: { id: item.id }}"
+              >
+              <img v-lazy="coverImage(item.images[0].image)" class="image">
+            </router-link>
           </div>
           <div style="padding: 5px 10px; height: 130px">
             <router-link
