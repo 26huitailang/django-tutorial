@@ -130,6 +130,16 @@ export default {
     handleClickTagCount(id) {
       this.$router.push(`/mzitu/tags/${id}/suites`)
     }
+  },
+  watch: {
+    '$route' (to, from) {
+      console.log(to.params)
+      this.$router.push({ name: to.name, params: to.params})
+      get("mzitu/tags/")
+      .then(response => (
+        this.tableMzituTags = response.data
+      ))
+    }
   }
 };
 </script>

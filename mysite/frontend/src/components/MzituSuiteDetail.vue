@@ -1,6 +1,5 @@
 <template>
   <div class="hello">
-    <h1>{{ suite_title }}</h1>
     <el-table
       header-row-class-name="center"
       :data="currentPageImages"
@@ -37,7 +36,6 @@ import { apiBase, MZITU } from "../http/api.js";
 export default {
   name: "MzituSuiteDetail",
   props: {
-    suite_title: String
   },
   data() {
     return {

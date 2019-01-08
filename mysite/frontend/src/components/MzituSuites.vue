@@ -12,7 +12,6 @@ export default {
   components: { MzituSuiteCard },
   data() {
     return {
-      msg: "Mzitu Suites",
       suites: [],
     };
   },
