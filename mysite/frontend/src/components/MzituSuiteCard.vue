@@ -1,6 +1,5 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
     <el-row>
       <el-col
         :span="elColSpan" v-for="item in suites" :key="item.id" :offset="0">
@@ -19,12 +18,14 @@
             <router-link
               :to="{ name: 'mzitu-suite-detail', params: { id: item.id }}"
               >
-              <p style="font-size: 12px;">{{ item.name }} | {{item.max_page }}张</p>
+              <p style="font-size: 12px;">{{ item.name }} | {{ item.max_page }}张</p>
             </router-link>
             <div class="bottom clearfix">
               <!-- todo: loop for tags -->
               <el-tag size="mini" v-for="tag in item.tags" :key="tag.id">
-                {{ tag.name }}
+                <router-link :to="{ name: 'mzitu-tags-detail', params: { id: tag.id }}">
+                  {{ tag.name }}
+                </router-link>
               </el-tag>
               <!-- <el-button type="text" class="button">标签2</el-button> -->
             </div>
@@ -40,7 +41,6 @@ import { apiBase, MZITU } from "../http/api.js";
 export default {
   name: "MzituSuiteCard",
   props: {
-    msg: String,
     suites: Array
   },
   data () {
@@ -74,6 +74,10 @@ export default {
 </script>
 
 <style scoped>
+a {
+  color: steelblue;
+  text-decoraction: none;
+}
 .el-card {
   margin: 1em 1em;
 }
