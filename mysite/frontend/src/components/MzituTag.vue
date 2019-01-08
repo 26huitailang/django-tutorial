@@ -1,63 +1,78 @@
 <template>
-  <el-table
-    :data="tableMzituTags"
-    style="width: 100%"
-    :default-sort="{prop: 'is_like', order: 'descending'}"
-    >
-    <el-table-column
-      sortable
-      fixed
-      prop="is_like"
-      label="喜欢"
-      width="80px">
-      <template slot-scope="scope">
-        <el-switch
-          v-model=scope.row.is_like
-          @change="handleLikeToggle(scope.row.id, scope.row.is_like, scope.$index)"
-          active-color="#13ce66"
-          inactive-color="#ff4949">
-        </el-switch>
-      </template>
-    </el-table-column>
-    <el-table-column
-      sortable
-      prop="tag"
-      label="标签"
-      width="150px">
-      <template slot-scope="scope">
-        <el-tag size="medium">
-          <a :href=scope.row.url target="_blank" :title="scope.row.name">
-            <div class="tag-name">{{ scope.row.name }}</div>
-          </a>
-        </el-tag>
-      </template>
-    </el-table-column>
-    <el-table-column
-      label="数量"
-      sortable
-      prop="suites_count"
-      width="100%">
-      <template slot-scope="scope">
-        <a @click="handleClickTagCount(scope.row.id)">{{ scope.row.suites_count }}</a>
-      </template>
-    </el-table-column>
-    <el-table-column label="操作">
-      <template slot-scope="scope">
-        <el-button
-          type="primary"
-          icon="el-icon-edit"
-          circle
-          size="mini"
-          @click="handleLikeToggle(scope.$index, scope.row)"></el-button>
-        <el-button
-          type="danger"
-          icon="el-icon-delete"
-          circle
-          size="mini"
-          @click="handleLikeToggle(scope.$index, scope.row)"></el-button>
-      </template>
-    </el-table-column>
-  </el-table>
+  <div>
+    <el-table
+      :data="currentPageData"
+      style="width: 100%"
+      row-style="height: 45px;font-size: 12px;"
+      header-row-style="55px"
+      cell-style="padding: 0"
+      :default-sort="{prop: 'is_like', order: 'descending'}"
+      >
+      <el-table-column
+        sortable
+        fixed
+        prop="is_like"
+        label="喜欢"
+        width="80px">
+        <template slot-scope="scope">
+          <el-switch
+            v-model=scope.row.is_like
+            @change="handleLikeToggle(scope.row.id, scope.row.is_like, scope.$index)"
+            active-color="#13ce66"
+            inactive-color="#ff4949">
+          </el-switch>
+        </template>
+      </el-table-column>
+      <el-table-column
+        sortable
+        prop="tag"
+        label="标签"
+        width="150px">
+        <template slot-scope="scope">
+          <el-tag size="medium">
+            <a :href=scope.row.url target="_blank" :title="scope.row.name">
+              <div class="tag-name">{{ scope.row.name }}</div>
+            </a>
+          </el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column
+        label="数量"
+        sortable
+        prop="suites_count"
+        width="100%">
+        <template slot-scope="scope">
+          <a @click="handleClickTagCount(scope.row.id)">{{ scope.row.suites_count }}</a>
+        </template>
+      </el-table-column>
+      <el-table-column label="操作">
+        <template slot-scope="scope">
+          <el-button
+            type="primary"
+            icon="el-icon-edit"
+            circle
+            size="mini"
+            @click="handleLikeToggle(scope.$index, scope.row)"></el-button>
+          <el-button
+            type="danger"
+            icon="el-icon-delete"
+            circle
+            size="mini"
+            @click="handleLikeToggle(scope.$index, scope.row)"></el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+    <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :page-sizes="[10, 20, 50]"
+        :current-page="currentPage"
+        :page-size="pageSize"
+        :pager-count="pagerCount"
+        layout="sizes, total, prev, pager, next, jumper"
+        :total="tableMzituTags.length">
+      </el-pagination>
+    </div>
 </template>
 <script>
 import { get, post } from '../http'
@@ -69,6 +84,9 @@ export default {
   data() {
     return {
       tableMzituTags: [],
+      currentPage: 1,
+      pageSize: 10,
+      pagerCount: 5,
     };
   },
   mounted() {
@@ -77,7 +95,18 @@ export default {
         this.tableMzituTags = response.data
       ))
   },
+  computed: {
+    currentPageData: function () {
+      return this.tableMzituTags.slice(this.pageSize * (this.currentPage - 1), this.pageSize * this.currentPage)
+    },
+  },
   methods: {
+    handleCurrentChange(currentPage) {
+      this.currentPage = currentPage
+    },
+    handleSizeChange(pageSize) {
+      this.pageSize = pageSize
+    },
     handleLikeToggle(id, is_like, index) {  // 这个scope传入的index和tableMzituTags 不是同一个排序
       post('mzitu/tags/' + id + '/like_toggle/')
         .then(response => (

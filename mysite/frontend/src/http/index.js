@@ -5,7 +5,7 @@ import { apiV1 } from '../http/api.js'
 // 创建axios实例
 const service = axios.create({
   baseURL: apiV1(),
-  timeout: 3000 // 请求超时时间
+  timeout: 5000 // 请求超时时间
 })
 
 // 添加request拦截器
@@ -25,7 +25,7 @@ service.interceptors.response.use(
   },
   error => {
     if (error.response && error.response.status == 404) {
-      router.push('/blank.vue')
+      router.push('/404')
     }
     return Promise.reject(error.response)
   }
