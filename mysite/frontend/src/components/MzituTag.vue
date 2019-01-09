@@ -3,9 +3,10 @@
     <el-table
       :data="currentPageData"
       style="width: 100%"
-      row-style="height: 45px;font-size: 12px;"
-      header-row-style="55px"
-      cell-style="padding: 0"
+      :row-style="rowStyle"
+      :header-row-style="headerRowStyle"
+      :cell-style="cellStyle"
+      :header-cell-style="cellStyle"
       :default-sort="{prop: 'is_like', order: 'descending'}"
       >
       <el-table-column
@@ -45,7 +46,7 @@
           <a @click="handleClickTagCount(scope.row.id)">{{ scope.row.suites_count }}</a>
         </template>
       </el-table-column>
-      <el-table-column label="操作">
+      <el-table-column label="操作" width="100%">
         <template slot-scope="scope">
           <el-button
             type="primary"
@@ -79,7 +80,6 @@ import { get, post } from '../http'
 export default {
   name: "MzituTag",
   props: {
-    msg: String
   },
   data() {
     return {
@@ -101,6 +101,15 @@ export default {
     },
   },
   methods: {
+    rowStyle({ row, rowIndex }) {
+      return 'height: 45px;font-size: 12px;'
+    },
+    headerRowStyle() {
+      return 'height: 55px'
+    },
+    cellStyle() {
+      return 'padding: 0; text-align: center;'
+    },
     handleCurrentChange(currentPage) {
       this.currentPage = currentPage
     },
@@ -119,7 +128,6 @@ export default {
           })
         ))
         .catch(error => (
-          console.log(error, error.response),
           this.tableMzituTags.forEach(function (item) {
             if (item.id === id) {
               item.is_like = is_like
@@ -133,7 +141,6 @@ export default {
   },
   watch: {
     '$route' (to, from) {
-      console.log(to.params)
       this.$router.push({ name: to.name, params: to.params})
       get("mzitu/tags/")
       .then(response => (

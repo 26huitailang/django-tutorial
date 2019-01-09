@@ -9,14 +9,14 @@
           <!-- todo: development usage -->
           <div class="cover">
             <router-link
-              :to="{ name: 'mzitu-suite-detail', params: { id: item.id }}"
+              :to="{ name: 'mzitu-suites-detail', params: { id: item.id }}"
               >
               <img v-lazy="coverImage(item.images[0].image)" class="image">
             </router-link>
           </div>
           <div style="padding: 5px 10px; height: 130px">
             <router-link
-              :to="{ name: 'mzitu-suite-detail', params: { id: item.id }}"
+              :to="{ name: 'mzitu-suites-detail', params: { id: item.id }}"
               >
               <p style="font-size: 12px;">{{ item.name }} | {{ item.max_page }}张</p>
             </router-link>

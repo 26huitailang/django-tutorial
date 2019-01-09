@@ -1,10 +1,10 @@
 <template>
   <div id="app">
     <img src="./assets/logo.png" width="50px">
-    <!-- <MzituSuite msg="Welcome to Your Mzitu App"/> -->
     <el-tabs type="border-card" v-model="activeName" @tab-click="handleTabClick">
       <el-tab-pane label="Suites" name="suites"></el-tab-pane>
       <el-tab-pane label="Tags" name="tags"></el-tab-pane>
+      <el-tab-pane label="SuitesManage" name="suites-manage"></el-tab-pane>
       <!-- 路由对应的组件渲染的地方 -->
       <router-view></router-view>
     </el-tabs>
@@ -17,7 +17,7 @@ export default {
   name: 'app',
   data() {
     return {
-      activeName: this.getCurrentActiveName(),
+      activeName: '',
     }
   },
   methods: {
@@ -29,19 +29,30 @@ export default {
         case "tags":
           this.$router.push('/mzitu/tags');
           break;
+        case "suites-manage":
+          this.$router.push({ name: 'mzitu-suites-management'})
+          break;
         default:
           this.$router.push('/mzitu/suites')
           break;
       }
     },
     getCurrentActiveName() {  // 解决Tabs刷新初始化的问题
-      const currentRoute = this.$router.currentRoute.path
-      if (currentRoute.startsWith('/mzitu/suites')) {
-        return 'suites'
-      } else if (currentRoute.startsWith('/mzitu/tags')) {
-        return 'tags'
+      const currentRouteName = this.$router.currentRoute.name
+      let result = ''
+      if (currentRouteName.startsWith('mzitu-suites')) {
+        result = 'suites'
+      } else if (currentRouteName.startsWith('mzitu-tags')) {
+        result = 'tags'
       }
-    }
+      if (currentRouteName.indexOf('management') != -1) {
+        result = 'suites-manage'
+      }
+      this.activeName = result
+    },
+  },
+  mounted() {
+    this.getCurrentActiveName()
   }
 }
 </script>
