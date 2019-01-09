@@ -18,6 +18,8 @@ from mzitu.constants import USER_AGENT_LIST
 from mzitu.models.proxy_ip import ProxyIp
 from mzitu.runtimes.suite import generate_proxies
 
+import gevent
+
 logger = get_task_logger(__name__)
 
 
@@ -111,6 +113,7 @@ def check_proxy_ip():
     with ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
         for item in items:
             executor.submit(_update_proxy_ip_score, item, url)
-    # for item in items:
-    #     _update_proxy_ip_score(item, url)
+    # 27s -> 17s
+    # task_list = [gevent.spawn(_update_proxy_ip_score, item, url) for item in items]
+    # gevent.joinall(task_list)
     return

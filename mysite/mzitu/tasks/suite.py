@@ -65,10 +65,10 @@ def get_one_pic_url(suite_url, suite_folder, nth_pic):
     """分析一个图片的url，并放入redis队列"""
     pic_full_path = os.path.join(suite_folder, "{:0>2d}.jpg".format(nth_pic))
 
-    if os.path.isfile(pic_full_path):
-        # image已经存在
-        print("已存在：{}".format(pic_full_path))
-        return
+    # if os.path.isfile(pic_full_path):
+    #     image已经存在
+        # print("已存在：{}".format(pic_full_path))
+        # return
 
     time.sleep(0.5)
     page_url = suite_url + '/{}'.format(nth_pic)
@@ -117,9 +117,10 @@ def get_suite_pages_and_start_threads(suite_url):
         file_name = suite_instance.name
         max_page_num = suite_instance.max_page
         suit_folder = os.path.join(settings.IMAGE_FOLDER, file_name)
-        item_list = glob.glob('{}/*.jpg'.format(suit_folder))
-        if len(item_list) >= max_page_num:
-            # 文件数量匹配
+        img_file_list = glob.glob('{}/*.jpg'.format(suit_folder))
+        img_obj_count = SuiteImageMap.objects.filter(suite__id=suite_instance.id).count()
+        if len(img_file_list) >= max_page_num and img_obj_count == suite_instance.max_page:
+            # 本地文件数量匹配，img数据库完整
             print("已完整下载，跳过")
             return False
         else:
@@ -144,18 +145,7 @@ def download_images_to_local():
         item = mzitu_image_queue.get()
         pic_instance = json.loads(item, object_hook=unserialize_object)
 
-        if os.path.isfile(pic_instance.full_path):
-            logger.info("已存在：{}".format(pic_instance.full_path))
-            continue
-
-        img_bytes = None
-        while not img_bytes:
-            img_bytes = requests_get(pic_instance.url, headers=generate_headers(pic_instance.header_referer))
-
-        with open(pic_instance.full_path, 'wb') as f:
-            f.write(img_bytes.content)
-
-        suite_obj = DownloadedSuite.objects.get(url=pic_instance.suite_url)
+        suite_obj = DownloadedSuite.objects.filter(url=pic_instance.suite_url).first()
         suite_image_map = SuiteImageMap(
             suite=suite_obj,
             url=pic_instance.url,
@@ -168,6 +158,19 @@ def download_images_to_local():
             suite_image_map.save()
         except IntegrityError as e:
             logger.warning(e)
+
+        if os.path.isfile(pic_instance.full_path):
+            logger.info("已存在：{}".format(pic_instance.full_path))
+            continue
+
+        img_bytes = None
+        while not img_bytes:
+            img_bytes = requests_get(pic_instance.url, headers=generate_headers(pic_instance.header_referer))
+
+        with open(pic_instance.full_path, 'wb') as f:
+            f.write(img_bytes.content)
+
+
         logger.info("Downloaded {}".format(pic_instance.url))
         time.sleep(0.5)
 
@@ -186,6 +189,8 @@ def download_one_suite(suite_url):
     # 打开对应的文件夹
     # os.system("start explorer {}".format(settings.IMAGE_FOLDER.replace('/', '\\')))
 
+    # todo: 流程可以改为解析成每页后，就用gevent分发任务了，是否下载可以用一个bool控制，不用单独下载程序
+    # todo: 现在暂时不用gevent，会造成栈溢出
     threads = []
     for i in range(MAX_DOWNLOAD_WORKER):
         thread = threading.Thread(target=download_images_to_local)

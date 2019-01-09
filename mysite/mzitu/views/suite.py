@@ -1,6 +1,6 @@
 # coding: utf-8
 
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from rest_framework import status
 from rest_framework.viewsets import GenericViewSet
 from rest_framework.decorators import action
@@ -37,6 +37,13 @@ class MzituSuiteViewSet(GenericViewSet):
         """
         serializer = MzituDownloadedSuiteSerializer(self.queryset, many=True)
         return Response(serializer.data)
+
+    def destroy(self, request, pk: str = None):
+        """delete one, local files will delete crontab with celery"""
+        item = get_object_or_404(DownloadedSuite, id=pk)
+        delete_info = item.delete()
+        return Response(delete_info)
+
 
     @action(detail=False, methods=['post'])
     def download(self, request):
