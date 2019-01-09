@@ -1,5 +1,5 @@
 <template>
-  <mzitu-suite-card :msg="msg" :suites="suites"></mzitu-suite-card>
+  <mzitu-suite-card :suites="suites"></mzitu-suite-card>
 </template>
 
 <script>
@@ -11,7 +11,6 @@ export default {
   components: { MzituSuiteCard },
   data() {
     return {
-      msg: "Mzitu Tag-Suites",
       suites: [],
     };
   },

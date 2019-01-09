@@ -1,13 +1,13 @@
 <template>
-  <MzituSuiteCard :suites="suites"></MzituSuiteCard>
+  <MzituSuiteTable :tableData="suites"></MzituSuiteTable>
 </template>
 
 <script>
-import MzituSuiteCard from './MzituSuiteCard.vue'
+import MzituSuiteTable from './MzituSuiteTable.vue'
 import { get } from '../http'
 export default {
-  name: "MzituSuites",
-  components: { MzituSuiteCard },
+  name: "MzituSuitesManagement",
+  components: { MzituSuiteTable },
   data() {
     return {
       suites: [],

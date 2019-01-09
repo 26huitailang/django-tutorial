@@ -12,7 +12,7 @@ class DownloadedSuite(models.Model):
     max_page = models.IntegerField()
     tags = models.ManyToManyField(Tag)
     created_time = models.DateTimeField(default=timezone.now)
-    is_complete = models.BooleanField(name='完整性', default=True)
+    is_complete = models.BooleanField(verbose_name='完整性', default=True)
 
     class Meta:
         ordering = ['-created_time']
