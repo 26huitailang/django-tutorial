@@ -42,7 +42,7 @@ class MzituSuiteViewSet(GenericViewSet):
         """delete one, local files will delete crontab with celery"""
         item = get_object_or_404(DownloadedSuite, id=pk)
         delete_info = item.delete()
-        return Response(delete_info)
+        return Response(delete_info, status=status.HTTP_202_ACCEPTED)
 
 
     @action(detail=False, methods=['post'])

@@ -1,5 +1,5 @@
 <template>
-  <MzituSuiteTable :tableData="suites"></MzituSuiteTable>
+  <MzituSuiteTable></MzituSuiteTable>
 </template>
 
 <script>
@@ -10,14 +10,7 @@ export default {
   components: { MzituSuiteTable },
   data() {
     return {
-      suites: [],
     };
   },
-  mounted() {
-    get("mzitu/suites/")
-      .then(response => (
-        this.suites = response.data
-      ))
-  }
 };
 </script>
