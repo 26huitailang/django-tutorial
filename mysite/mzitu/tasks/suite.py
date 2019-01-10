@@ -199,3 +199,9 @@ def download_one_suite(suite_url):
 
     for t in threads:
         t.join()
+
+    # 下载完将suite 完整性置为True
+    suite_obj = DownloadedSuite.objects.filter(url=suite_url, is_complete=False).first()
+    suite_obj.is_complete = True
+    suite_obj.save()
+    return

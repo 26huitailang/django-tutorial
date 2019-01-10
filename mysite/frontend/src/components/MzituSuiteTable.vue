@@ -13,7 +13,7 @@
       <el-table-column prop="name" label="名称" width="100%"></el-table-column>
       <el-table-column sortable prop="tag" label="标签" width="150px">
         <template slot-scope="scope">
-          <el-dropdown size="mini" split-button type="primary">
+          <el-dropdown size="mini" split-button type="info">
             {{ scope.row.tags.length }}
             <el-dropdown-menu slot="dropdown">
               <span v-for="tag in scope.row.tags" :key="tag.id">
@@ -27,38 +27,64 @@
           </el-dropdown>
         </template>
       </el-table-column>
-      <el-table-column label="图片" sortable width="100%">
+      <el-table-column label="图片" width="100%">
         <template slot-scope="scope">
           <el-popover placement="right-end" title="预览" width="400" trigger="hover">
             <div class="block">
               <el-carousel type="card" height="300px" style="text-align: center">
                 <el-carousel-item v-for="item in scope.row.images.slice(0, 5)" :key="item.id">
-                  <img :src="getPreviewImage(item.image)" style="height: 300px;margin: 0 auto;">
+                  <img v-lazy="getPreviewImage(item.image)" style="height: 300px;margin: 0 auto;">
                 </el-carousel-item>
               </el-carousel>
             </div>
-            <el-button slot="reference">
-              <a @click="handleClickCount(scope.row.id)">{{ scope.row.images.length }}</a>
+            <el-button size="mini" slot="reference" @click="handleClickCount(scope.row.id)">
+              <a>{{ scope.row.images.length }}</a>
             </el-button>
           </el-popover>
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="100%">
+      <el-table-column label="操作" width="220px">
         <template slot-scope="scope">
-          <el-button
-            type="primary"
-            icon="el-icon-edit"
-            circle
-            size="mini"
-            @click="handleLikeToggle(scope.$index, scope.row)"
-          ></el-button>
-          <el-button
-            type="danger"
-            icon="el-icon-delete"
-            circle
-            size="mini"
-            @click="handleLikeToggle(scope.$index, scope.row)"
-          ></el-button>
+          <el-popover
+            trigger="click"
+            placement="bottom-end"
+            width="100"
+            :ref="'popover-download-' + scope.$index"
+          >
+            <p>确认重新下载吗？</p>
+            <div style="text-align: right; margin: 0">
+              <el-button
+                size="mini"
+                type="text"
+                @click="scope._self.$refs[`popover-download-${scope.$index}`].doClose()"
+              >取消</el-button>
+              <el-button type="primary" size="mini" @click="popoverSubmit(scope, 'download')">确定</el-button>
+            </div>
+            <el-button
+              type="warning"
+              size="mini"
+              plain
+              slot="reference"
+              :disabled="scope.row.is_complete"
+            >重新下载</el-button>
+          </el-popover>
+          <el-popover
+            trigger="click"
+            placement="bottom-end"
+            width="100"
+            :ref="'popover-delete-' + scope.$index"
+          >
+            <p>确认删除吗？</p>
+            <div style="text-align: right; margin: 0">
+              <el-button
+                size="mini"
+                type="text"
+                @click="scope._self.$refs[`popover-delete-${scope.$index}`].doClose()"
+              >取消</el-button>
+              <el-button type="primary" size="mini" @click="popoverSubmit(scope, 'delete')">确定</el-button>
+            </div>
+            <el-button type="danger" size="mini" plain slot="reference">删除</el-button>
+          </el-popover>
         </template>
       </el-table-column>
     </el-table>
@@ -75,21 +101,24 @@
   </div>
 </template>
 <script>
-import { get, post } from "../http";
+import { get, post, _delete } from "../http";
 import { apiBase, MZITU } from "../http/api.js";
 export default {
   name: "MzituSuiteTable",
   props: {
-    tableData: Array
   },
   data() {
     return {
       currentPage: 1,
       pageSize: 10,
-      pagerCount: 5
+      pagerCount: 5,
+      popoverVisible: false,
+      tableData: [],
     };
   },
-  mounted() {},
+  mounted() {
+    this.getList()
+  },
   computed: {
     currentPageData: function() {
       return this.tableData.slice(
@@ -99,6 +128,7 @@ export default {
     }
   },
   methods: {
+    // Style
     rowStyle({ row, rowIndex }) {
       return "height: 45px;font-size: 12px;";
     },
@@ -110,6 +140,23 @@ export default {
     },
     getPreviewImage(media_url) {
       return apiBase() + media_url;
+    },
+    popoverSubmit(scope, type) {
+      if (type === "delete") {
+        this.deleteSuite(scope);
+      }
+      scope._self.$refs[`popover-${type}-${scope.$index}`].doClose();
+    },
+    deleteSuite(scope) {
+      _delete(MZITU(scope.row.id).SuitesDetail).then(response => {
+        this.$message(response.data),
+        this.getList()
+      }).catch(error => {
+        this.$message(error)
+      });
+    },
+    getList() {
+      get("mzitu/suites/").then(response => (this.tableData = response.data));
     },
     handleCurrentChange(currentPage) {
       this.currentPage = currentPage;
@@ -201,13 +248,12 @@ a {
   object-fit: cover;
   position: relative;
   -webkit-transform: translateX(-50%);
-	-ms-transform: translateX(-50%);
-	-moz-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  -moz-transform: translateX(-50%);
 }
 .el-carousel__item:nth-child(2n) {
   background-color: #99a9bf;
 }
-
 .el-carousel__item:nth-child(2n + 1) {
   background-color: #d3dce6;
 }
