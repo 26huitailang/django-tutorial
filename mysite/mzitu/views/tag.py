@@ -15,7 +15,7 @@ from mzitu.serializers import (
 
 class TagViewSet(GenericViewSet):
     serializer_class = TagSerializer
-    queryset = Tag.objects.all()
+    queryset = Tag.objects
 
     def list(self, request):
         """tag list"""

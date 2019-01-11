@@ -11,7 +11,7 @@ from mzitu.tasks.proxy_ip import get_proxy_ips_and_insert_db
 
 class ProxyIpViewSet(GenericViewSet):
     serializer_class = MzituDownloadedSuiteSerializer
-    queryset = ProxyIp.objects.all()
+    queryset = ProxyIp.objects
 
     def create(self, request):
         """获取新的proxy ip"""

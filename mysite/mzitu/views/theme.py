@@ -12,7 +12,7 @@ from mzitu.tasks.theme import download_one_theme
 
 class MzituThemeViewSet(GenericViewSet):
     serializer_class = MzituDownloadedSuiteSerializer
-    queryset = DownloadedSuite.objects.all()
+    queryset = DownloadedSuite.objects
 
     def create(self, request):
         """获取主题但不下载"""
