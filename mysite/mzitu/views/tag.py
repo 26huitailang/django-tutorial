@@ -23,6 +23,22 @@ class TagViewSet(GenericViewSet):
 
         return Response(serializer.data)
 
+    def destroy(self, request, pk: str = None):
+        """delete one tag by id"""
+        instance = get_object_or_404(Tag, id=pk)
+        suite_count_with_tag = instance.downloadedsuite_set.count()
+        if suite_count_with_tag != 0:
+            return Response('still have suites {}'.format(suite_count_with_tag),
+                            status=status.HTTP_400_BAD_REQUEST)
+
+        if instance.is_like:
+            return Response('is like {}'.format(instance.is_like),
+                            status=status.HTTP_400_BAD_REQUEST)
+
+        instance.delete()
+        return Response('deleted {}'.format(instance.name),
+                        status=status.HTTP_202_ACCEPTED)
+
     @action(detail=True, methods=['get'])
     def suites(self, request, pk: str = None):
         instance = get_object_or_404(Tag, id=pk)

@@ -7,8 +7,7 @@ from rest_framework.response import Response
 
 from mzitu.models.downloaded_suite import DownloadedSuite
 from mzitu.serializers import MzituDownloadedSuiteSerializer
-from mzitu.runtimes.theme import get_suite_urls_to_redis
-from mzitu.tasks.suite import download_one_suite
+from mzitu.tasks.theme import download_one_theme
 
 
 class MzituThemeViewSet(GenericViewSet):
@@ -26,10 +25,9 @@ class MzituThemeViewSet(GenericViewSet):
     @action(detail=False, methods=['post'])
     def download(self, request):
         """获取要下载图片的suit列表，并下载到文件夹"""
-        # todo: debug, socket timeout 问题
+        # debug, socket timeout 全部delay为一个task
         theme_url = request.GET['theme_url']
-        suite_url_list = get_suite_urls_to_redis(theme_url)
-        for suite in suite_url_list:
-            download_one_suite.delay(suite)
-        return Response({'message': 'delayed {}'.format(len(suite_url_list)), 'themes': suite_url_list},
+        download_one_theme.delay(theme_url)
+
+        return Response('delayed, please check later: {}'.format(theme_url),
                         status=status.HTTP_202_ACCEPTED)
