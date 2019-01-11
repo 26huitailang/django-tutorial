@@ -1,5 +1,6 @@
 # coding: utf-8
 
+import json
 from django.shortcuts import render, get_object_or_404
 from rest_framework import status
 from rest_framework.viewsets import GenericViewSet
@@ -14,7 +15,8 @@ from mzitu.tasks.suite import download_one_suite
 
 class MzituSuiteViewSet(GenericViewSet):
     serializer_class = MzituDownloadedSuiteSerializer
-    queryset = DownloadedSuite.objects.all()
+    # FBI Warning: 这里用.all()获取的话，会导致修改数据更新不及时
+    queryset = DownloadedSuite.objects
 
     @swagger_auto_schema(deprecated=True)
     def create(self, request):
@@ -35,14 +37,17 @@ class MzituSuiteViewSet(GenericViewSet):
     def list(self, request):
         """Suite list
         """
-        serializer = MzituDownloadedSuiteSerializer(self.queryset, many=True)
-        return Response(serializer.data)
+        serializer = MzituDownloadedSuiteSerializer(self.queryset.all(), many=True)
+        # 这里存在读取和sqlite数据不一致的问题，调用删除后，不重启应用，会读到已删除的suite对象，不过关联的字段都是空的
+        # 不要在queryset提前获取数据
+        resp = serializer.data
+        return Response(resp)
 
     def destroy(self, request, pk: str = None):
         """delete one, local files will delete crontab with celery"""
         item = get_object_or_404(DownloadedSuite, id=pk)
         delete_info = item.delete()
-        return Response(delete_info, status=status.HTTP_202_ACCEPTED)
+        return Response(json.dumps(delete_info), status=status.HTTP_202_ACCEPTED)
 
 
     @action(detail=False, methods=['post'])

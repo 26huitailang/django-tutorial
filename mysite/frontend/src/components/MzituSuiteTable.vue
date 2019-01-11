@@ -10,7 +10,11 @@
       :default-sort="{prop: 'created_time', order: 'descending'}"
     >
       <el-table-column sortable prop="created_time" label="日期" width="150px"></el-table-column>
-      <el-table-column prop="name" label="名称" width="100%"></el-table-column>
+      <el-table-column prop="name" label="名称" width="150px" :show-overflow-tooltip="true">
+        <template slot-scope="scope">
+          <a @click="handleClickCount(scope.row.id)">{{ scope.row.name }}</a>
+        </template>
+      </el-table-column>
       <el-table-column sortable prop="tag" label="标签" width="150px">
         <template slot-scope="scope">
           <el-dropdown size="mini" split-button type="info">
@@ -29,7 +33,7 @@
       </el-table-column>
       <el-table-column label="图片" width="100%">
         <template slot-scope="scope">
-          <el-popover placement="right-end" title="预览" width="400" trigger="hover">
+          <el-popover placement="top" title="预览" width="400" trigger="hover">
             <div class="block">
               <el-carousel type="card" height="300px" style="text-align: center">
                 <el-carousel-item v-for="item in scope.row.images.slice(0, 5)" :key="item.id">
@@ -37,13 +41,17 @@
                 </el-carousel-item>
               </el-carousel>
             </div>
-            <el-button size="mini" slot="reference" @click="handleClickCount(scope.row.id)">
-              <a>{{ scope.row.images.length }}</a>
-            </el-button>
+            <el-button
+              size="mini"
+              slot="reference"
+            >{{ scope.row.locals_count }}/{{ scope.row.max_page }}</el-button>
           </el-popover>
         </template>
       </el-table-column>
       <el-table-column label="操作" width="220px">
+        <template slot="header" slot-scope="scope">
+          <el-button type="text" @click="dialogVisible = true">添加</el-button>
+        </template>
         <template slot-scope="scope">
           <el-popover
             trigger="click"
@@ -98,6 +106,14 @@
       layout="sizes, total, prev, pager, next, jumper"
       :total="tableData.length"
     ></el-pagination>
+    <el-dialog title="下载" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
+      <el-input placeholder="Suite or Theme URL" v-model="downloadSuiteUrl" clearable></el-input>
+      <el-checkbox v-model="downloadIsTheme">isTheme</el-checkbox>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="handleClickAddSuite" :loading="loadingAddSuite">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -105,8 +121,7 @@ import { get, post, _delete } from "../http";
 import { apiBase, MZITU } from "../http/api.js";
 export default {
   name: "MzituSuiteTable",
-  props: {
-  },
+  props: {},
   data() {
     return {
       currentPage: 1,
@@ -114,10 +129,13 @@ export default {
       pagerCount: 5,
       popoverVisible: false,
       tableData: [],
+      dialogVisible: false,
+      downloadSuiteUrl: "",
+      loadingAddSuite: false
     };
   },
   mounted() {
-    this.getList()
+    this.getList();
   },
   computed: {
     currentPageData: function() {
@@ -125,7 +143,14 @@ export default {
         this.pageSize * (this.currentPage - 1),
         this.pageSize * this.currentPage
       );
-    }
+    },
+    downloadIsTheme() {
+      if (this.downloadSuiteUrl.indexOf('tag') > 0) {
+        return true
+      }
+      return false
+    },
+
   },
   methods: {
     // Style
@@ -144,19 +169,48 @@ export default {
     popoverSubmit(scope, type) {
       if (type === "delete") {
         this.deleteSuite(scope);
+      } else if (type === "download") {
+        this.handleDownloadSuite(scope.row.url); // todo 下载后轮训，试试dwebsocket
       }
       scope._self.$refs[`popover-${type}-${scope.$index}`].doClose();
     },
     deleteSuite(scope) {
-      _delete(MZITU(scope.row.id).SuitesDetail).then(response => {
-        this.$message(response.data),
-        this.getList()
-      }).catch(error => {
-        this.$message(error)
-      });
+      _delete(MZITU(scope.row.id).SuitesDetail)
+        .then(response => {
+          this.$message({ message: response.data, type: "success" });
+          this.getList();
+        })
+        .catch(error => {
+          this.$message({ message: error, type: "error" });
+        });
+    },
+    handleDownloadSuite(url) {
+      post(MZITU().SuitesDownload + url)
+        .then(response => {
+          this.$message({ message: response.data, type: "success" });
+        })
+        .catch(error => {
+          this.$message({ message: error, type: "error" });
+        });
     },
     getList() {
       get("mzitu/suites/").then(response => (this.tableData = response.data));
+    },
+    handleClickAddSuite() {
+      this.loadingAddSuite = true;
+      if (this.downloadIsTheme) {
+        post(MZITU().ThemesDownload + this.downloadSuiteUrl)
+          .then(response => {
+            this.$message({ message: response.data, type: "success" });
+          })
+          .catch(error => {
+            this.$message({ message: error, type: "error" });
+          });
+      } else {
+        this.handleDownloadSuite(this.downloadSuiteUrl);
+      }
+      this.loadingAddSuite = false;
+      this.dialogVisible = false;
     },
     handleCurrentChange(currentPage) {
       this.currentPage = currentPage;
@@ -186,13 +240,20 @@ export default {
     },
     handleClickCount(id) {
       this.$router.push({ name: "mzitu-suites-detail", params: { id: id } });
+    },
+    handleClose(done) {
+      this.$confirm("确认关闭？")
+        .then(_ => {
+          done();
+        })
+        .catch(_ => {});
     }
   },
   watch: {
     $route(to, from) {
       this.$router.push({ name: to.name, params: to.params });
       get("mzitu/tags/").then(response => (this.tableData = response.data));
-    }
+    },
   }
 };
 </script>

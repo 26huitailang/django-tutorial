@@ -3,4 +3,5 @@
 
 from . import (  # noqa: F401
     proxy_ip,
+    local_imgs,
 )

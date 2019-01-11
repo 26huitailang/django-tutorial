@@ -1,9 +1,13 @@
 #!/usr/bin/env python
 # coding=utf-8
-import random
+
+import os
 import time
+import glob
+import random
 import logging
 import requests
+from django.conf import settings
 
 from mzitu.constants import USER_AGENT_LIST
 from mzitu.models.proxy_ip import ProxyIp
@@ -84,3 +88,17 @@ class PicJsonRedis(object):
         self.url = url
         self.header_referer = header_referer
         self.suite_url = suite_url  # 后面用于查找外键
+
+
+def get_local_suite_img_list(suite_name: str = None) -> list:
+    """获取本地suite的图片列表"""
+    if suite_name is None:
+        return []
+    suite_path = os.path.join(settings.IMAGE_FOLDER, suite_name)
+    img_file_list = glob.glob('{}/*.jpg'.format(suite_path))
+    return img_file_list
+
+
+def get_local_suite_count(suite_name: str = None) -> int:
+    """本地suite图片数量"""
+    return len(get_local_suite_img_list(suite_name))

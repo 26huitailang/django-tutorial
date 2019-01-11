@@ -17,7 +17,13 @@ from django_vises.runtimes.instance_serializer import serialize_instance, unseri
 from mzitu.models.downloaded_suite import DownloadedSuite, SuiteImageMap
 from mzitu.models.tag import Tag
 from mzitu.runtimes.redis import mzitu_image_queue
-from mzitu.runtimes.suite import requests_get, proxy_request, generate_headers, PicJsonRedis
+from mzitu.runtimes.suite import (
+    requests_get,
+    proxy_request,
+    generate_headers,
+    PicJsonRedis,
+    get_local_suite_count,
+)
 
 logger = get_task_logger(__name__)
 
@@ -114,12 +120,11 @@ def get_suite_pages_and_start_threads(suite_url):
     if is_created is False:
         # 如果数据库有记录，则看看本地文件是否完整
         print("该套牌已在DB中，确认是否存在，确认套图是否完整...")
-        file_name = suite_instance.name
+        suite_name = suite_instance.name
         max_page_num = suite_instance.max_page
-        suit_folder = os.path.join(settings.IMAGE_FOLDER, file_name)
-        img_file_list = glob.glob('{}/*.jpg'.format(suit_folder))
+        img_local_file_count = get_local_suite_count(suite_name)
         img_obj_count = SuiteImageMap.objects.filter(suite__id=suite_instance.id).count()
-        if len(img_file_list) >= max_page_num and img_obj_count == suite_instance.max_page:
+        if img_local_file_count >= max_page_num and img_obj_count == suite_instance.max_page:
             # 本地文件数量匹配，img数据库完整
             print("已完整下载，跳过")
             return False
@@ -177,8 +182,7 @@ def download_images_to_local():
     return
 
 
-@shared_task
-def download_one_suite(suite_url):
+def get_one_suite_and_download(suite_url):
     resp = get_suite_pages_and_start_threads(suite_url)
     # 如果重复的话resp是False，其他为None
     if resp is False:
@@ -204,4 +208,10 @@ def download_one_suite(suite_url):
     suite_obj = DownloadedSuite.objects.filter(url=suite_url, is_complete=False).first()
     suite_obj.is_complete = True
     suite_obj.save()
+    return
+
+
+@shared_task
+def download_one_suite(suite_url):
+    get_one_suite_and_download(suite_url)
     return
