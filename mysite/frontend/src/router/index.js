@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import Login from '../components/Login.vue'
 import MzituSuites from '../components/MzituSuites.vue'
 import MzituSuiteDetail from '../components/MzituSuiteDetail.vue'
 import MzituTag from '../components/MzituTag.vue'
@@ -11,6 +12,7 @@ Vue.use(VueRouter)
 const routes = [
   // todo: home page
   { 'path': '/', redirect: '/mzitu/suites' },
+  { 'path': '/login', name: 'login' , component: Login },
   { 'path': '/mzitu/suites', 'name': 'mzitu-suites-card', component: MzituSuites },
   { 'path': '/mzitu/suites/management', 'name': 'mzitu-suites-management', component: MzituSuitesManagement },
   { 'path': '/mzitu/suites/:id', 'name': 'mzitu-suites-detail', component: MzituSuiteDetail },

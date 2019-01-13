@@ -20,6 +20,7 @@ from django.conf import settings
 from django.contrib import admin
 from django.views.generic.base import TemplateView
 from mysite.deploy_level import DeployLevel
+from rest_framework.authtoken import views
 
 from .api import v1_urlpatterns as v1_api_urlpatterns
 from .api import v2_urlpatterns as v2_api_urlpatterns
@@ -30,6 +31,7 @@ urlpatterns = [
     # path('api/v1/', include((api_urls, 'v1'), namespace='v1')),
     # path('api/v2/', include((api_urls, 'v2'), namespace='v2')),
     path('', TemplateView.as_view(template_name="index.html")),
+    url(r'^api-token-auth/', views.obtain_auth_token),
 ]
 
 if settings.DEPLOY_LEVEL <= DeployLevel.develop:

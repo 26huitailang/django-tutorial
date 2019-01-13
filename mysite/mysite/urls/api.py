@@ -17,13 +17,14 @@ from django.conf.urls import url, include
 from users.urls import users_urlpatterns, auth_urlpatterns
 from mzitu.urls import urlpatterns as mzitu_urlpatterns
 
+
 # api base v1
 v1_urlpatterns = [
     url(r'polls/', include('polls.urls')),
     url(r'mzitu/', include(mzitu_urlpatterns)),
     url(r'influxdb_plotly/', include('influxdb_plotly.urls')),
     url(r'users/', include(users_urlpatterns)),
-    url(r'auth/', include(auth_urlpatterns))
+    url(r'auth/', include(auth_urlpatterns)),
 ]
 
 # todo: version test

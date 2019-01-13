@@ -11,6 +11,8 @@ from rest_framework.permissions import IsAdminUser
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from django.shortcuts import get_object_or_404
+from django.views.decorators.csrf import csrf_exempt
+from drf_yasg.utils import swagger_auto_schema
 
 from users.serializers import (
     UserSerializer,
@@ -25,12 +27,18 @@ logger = logging.getLogger(__name__)
 
 class UsersViewSet(GenericViewSet):
     """通过session确定认证，这个viewset下面的api需要session认证通过才能访问"""
-    authentication_classes = (SessionAuthentication, )
+    # authentication_classes = (SessionAuthentication, )
+    permission_classes = (IsAdminUser,)
     # versioning_class = URLPathVersioning
     serializer_class = UserSerializer
     queryset = User.objects
 
-    @permission_classes((IsAdminUser, ))
+    # def get_permissios(self, request):
+    #     """按不同action返回权限类"""
+    #     self.action
+    #     request.method
+    #     pass
+
     def retrieve(self, request, pk=None):
         """指定用户信息
         """
@@ -38,7 +46,7 @@ class UsersViewSet(GenericViewSet):
         serializer = self.get_serializer(user)
         return Response(serializer.data)
 
-    @permission_classes((IsAdminUser, ))
+    # @permission_classes((IsAdminUser, ))
     def list(self, request):
         """users列表
         """
@@ -46,7 +54,6 @@ class UsersViewSet(GenericViewSet):
         users = self.queryset.values('id', 'username', 'is_staff')
         return Response({'data': users})
 
-    @permission_classes((IsSuperuserPermission, ))
     def create(self, request):
         """创建用户
         """
@@ -68,7 +75,6 @@ class UsersViewSet(GenericViewSet):
         user.save()
         return Response('ok', status=status.HTTP_201_CREATED)
 
-    @permission_classes((IsSuperuserPermission, ))
     def destroy(self, request, pk=None):
         """删除用户
         """
@@ -106,6 +112,7 @@ class AuthViewSet(GenericViewSet):
 
     queryset = User.objects
 
+    @swagger_auto_schema(deprecated=True)
     @action(detail=False, methods=['POST'], permission_classes=[])  # 覆盖全局设置，避免IsAuthenticated限制login
     def login(self, request):
         """登录
@@ -139,6 +146,7 @@ class AuthViewSet(GenericViewSet):
             return Response('invalid username or password', status=status.HTTP_400_BAD_REQUEST)
 
     # 需要用户已经已通过认证
+    @swagger_auto_schema(deprecated=True)
     @action(detail=False, methods=['GET'])
     def logout(self, request):
         """注销登录

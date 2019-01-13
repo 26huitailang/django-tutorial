@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'drf_yasg',  # api docs
     # 'channels',  # websocket
     'rest_framework',
+    'rest_framework.authtoken',
     'corsheaders',
     'mzitu',
     'polls',
@@ -157,17 +158,21 @@ INFLUXDB_CONF = {
 }
 
 REST_FRAMEWORK = {
-#     'DEFAULT_AUTHENTICATION_CLASSES': (
-#         'rest_framework.authentication.BasicAuthentication',
-#         'rest_framework.authentication.SessionAuthentication',
-#     ),
-#     'DEFAULT_PERMISSION_CLASSES': (
-#         'rest_framework.permissions.IsAuthenticated',
-#     ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        # 'rest_framework.authentication.BasicAuthentication',
+        # 'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
     'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.NamespaceVersioning',
     # 'DEFAULT_VERSION': 'v1',
     'ALLOWED_VERSIONS': ['v1', 'v2'],
 }
+# USE_SESSION_AUTH = True
+LOGIN_URL = '/api/v1/auth/login/'
+LOGOUT_URL = '/api/v1/auth/logout/'
 
 # Sessions
 SESSION_COOKIE_AGE = 43200
@@ -191,6 +196,7 @@ CORS_ALLOW_HEADERS = (
     'X_FILENAME',
     'accept-encoding',
     'authorization',
+    'Authorization',
     'content-type',
     'dnt',
     'origin',

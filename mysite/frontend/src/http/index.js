@@ -5,11 +5,17 @@ import { apiV1 } from '../http/api.js'
 // 创建axios实例
 const service = axios.create({
   baseURL: apiV1(),
-  timeout: 5000 // 请求超时时间
+  timeout: 5000,  // 请求超时时间
+  withCredentials: true,  // 允许携带cookie
 })
 
 // 添加request拦截器
 service.interceptors.request.use(config => {
+  let token = sessionStorage.getItem('token');
+  console.log(token);
+  if (config.url.indexOf('api-token-auth') < 0) {
+    config.headers.Authentization = 'Token ' + token;
+  }
   return config
 }, error => {
   Promise.reject(error)
@@ -21,13 +27,22 @@ service.interceptors.response.use(
     let res = {};
     res.status = response.status
     res.data = response.data;
+    res.headers = response.headers;
     return res;
   },
   error => {
-    if (error.response && error.response.status == 404) {
-      router.push('/404')
+    if (error.response) {
+      if (error.response.status === 404) {
+        router.push('/404')
+      } else if (error.response.status === 403) {  // DRF session authentication 返回的是403
+        if (error.response.data.detail === 'Authentication credentials were not provided.') {
+          router.push('/login')
+        }
+      } else if (error.response.status === 401) {  // token 认证
+        router.push('/login')
+      }
+      return Promise.reject(error.response)
     }
-    return Promise.reject(error.response)
   }
 )
 
@@ -49,7 +64,7 @@ export function post(url, data = {}) {
     url: url,
     method: 'post',
     headers: {
-      'Content-Type': 'application/json;charset=UTF-8'
+      'Content-Type': 'application/json;charset=UTF-8',
     },
     data: data
   };

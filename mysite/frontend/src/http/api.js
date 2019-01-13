@@ -15,6 +15,14 @@ export function apiV1() {
   return apiBase() + '/api/v1'
 }
 
+export function AUTH () {
+  return {
+    TokenAuth: apiBase() + '/api-token-auth/',
+    Login: apiV1() + '/auth/login/',
+    Logout: apiV1() + '/auth/logout/',
+  }
+}
+
 export function MZITU (id) {
   return {
     SuitesDownload: apiV1() + '/mzitu/suites/download/?suite_url=',

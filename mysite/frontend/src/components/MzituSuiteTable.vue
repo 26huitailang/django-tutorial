@@ -33,10 +33,10 @@
       </el-table-column>
       <el-table-column label="图片" width="100%">
         <template slot-scope="scope">
-          <el-popover placement="top" title="预览" width="400" trigger="hover">
+          <el-popover placement="top" title="预览" width="400" trigger="click">
             <div class="block">
               <el-carousel type="card" height="300px" style="text-align: center">
-                <el-carousel-item v-for="item in scope.row.images.slice(0, 5)" :key="item.id">
+                <el-carousel-item v-for="item in stepFilterImages(scope.row.images)" :key="item.id">
                   <img v-lazy="getPreviewImage(item.image)" style="height: 300px;margin: 0 auto;">
                 </el-carousel-item>
               </el-carousel>
@@ -247,6 +247,12 @@ export default {
           done();
         })
         .catch(_ => {});
+    },
+    stepFilterImages(imagesList) {
+      let step = Math.round(imagesList.length / 5)  // 四舍五入
+      return imagesList.filter((element, index, array) => {
+        return index % step === 0
+      })
     }
   },
   watch: {
