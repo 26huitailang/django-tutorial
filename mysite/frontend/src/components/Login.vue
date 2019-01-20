@@ -50,6 +50,8 @@ export default {
             response => {
               console.log(response)
               sessionStorage.setItem('token', response.data.token)
+              sessionStorage.setItem('user_id', response.data.user_id)
+              sessionStorage.setItem('user_name', response.data.user_name)
               this.$message({ message: response.data, type: 'success'} )
               this.$router.push('/')
             }

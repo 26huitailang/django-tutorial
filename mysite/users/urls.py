@@ -17,11 +17,11 @@ app_name = 'users'
 
 auth_router = routers.DefaultRouter()
 auth_router.register(r'',
-                     views.AuthViewSet,
+                     views.users.AuthViewSet,
                      base_name='api-auth')
 users_router = routers.DefaultRouter()
 users_router.register(r'',
-                      views.UsersViewSet,
+                      views.users.UsersViewSet,
                       base_name='api-users')
 
 users_urlpatterns = [

@@ -1,6 +1,7 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png" width="50px">
+    <!-- <img src="./assets/logo.png" width="50px"> -->
+    <avatar-header></avatar-header>
     <el-tabs type="border-card" v-model="activeName" @tab-click="handleTabClick">
       <el-tab-pane label="Suites" name="suites"></el-tab-pane>
       <el-tab-pane label="Tags" name="tags"></el-tab-pane>
@@ -12,9 +13,10 @@
 </template>
 
 <script>
-
+import AvatarHeader from "./components/AvatarHeader.vue";
 export default {
   name: 'app',
+  components: { AvatarHeader },
   data() {
     return {
       activeName: '',

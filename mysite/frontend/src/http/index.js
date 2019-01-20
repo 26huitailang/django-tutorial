@@ -14,10 +14,11 @@ service.interceptors.request.use(config => {
   let token = sessionStorage.getItem('token');
   console.log(token);
   if (config.url.indexOf('api-token-auth') < 0) {
-    config.headers.Authentization = 'Token ' + token;
+    config.headers.Authorization = 'Token ' + token;
   }
   return config
 }, error => {
+  console.log(error);
   Promise.reject(error)
 })
 

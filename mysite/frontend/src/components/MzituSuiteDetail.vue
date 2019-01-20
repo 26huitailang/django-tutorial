@@ -1,19 +1,15 @@
 <template>
   <div class="hello">
-    <el-table
-      header-row-class-name="center"
-      :data="currentPageImages"
-      style="width: 600px;">
-      <el-table-column
-        align="center"
-        prop="image"
-        :label="title"
-        >
+    <el-table header-row-class-name="center" :data="currentPageImages" style="width: 600px;">
+      <el-table-column align="center" prop="image" :label="title">
         <template slot-scope="scope">
-          <img :key="scope.row.id"
+          <img
+            :key="scope.row.id"
             v-lazy="getImgUrl(scope.row.image)"
             @click="handleImgClick"
-            class="image" alt="" />
+            class="image"
+            alt
+          >
         </template>
       </el-table-column>
     </el-table>
@@ -25,18 +21,18 @@
       :page-size="pageSize"
       :pager-count="pagerCount"
       layout="sizes, total, prev, pager, next, jumper"
-      :total="allImages.length">
-    </el-pagination>
+      :total="allImages.length"
+    ></el-pagination>
   </div>
 </template>
 
 <script>
 import { apiBase, MZITU } from "../http/api.js";
+import { get } from "../http";
 
 export default {
   name: "MzituSuiteDetail",
-  props: {
-  },
+  props: {},
   data() {
     return {
       currentPage: 1,
@@ -47,62 +43,66 @@ export default {
     };
   },
   methods: {
-    getImgUrl: function (media_url) {
-      return apiBase() + media_url
+    getImgUrl: function(media_url) {
+      return apiBase() + media_url;
     },
     handleCurrentChange(currentPage) {
-      this.currentPage = currentPage
+      this.currentPage = currentPage;
     },
     handleSizeChange(pageSize) {
-      this.pageSize = pageSize
+      this.pageSize = pageSize;
     },
     // todo: 点击图片翻页的操作，之后用漂亮的弹窗替换
     handleImgClick() {
       if (this.currentPage === this.allImages.length) {
-        this.$message('已是最后一页');
+        this.$message("已是最后一页");
       } else {
-        this.currentPage += 1
+        this.currentPage += 1;
       }
     }
   },
   computed: {
-    currentPageImages: function () {
-      return this.allImages.slice(this.pageSize * (this.currentPage - 1), this.pageSize * this.currentPage)
-    },
+    currentPageImages: function() {
+      return this.allImages.slice(
+        this.pageSize * (this.currentPage - 1),
+        this.pageSize * this.currentPage
+      );
+    }
   },
   mounted() {
-    this.axios
-      .get(MZITU().SuitesList + this.$route.params.id)
-      .then(response => (
-        this.allImages = response.data.images,
-        this.title = response.data.name
-      ))
+    get(MZITU(this.$route.params.id).SuitesDetail).then(
+      response => {
+        (this.allImages = response.data.images),
+        (this.title = response.data.name)
+      }
+    );
   }
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  .el-table {
-    height: 100%;
-    margin: 0 auto;
-  }
-  .el-table__body {
-    width: 100%;
-    margin: 0 auto;
-  }
-  .el-table__header {
-    width: 100%;
-    margin: 0 auto;
-  }
-  a {
-    color: #42b983;
-  }
-  img[lazy="loaded"] {}
-  .image {
-    margin: 10px auto;
-    width: 500px;
-    height: 100%;
-    display: block;
-  }
+.el-table {
+  height: 100%;
+  margin: 0 auto;
+}
+.el-table__body {
+  width: 100%;
+  margin: 0 auto;
+}
+.el-table__header {
+  width: 100%;
+  margin: 0 auto;
+}
+a {
+  color: #42b983;
+}
+img[lazy="loaded"] {
+}
+.image {
+  margin: 10px auto;
+  width: 500px;
+  height: 100%;
+  display: block;
+}
 </style>

@@ -196,7 +196,6 @@ CORS_ALLOW_HEADERS = (
     'X_FILENAME',
     'accept-encoding',
     'authorization',
-    'Authorization',
     'content-type',
     'dnt',
     'origin',

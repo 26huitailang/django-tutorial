@@ -28,9 +28,9 @@ export function MZITU (id) {
     SuitesDownload: apiV1() + '/mzitu/suites/download/?suite_url=',
     ThemesDownload: apiV1() + '/mzitu/themes/download/?theme_url=',
     SuitesList: apiV1() + '/mzitu/suites/',
-    SuitesDetail: apiV1() + `/mzitu/suites/${id}`,
+    SuitesDetail: apiV1() + `/mzitu/suites/${id}/`,
     // SuitesDetail: this.SuitesList + `${id}`,
     Tags: apiV1() + '/mzitu/tags/',
-    TagDelete: apiV1() + `/mzitu/tags/${id}`,
+    TagDelete: apiV1() + `/mzitu/tags/${id}/`,
   }
 }
