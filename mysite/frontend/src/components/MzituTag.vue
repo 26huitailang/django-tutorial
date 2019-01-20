@@ -2,14 +2,14 @@
   <div>
     <el-table
       :data="currentPageData"
-      style="width: 100%"
+      style="width: 550px;margin-left: auto;margin-right: auto;"
       :row-style="rowStyle"
       :header-row-style="headerRowStyle"
       :cell-style="cellStyle"
       :header-cell-style="cellStyle"
       :default-sort="{prop: 'is_like', order: 'descending'}"
     >
-      <el-table-column sortable fixed prop="is_like" label="喜欢" width="80px">
+      <el-table-column sortable fixed prop="is_like" label="喜欢" width="100%">
         <template slot-scope="scope">
           <el-switch
             v-model="scope.row.is_like"
@@ -19,7 +19,7 @@
           ></el-switch>
         </template>
       </el-table-column>
-      <el-table-column sortable prop="tag" label="标签" width="150px">
+      <el-table-column sortable prop="tag" label="标签" width=“100%>
         <template slot-scope="scope">
           <el-tag size="medium">
             <a :href="scope.row.url" target="_blank" :title="scope.row.name">

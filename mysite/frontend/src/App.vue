@@ -2,6 +2,7 @@
   <div id="app">
     <!-- <img src="./assets/logo.png" width="50px"> -->
     <avatar-header></avatar-header>
+    <div class="container">
     <el-tabs type="border-card" v-model="activeName" @tab-click="handleTabClick">
       <el-tab-pane label="Suites" name="suites"></el-tab-pane>
       <el-tab-pane label="Tags" name="tags"></el-tab-pane>
@@ -9,6 +10,7 @@
       <!-- 路由对应的组件渲染的地方 -->
       <router-view></router-view>
     </el-tabs>
+    </div>
   </div>
 </template>
 
@@ -55,6 +57,11 @@ export default {
   },
   mounted() {
     this.getCurrentActiveName()
+  },
+  watch: {
+    $route(to, from) {
+      this.getCurrentActiveName()
+    },
   }
 }
 </script>
@@ -67,5 +74,9 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 1em;
+}
+.container {
+  margin-left: 15%;
+  margin-right: 15%;
 }
 </style>

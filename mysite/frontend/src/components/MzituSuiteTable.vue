@@ -2,20 +2,20 @@
   <div>
     <el-table
       :data="currentPageData"
-      style="width: 100%"
+      style="width: 100%;"
       :row-style="rowStyle"
       :header-row-style="headerRowStyle"
       :cell-style="cellStyle"
       :header-cell-style="cellStyle"
       :default-sort="{prop: 'created_time', order: 'descending'}"
     >
-      <el-table-column sortable prop="created_time" label="日期" width="150px"></el-table-column>
-      <el-table-column prop="name" label="名称" width="150px" :show-overflow-tooltip="true">
+      <el-table-column sortable prop="created_time" label="日期"></el-table-column>
+      <el-table-column prop="name" label="名称" :show-overflow-tooltip="true">
         <template slot-scope="scope">
           <a @click="handleClickCount(scope.row.id)">{{ scope.row.name }}</a>
         </template>
       </el-table-column>
-      <el-table-column sortable prop="tag" label="标签" width="150px">
+      <el-table-column sortable prop="tag" label="标签">
         <template slot-scope="scope">
           <el-dropdown size="mini" split-button type="info">
             {{ scope.row.tags.length }}
@@ -33,7 +33,7 @@
       </el-table-column>
       <el-table-column label="图片" width="100%">
         <template slot-scope="scope">
-          <el-popover placement="top" title="预览" width="400" trigger="click">
+          <el-popover placement="top" title="预览" width="666" trigger="click">
             <div class="block">
               <el-carousel type="card" height="300px" style="text-align: center">
                 <el-carousel-item v-for="item in stepFilterImages(scope.row.images)" :key="item.id">
@@ -48,7 +48,7 @@
           </el-popover>
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="220px">
+      <el-table-column label="操作">
         <template slot="header" slot-scope="scope">
           <el-button type="text" @click="dialogVisible = true">添加</el-button>
         </template>

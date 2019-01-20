@@ -3,12 +3,13 @@
     <span class="el-dropdown-link">
       <avatar
         :username=username
-        :customStyle=customStyle
         ></avatar>
     </span>
     <el-dropdown-menu slot="dropdown">
       <el-dropdown-item>Info</el-dropdown-item>
-      <el-dropdown-item divided>Logout</el-dropdown-item>
+      <el-dropdown-item divided>
+        <span @click="handleLogout">Logout</span>
+      </el-dropdown-item>
     </el-dropdown-menu>
   </el-dropdown>
 </template>
@@ -20,12 +21,14 @@ export default {
   components: { Avatar },
   data() {
     return {
-      username: "4 0 4",
+      username: "N-/-A",
     }
   },
   methods: {
-    customStyle() {
-      return "margin-bottom: 15px";
+    handleLogout() {
+      this.$message({ message: "logout", type: "success"})
+      sessionStorage.clear()
+      this.$router.push('/login')
     }
   },
   mounted() {
@@ -39,6 +42,6 @@ export default {
 
 <style scoped>
 .el-dropdown {
-  margin-bottom: 1em,
+  margin-bottom: 15px
 }
 </style>
