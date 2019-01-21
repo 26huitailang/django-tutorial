@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-table
-      :data="currentPageData"
+      :data="currentPageData()"
       style="width: 550px;margin-left: auto;margin-right: auto;"
       :row-style="rowStyle"
       :header-row-style="headerRowStyle"
@@ -19,7 +19,7 @@
           ></el-switch>
         </template>
       </el-table-column>
-      <el-table-column sortable prop="tag" label="标签" width=“100%>
+      <el-table-column sortable prop="tag" label="标签">
         <template slot-scope="scope">
           <el-tag size="medium">
             <a :href="scope.row.url" target="_blank" :title="scope.row.name">
@@ -33,7 +33,10 @@
           <a @click="handleClickTagCount(scope.row.id)">{{ scope.row.suites_count }}</a>
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="100%">
+      <el-table-column label="操作">
+        <template slot="header" slot-scope="scope">
+          <el-input v-model="search" size="mini" placeholder="输入标签名搜索"/>
+        </template>
         <template slot-scope="scope">
           <!-- <el-button
             type="primary"
@@ -59,7 +62,7 @@
       :page-size="pageSize"
       :pager-count="pagerCount"
       layout="sizes, total, prev, pager, next, jumper"
-      :total="tableMzituTags.length"
+      :total="filterData.length"
     ></el-pagination>
   </div>
 </template>
@@ -74,23 +77,34 @@ export default {
       tableMzituTags: [],
       currentPage: 1,
       pageSize: 10,
-      pagerCount: 5
+      pagerCount: 5,
+      search: ""
     };
   },
   mounted() {
-    this.getList()
+    this.getList();
   },
   computed: {
-    currentPageData: function() {
-      return this.tableMzituTags.slice(
+    filterData() {
+      let result = this.tableMzituTags.filter(
+        data =>
+          !this.search ||
+          data.name.toLowerCase().includes(this.search.toLowerCase())
+      );
+      return result
+    },
+  },
+  methods: {
+    currentPageData() {
+      return this.filterData.slice(
         this.pageSize * (this.currentPage - 1),
         this.pageSize * this.currentPage
       );
-    }
-  },
-  methods: {
+    },
     getList() {
-      get("mzitu/tags/").then(response => (this.tableMzituTags = response.data));
+      get("mzitu/tags/").then(
+        response => (this.tableMzituTags = response.data)
+      );
     },
     rowStyle({ row, rowIndex }) {
       return "height: 45px;font-size: 12px;";
@@ -138,7 +152,7 @@ export default {
       })
         .then(() => {
           _delete(MZITU(id).TagDelete)
-            .then(response => {
+            .then(() => {
               this.$message({
                 type: "success",
                 message: "删除成功!"
