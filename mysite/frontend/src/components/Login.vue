@@ -63,11 +63,9 @@ export default {
               this.$router.push("/");
             })
             .catch(error => {
-              console.log(error);
               this.$message({ message: error.data, type: "error" });
             });
         } else {
-          console.log("error submit!!");
           return false;
         }
       });

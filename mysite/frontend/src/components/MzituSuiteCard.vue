@@ -23,7 +23,7 @@
             <div class="bottom clearfix">
               <!-- todo: loop for tags -->
               <el-tag size="mini" v-for="tag in item.tags" :key="tag.id">
-                <router-link :to="{ name: 'mzitu-tags-detail', params: { id: tag.id }}">
+                <router-link :to="{ name: 'mzitu-suites-card', query: { tag_id: tag.id }}">
                   {{ tag.name }}
                 </router-link>
               </el-tag>
