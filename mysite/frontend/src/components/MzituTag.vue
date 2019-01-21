@@ -128,7 +128,7 @@ export default {
         );
     },
     handleClickTagCount(id) {
-      this.$router.push(`/mzitu/tags/${id}/suites`);
+      this.$router.push(`/mzitu/suites?tag_id=${id}`);
     },
     handleDeleteTag(id) {
       this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
@@ -161,7 +161,7 @@ export default {
     }
   },
   watch: {
-    $route(to, from) {
+    $route(to) {
       this.$router.push({ name: to.name, params: to.params });
       get("mzitu/tags/").then(
         response => (this.tableMzituTags = response.data)

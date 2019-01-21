@@ -30,7 +30,7 @@
             {{ scope.row.tags.length }}
             <el-dropdown-menu slot="dropdown">
               <span v-for="tag in scope.row.tags" :key="tag.id">
-                <router-link :to="{ name: 'mzitu-tags-detail', params: { id: tag.id }}">
+                <router-link :to="{ name: 'mzitu-suites-card', query: { tag_id: tag.id }}">
                   <el-dropdown-item>
                     <el-tag size="mini">{{ tag.name }}</el-tag>
                   </el-dropdown-item>
@@ -217,7 +217,6 @@ export default {
           tag_list.push(item);
         })
       );
-      console.log(tag_list);
       this.tagFilters = tag_list;
     },
     handleClickAddSuite() {
@@ -284,7 +283,6 @@ export default {
     filterTag(value, row) {
       let result = false;
       row.tags.forEach(function(element) {
-        console.log(element.name, value);
         if (element.name === value) {
           result = true;
         }
@@ -293,7 +291,7 @@ export default {
     }
   },
   watch: {
-    $route(to, from) {
+    $route(to) {
       this.$router.push({ name: to.name, params: to.params });
       get("mzitu/tags/").then(response => (this.tableData = response.data));
     }

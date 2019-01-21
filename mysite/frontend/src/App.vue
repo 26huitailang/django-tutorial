@@ -64,7 +64,7 @@ export default {
     this.getCurrentActiveName();
   },
   watch: {
-    $route(to, from) {
+    $route() {
       this.getCurrentActiveName();
     }
   }
