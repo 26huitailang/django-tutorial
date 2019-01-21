@@ -1,9 +1,7 @@
 <template>
   <el-dropdown>
     <span class="el-dropdown-link">
-      <avatar
-        :username=username
-        ></avatar>
+      <avatar :username="username"></avatar>
     </span>
     <el-dropdown-menu slot="dropdown">
       <el-dropdown-item>Info</el-dropdown-item>
@@ -19,29 +17,39 @@ import Avatar from "vue-avatar";
 export default {
   name: "AvatarHeader",
   components: { Avatar },
+  props: {
+    username: String
+  },
   data() {
     return {
-      username: "N-/-A",
-    }
+    };
   },
   methods: {
     handleLogout() {
-      this.$message({ message: "logout", type: "success"})
-      sessionStorage.clear()
-      this.$router.push('/login')
+      this.$message({ message: "logout", type: "success" });
+      sessionStorage.clear();
+      this.$emit('logout');
+      this.$router.push("/login");
+    },
+    getUsername() {
+      return sessionStorage.getItem("user_name") || "N-/-A  ";
     }
   },
-  mounted() {
-      let username = sessionStorage.getItem('user_name');
-      if (username) {
-        return this.username = username
+  computed: {
+    isUsernameChanged() {
+      let nameInSession = this.getUsername();
+      if (nameInSession === this.username) {
+        return false
+      } else {
+        return true
       }
+    },
   }
-}
+};
 </script>
 
 <style scoped>
 .el-dropdown {
-  margin-bottom: 15px
+  margin-bottom: 15px;
 }
 </style>

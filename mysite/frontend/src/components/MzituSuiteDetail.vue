@@ -52,7 +52,6 @@ export default {
     handleSizeChange(pageSize) {
       this.pageSize = pageSize;
     },
-    // todo: 点击图片翻页的操作，之后用漂亮的弹窗替换
     handleImgClick() {
       if (this.currentPage === this.allImages.length) {
         this.$message("已是最后一页");
