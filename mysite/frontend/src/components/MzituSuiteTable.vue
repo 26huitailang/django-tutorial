@@ -1,6 +1,8 @@
 <template>
   <div>
+    <el-button @click="clearFilter">清除所有过滤器</el-button>
     <el-table
+      ref="suiteManageTable"
       :data="currentPageData"
       style="width: 100%;"
       :row-style="rowStyle"
@@ -15,8 +17,15 @@
           <a @click="handleClickCount(scope.row.id)">{{ scope.row.name }}</a>
         </template>
       </el-table-column>
-      <el-table-column sortable prop="tag" label="标签">
+      <el-table-column
+        sortable
+        prop="tag"
+        label="标签"
+        :filters="tagFilters"
+        :filter-method="filterTag"
+      >
         <template slot-scope="scope">
+          <!-- todo: 这个下拉写法用在移动端, 但是展开太多也不好看👎 -->
           <el-dropdown size="mini" split-button type="info">
             {{ scope.row.tags.length }}
             <el-dropdown-menu slot="dropdown">
@@ -131,11 +140,13 @@ export default {
       tableData: [],
       dialogVisible: false,
       downloadSuiteUrl: "",
-      loadingAddSuite: false
+      loadingAddSuite: false,
+      tagFilters: []
     };
   },
   mounted() {
     this.getList();
+    this.getTagFilters();
   },
   computed: {
     currentPageData: function() {
@@ -145,12 +156,11 @@ export default {
       );
     },
     downloadIsTheme() {
-      if (this.downloadSuiteUrl.indexOf('tag') > 0) {
-        return true
+      if (this.downloadSuiteUrl.indexOf("tag") > 0) {
+        return true;
       }
-      return false
-    },
-
+      return false;
+    }
   },
   methods: {
     // Style
@@ -194,7 +204,21 @@ export default {
         });
     },
     getList() {
-      get("mzitu/suites/").then(response => (this.tableData = response.data));
+      get(MZITU().SuitesList).then(
+        response => (this.tableData = response.data)
+      );
+    },
+    getTagFilters() {
+      // 获取过滤用的tags列表
+      let tag_list = [];
+      get(MZITU().Tags).then(response =>
+        response.data.forEach(function(element) {
+          let item = { text: element.name, value: element.name };
+          tag_list.push(item);
+        })
+      );
+      console.log(tag_list);
+      this.tagFilters = tag_list;
     },
     handleClickAddSuite() {
       this.loadingAddSuite = true;
@@ -249,17 +273,30 @@ export default {
         .catch(_ => {});
     },
     stepFilterImages(imagesList) {
-      let step = Math.round(imagesList.length / 5)  // 四舍五入
+      let step = Math.round(imagesList.length / 5); // 四舍五入
       return imagesList.filter((element, index, array) => {
-        return index % step === 0
-      })
+        return index % step === 0;
+      });
+    },
+    clearFilter() {
+      this.$refs.suiteManageTable.clearFilter();
+    },
+    filterTag(value, row) {
+      let result = false;
+      row.tags.forEach(function(element) {
+        console.log(element.name, value);
+        if (element.name === value) {
+          result = true;
+        }
+      });
+      return result;
     }
   },
   watch: {
     $route(to, from) {
       this.$router.push({ name: to.name, params: to.params });
       get("mzitu/tags/").then(response => (this.tableData = response.data));
-    },
+    }
   }
 };
 </script>
