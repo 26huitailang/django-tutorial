@@ -1,15 +1,15 @@
 <template>
   <div id="app">
     <!-- <img src="./assets/logo.png" width="50px"> -->
-    <avatar-header></avatar-header>
+    <avatar-header :username="username" @logout="getUsername"></avatar-header>
     <div class="container">
-    <el-tabs type="border-card" v-model="activeName" @tab-click="handleTabClick">
-      <el-tab-pane label="Suites" name="suites"></el-tab-pane>
-      <el-tab-pane label="Tags" name="tags"></el-tab-pane>
-      <el-tab-pane label="SuitesManage" name="suites-manage"></el-tab-pane>
-      <!-- 路由对应的组件渲染的地方 -->
-      <router-view></router-view>
-    </el-tabs>
+      <el-tabs type="border-card" v-model="activeName" @tab-click="handleTabClick">
+        <el-tab-pane label="Suites" name="suites"></el-tab-pane>
+        <el-tab-pane label="Tags" name="tags"></el-tab-pane>
+        <el-tab-pane label="SuitesManage" name="suites-manage"></el-tab-pane>
+        <!-- 路由对应的组件渲染的地方 -->
+        <router-view @login="getUsername"></router-view>
+      </el-tabs>
     </div>
   </div>
 </template>
@@ -17,58 +17,63 @@
 <script>
 import AvatarHeader from "./components/AvatarHeader.vue";
 export default {
-  name: 'app',
+  name: "app",
   components: { AvatarHeader },
   data() {
     return {
-      activeName: '',
-    }
+      activeName: "",
+      username: ""
+    };
   },
   methods: {
     handleTabClick() {
       switch (this.activeName) {
         case "suites":
-          this.$router.push('/mzitu/suites');
+          this.$router.push("/mzitu/suites");
           break;
         case "tags":
-          this.$router.push('/mzitu/tags');
+          this.$router.push("/mzitu/tags");
           break;
         case "suites-manage":
-          this.$router.push({ name: 'mzitu-suites-management'})
+          this.$router.push({ name: "mzitu-suites-management" });
           break;
         default:
-          this.$router.push('/mzitu/suites')
+          this.$router.push("/mzitu/suites");
           break;
       }
     },
-    getCurrentActiveName() {  // 解决Tabs刷新初始化的问题
-      const currentRouteName = this.$router.currentRoute.name
-      let result = ''
-      if (currentRouteName.startsWith('mzitu-suites')) {
-        result = 'suites'
-      } else if (currentRouteName.startsWith('mzitu-tags')) {
-        result = 'tags'
+    getCurrentActiveName() {
+      // 解决Tabs刷新初始化的问题
+      const currentRouteName = this.$router.currentRoute.name;
+      let result = "";
+      if (currentRouteName.startsWith("mzitu-suites")) {
+        result = "suites";
+      } else if (currentRouteName.startsWith("mzitu-tags")) {
+        result = "tags";
       }
-      if (currentRouteName.indexOf('management') != -1) {
-        result = 'suites-manage'
+      if (currentRouteName.indexOf("management") != -1) {
+        result = "suites-manage";
       }
-      this.activeName = result
+      this.activeName = result;
     },
+    getUsername() {
+      this.username = sessionStorage.getItem("user_name") || "N-/-A  ";
+    }
   },
   mounted() {
-    this.getCurrentActiveName()
+    this.getCurrentActiveName();
   },
   watch: {
     $route(to, from) {
-      this.getCurrentActiveName()
-    },
+      this.getCurrentActiveName();
+    }
   }
-}
+};
 </script>
 
 <style>
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;

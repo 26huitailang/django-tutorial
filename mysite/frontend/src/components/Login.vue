@@ -59,6 +59,7 @@ export default {
               sessionStorage.setItem("user_id", response.data.user_id);
               sessionStorage.setItem("user_name", response.data.user_name);
               this.$message({ message: "login successful", type: "success" });
+              this.$emit('login');
               this.$router.push("/");
             })
             .catch(error => {
