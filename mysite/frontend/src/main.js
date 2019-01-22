@@ -8,14 +8,11 @@ import App from './App'
 import './plugins/element.js'
 import router from './router'
 import VueLazyload from "vue-lazyload";
-import { loadingImg } from '@/assets/img/loading.gif'
-import { errorImg } from '@/assets/img/error.png'
 
 Vue.use(VueLazyload, {
   preLoad: 1.3,
-  // error: './assets/img/error.png',
-  error: errorImg,
-  loading: loadingImg,
+  error: require('@/assets/img/error.png'),
+  loading: require('@/assets/img/loading.gif'),
   attempt: 1,
 })
 
