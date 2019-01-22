@@ -269,10 +269,11 @@ export default {
         .then(_ => {
           done();
         })
-        .catch(_ => {});
+        .catch(_ => {})
     },
     stepFilterImages(imagesList) {
       let step = Math.round(imagesList.length / 5); // 四舍五入
+      step = step === 0 ? 1 : step;  // 避免step 0 不能取余
       return imagesList.filter((element, index, array) => {
         return index % step === 0;
       });
