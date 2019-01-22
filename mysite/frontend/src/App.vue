@@ -62,6 +62,7 @@ export default {
   },
   mounted() {
     this.getCurrentActiveName();
+    this.getUsername();
   },
   watch: {
     $route() {
