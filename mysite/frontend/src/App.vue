@@ -2,15 +2,19 @@
   <div id="app">
     <!-- <img src="./assets/logo.png" width="50px"> -->
     <avatar-header :username="username" @logout="getUsername"></avatar-header>
-    <div class="container">
-      <el-tabs type="border-card" v-model="activeName" @tab-click="handleTabClick">
-        <el-tab-pane label="Suites" name="suites"></el-tab-pane>
-        <el-tab-pane label="Tags" name="tags"></el-tab-pane>
-        <el-tab-pane label="SuitesManage" name="suites-manage"></el-tab-pane>
-        <!-- 路由对应的组件渲染的地方 -->
-        <router-view @login="getUsername"></router-view>
-      </el-tabs>
-    </div>
+    <el-row type="flex" class="row-bg" justify="center">
+      <el-col :xs="24" :sm="20" :md="12" :lg="18">
+        <div class="container">
+          <el-tabs type="border-card" v-model="activeName" @tab-click="handleTabClick">
+            <el-tab-pane label="Suites" name="suites"></el-tab-pane>
+            <el-tab-pane label="Tags" name="tags"></el-tab-pane>
+            <el-tab-pane label="SuitesManage" name="suites-manage"></el-tab-pane>
+            <!-- 路由对应的组件渲染的地方 -->
+            <router-view @login="getUsername"></router-view>
+          </el-tabs>
+        </div>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
@@ -82,7 +86,7 @@ export default {
   margin-top: 1em;
 }
 .container {
-  margin-left: 15%;
-  margin-right: 15%;
+  /* margin-left: 15%; */
+  /* margin-right: 15%; */
 }
 </style>

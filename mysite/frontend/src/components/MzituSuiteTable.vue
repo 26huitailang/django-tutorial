@@ -23,6 +23,7 @@
         label="标签"
         :filters="tagFilters"
         :filter-method="filterTag"
+        width="120px"
       >
         <template slot-scope="scope">
           <!-- todo: 这个下拉写法用在移动端, 但是展开太多也不好看👎 -->
@@ -40,7 +41,7 @@
           </el-dropdown>
         </template>
       </el-table-column>
-      <el-table-column label="图片" width="100%">
+      <el-table-column label="图片">
         <template slot-scope="scope">
           <el-popover placement="top" title="预览" width="666" trigger="click">
             <div class="block">
@@ -57,7 +58,7 @@
           </el-popover>
         </template>
       </el-table-column>
-      <el-table-column label="操作">
+      <el-table-column label="操作" width="180px">
         <template slot="header" slot-scope="scope">
           <el-button type="text" @click="dialogVisible = true">添加</el-button>
         </template>
@@ -269,11 +270,11 @@ export default {
         .then(_ => {
           done();
         })
-        .catch(_ => {})
+        .catch(_ => {});
     },
     stepFilterImages(imagesList) {
       let step = Math.round(imagesList.length / 5); // 四舍五入
-      step = step === 0 ? 1 : step;  // 避免step 0 不能取余
+      step = step === 0 ? 1 : step; // 避免step 0 不能取余
       return imagesList.filter((element, index, array) => {
         return index % step === 0;
       });

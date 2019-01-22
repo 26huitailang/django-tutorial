@@ -9,7 +9,7 @@
       :header-cell-style="cellStyle"
       :default-sort="{prop: 'is_like', order: 'descending'}"
     >
-      <el-table-column sortable fixed prop="is_like" label="喜欢" width="100%">
+      <el-table-column sortable fixed prop="is_like" label="喜欢" width="100px">
         <template slot-scope="scope">
           <el-switch
             v-model="scope.row.is_like"
@@ -19,7 +19,7 @@
           ></el-switch>
         </template>
       </el-table-column>
-      <el-table-column sortable prop="tag" label="标签">
+      <el-table-column sortable prop="tag" label="标签" width="175px">
         <template slot-scope="scope">
           <el-tag size="medium">
             <a :href="scope.row.url" target="_blank" :title="scope.row.name">
@@ -28,12 +28,12 @@
           </el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="数量" sortable prop="suites_count" width="100%">
+      <el-table-column label="数量" sortable prop="suites_count" width="100px">
         <template slot-scope="scope">
           <a @click="handleClickTagCount(scope.row.id)">{{ scope.row.suites_count }}</a>
         </template>
       </el-table-column>
-      <el-table-column label="操作">
+      <el-table-column label="操作" width="175px">
         <template slot="header" slot-scope="scope">
           <el-input v-model="search" size="mini" placeholder="输入标签名搜索"/>
         </template>
