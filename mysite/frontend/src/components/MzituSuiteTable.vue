@@ -43,9 +43,9 @@
       </el-table-column>
       <el-table-column label="图片">
         <template slot-scope="scope">
-          <el-popover placement="top" title="预览" width="666" trigger="click">
+          <el-popover placement="top" title="预览" :width="clientWidth > 768 ? 666 : 200" trigger="click">
             <div class="block">
-              <el-carousel type="card" height="300px" style="text-align: center">
+              <el-carousel type="card" :height="clientWidth > 768 ? '300px' : '200px'" style="text-align: center">
                 <el-carousel-item v-for="item in stepFilterImages(scope.row.images)" :key="item.id">
                   <img v-lazy="getPreviewImage(item.image)" style="height: 300px;margin: 0 auto;">
                 </el-carousel-item>
@@ -59,7 +59,7 @@
         </template>
       </el-table-column>
       <el-table-column label="操作" width="180px">
-        <template slot="header" slot-scope="scope">
+        <template slot="header">
           <el-button type="text" @click="dialogVisible = true">添加</el-button>
         </template>
         <template slot-scope="scope">
@@ -113,7 +113,7 @@
       :current-page="currentPage"
       :page-size="pageSize"
       :pager-count="pagerCount"
-      layout="sizes, total, prev, pager, next, jumper"
+      :layout="layout"
       :total="tableData.length"
     ></el-pagination>
     <el-dialog title="下载" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
@@ -129,9 +129,10 @@
 <script>
 import { get, post, _delete } from "../http";
 import { apiBase, MZITU } from "../http/api.js";
+import constant from "./TheConstant";
+
 export default {
   name: "MzituSuiteTable",
-  props: {},
   data() {
     return {
       currentPage: 1,
@@ -142,7 +143,8 @@ export default {
       dialogVisible: false,
       downloadSuiteUrl: "",
       loadingAddSuite: false,
-      tagFilters: []
+      tagFilters: [],
+      clientWidth: constant.clientWidth
     };
   },
   mounted() {
@@ -161,11 +163,16 @@ export default {
         return true;
       }
       return false;
+    },
+    layout() {
+      return constant.clientWidth > 768
+        ? "sizes, total, prev, pager, next, jumper"
+        : "total, prev, pager, next";
     }
   },
   methods: {
     // Style
-    rowStyle({ row, rowIndex }) {
+    rowStyle() {
       return "height: 45px;font-size: 12px;";
     },
     headerRowStyle() {
@@ -242,7 +249,7 @@ export default {
     handleSizeChange(pageSize) {
       this.pageSize = pageSize;
     },
-    handleLikeToggle(id, is_like, index) {
+    handleLikeToggle(id, is_like) {
       // 这个scope传入的index和tableData 不是同一个排序
       post("mzitu/tags/" + id + "/like_toggle/")
         .then(response =>
@@ -254,7 +261,7 @@ export default {
             }
           })
         )
-        .catch(error =>
+        .catch(() =>
           this.tableData.forEach(function(item) {
             if (item.id === id) {
               item.is_like = is_like;
@@ -267,15 +274,15 @@ export default {
     },
     handleClose(done) {
       this.$confirm("确认关闭？")
-        .then(_ => {
+        .then(() => {
           done();
         })
-        .catch(_ => {});
+        .catch(() => {});
     },
     stepFilterImages(imagesList) {
       let step = Math.round(imagesList.length / 5); // 四舍五入
       step = step === 0 ? 1 : step; // 避免step 0 不能取余
-      return imagesList.filter((element, index, array) => {
+      return imagesList.filter((element, index) => {
         return index % step === 0;
       });
     },
