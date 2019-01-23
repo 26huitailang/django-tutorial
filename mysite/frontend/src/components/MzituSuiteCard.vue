@@ -43,31 +43,30 @@ export default {
   props: {
     suites: Array
   },
-  data () {
+  data() {
     return {
       elColSpan: 24,
       elColOffset: 0,
-      cardHeight: '470px',
-    }
+      cardHeight: "470px"
+    };
   },
-  beforeMount: function () {
+  beforeMount: function() {
     //可用于设置自适应屏幕，根据获得的可视宽度（兼容性）判断是否显示
     let w = document.documentElement.offsetWidth || document.body.offsetWidth;
     if (w < 1000) {
-      this.elColSpan = 24,
-      this.cardHeight = '100%'
+      (this.elColSpan = 24), (this.cardHeight = "100%");
     } else {
-      this.elColSpan = 8
+      this.elColSpan = 8;
     }
     if (this.elColSpan <= 8) {
-      this.elColOffset = 1
+      this.elColOffset = 1;
     } else {
-      this.elColOffset = 0
+      this.elColOffset = 0;
     }
   },
   methods: {
-    coverImage (media_url) {
-      return apiBase() + media_url
+    coverImage(media_url) {
+      return apiBase() + media_url;
     }
   }
 };
@@ -112,8 +111,8 @@ a {
   object-fit: cover;
   position: relative;
   -webkit-transform: translateX(-50%);
-	-ms-transform: translateX(-50%);
-	-moz-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  -moz-transform: translateX(-50%);
 }
 
 .clearfix:before,

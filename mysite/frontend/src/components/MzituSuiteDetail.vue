@@ -69,12 +69,10 @@ export default {
     }
   },
   mounted() {
-    get(MZITU(this.$route.params.id).SuitesDetail).then(
-      response => {
-        (this.allImages = response.data.images),
-        (this.title = response.data.name)
-      }
-    );
+    get(MZITU(this.$route.params.id).SuitesDetail).then(response => {
+      (this.allImages = response.data.images),
+        (this.title = response.data.name);
+    });
   }
 };
 </script>

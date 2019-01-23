@@ -11,29 +11,29 @@
 //   return API_BASE_URL;
 // }
 export function apiBase() {
-  return process.env.VUE_APP_API_ROOT
+  return process.env.VUE_APP_API_ROOT;
 }
 
 export function apiV1() {
-  return apiBase() + '/api/v1'
+  return apiBase() + "/api/v1";
 }
 
-export function AUTH () {
+export function AUTH() {
   return {
-    TokenAuth: apiBase() + '/api-token-auth/',
-    Login: apiV1() + '/auth/login/',
-    Logout: apiV1() + '/auth/logout/',
-  }
+    TokenAuth: apiBase() + "/api-token-auth/",
+    Login: apiV1() + "/auth/login/",
+    Logout: apiV1() + "/auth/logout/"
+  };
 }
 
-export function MZITU (id) {
+export function MZITU(id) {
   return {
-    SuitesDownload: apiV1() + '/mzitu/suites/download/?suite_url=',
-    ThemesDownload: apiV1() + '/mzitu/themes/download/?theme_url=',
-    SuitesList: apiV1() + '/mzitu/suites/',
+    SuitesDownload: apiV1() + "/mzitu/suites/download/?suite_url=",
+    ThemesDownload: apiV1() + "/mzitu/themes/download/?theme_url=",
+    SuitesList: apiV1() + "/mzitu/suites/",
     SuitesDetail: apiV1() + `/mzitu/suites/${id}/`,
     // SuitesDetail: this.SuitesList + `${id}`,
-    Tags: apiV1() + '/mzitu/tags/',
-    TagDelete: apiV1() + `/mzitu/tags/${id}/`,
-  }
+    Tags: apiV1() + "/mzitu/tags/",
+    TagDelete: apiV1() + `/mzitu/tags/${id}/`
+  };
 }

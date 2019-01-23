@@ -3,14 +3,9 @@
 </template>
 
 <script>
-import MzituSuiteTable from './MzituSuiteTable.vue'
-import { get } from '../http'
+import MzituSuiteTable from "./MzituSuiteTable.vue";
 export default {
   name: "MzituSuitesManagement",
-  components: { MzituSuiteTable },
-  data() {
-    return {
-    };
-  },
+  components: { MzituSuiteTable }
 };
 </script>
