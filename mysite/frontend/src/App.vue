@@ -1,9 +1,8 @@
 <template>
   <div id="app">
-    <!-- <img src="./assets/logo.png" width="50px"> -->
     <avatar-header :username="username" @logout="getUsername"></avatar-header>
     <el-row type="flex" class="row-bg" justify="center">
-      <el-col :xs="24" :sm="20" :md="12" :lg="18">
+      <el-col :xs="24" :sm="20" :md="18" :lg="16">
         <div class="container">
           <el-tabs type="border-card" v-model="activeName" @tab-click="handleTabClick">
             <el-tab-pane label="Suites" name="suites"></el-tab-pane>
@@ -55,7 +54,7 @@ export default {
       } else if (currentRouteName.startsWith("mzitu-tags")) {
         result = "tags";
       }
-      if (currentRouteName.indexOf("management") != -1) {
+      if (currentRouteName.indexOf("management") !== -1) {
         result = "suites-manage";
       }
       this.activeName = result;
@@ -69,7 +68,7 @@ export default {
     this.getUsername();
   },
   watch: {
-    $route() {
+    '$route'() {
       this.getCurrentActiveName();
     }
   }

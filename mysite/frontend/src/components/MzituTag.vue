@@ -57,11 +57,11 @@
     <el-pagination
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
-      :page-sizes="[10, 20, 50]"
+      :page-sizes="pageSizes"
       :current-page="currentPage"
       :page-size="pageSize"
       :pager-count="pagerCount"
-      layout="sizes, total, prev, pager, next, jumper"
+      :layout="layout"
       :total="filterData.length"
     ></el-pagination>
   </div>
@@ -69,6 +69,8 @@
 <script>
 import { get, post, _delete } from "../http";
 import { MZITU } from "../http/api.js";
+import constant from "./TheConstant";
+
 export default {
   name: "MzituTag",
   props: {},
@@ -76,9 +78,10 @@ export default {
     return {
       tableMzituTags: [],
       currentPage: 1,
+      pageSizes: [10, 20, 50],
       pageSize: 10,
       pagerCount: 5,
-      search: ""
+      search: "",
     };
   },
   mounted() {
@@ -92,6 +95,9 @@ export default {
           data.name.toLowerCase().includes(this.search.toLowerCase())
       );
       return result;
+    },
+    layout() {
+      return constant.clientWidth > 768 ? "sizes, total, prev, pager, next, jumper" : "total, prev, pager, next"
     }
   },
   methods: {
@@ -106,7 +112,7 @@ export default {
         response => (this.tableMzituTags = response.data)
       );
     },
-    rowStyle({ row, rowIndex }) {
+    rowStyle() {  // { row, rowIndex } 可以接收参数
       return "height: 45px;font-size: 12px;";
     },
     headerRowStyle() {
@@ -121,7 +127,7 @@ export default {
     handleSizeChange(pageSize) {
       this.pageSize = pageSize;
     },
-    handleLikeToggle(id, is_like, index) {
+    handleLikeToggle(id, is_like) {
       // 这个scope传入的index和tableMzituTags 不是同一个排序
       post("mzitu/tags/" + id + "/like_toggle/")
         .then(response =>
@@ -133,7 +139,7 @@ export default {
             }
           })
         )
-        .catch(error =>
+        .catch(() =>
           this.tableMzituTags.forEach(function(item) {
             if (item.id === id) {
               item.is_like = is_like;
