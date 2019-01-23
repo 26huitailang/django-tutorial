@@ -24,7 +24,8 @@
       <el-row type="flex" class="row-bg" justify="center">
         <el-form-item>
           <el-col :xs="24" :sm="24">
-            <el-button type="primary" @click="submitForm('loginForm')">登陆</el-button>            <el-button @click="resetForm('loginForm')">重置</el-button>
+            <el-button type="primary" @click="submitForm('loginForm')">登陆</el-button>
+            <el-button @click="resetForm('loginForm')">重置</el-button>
           </el-col>
         </el-form-item>
       </el-row>
@@ -35,6 +36,7 @@
 <script>
 import { post } from "../http";
 import { AUTH } from "../http/api.js";
+
 export default {
   name: "Login",
   data() {

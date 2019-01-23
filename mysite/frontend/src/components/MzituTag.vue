@@ -91,8 +91,8 @@ export default {
           !this.search ||
           data.name.toLowerCase().includes(this.search.toLowerCase())
       );
-      return result
-    },
+      return result;
+    }
   },
   methods: {
     currentPageData() {
