@@ -72,7 +72,7 @@ import { MZITU } from "../http/api.js";
 import constant from "./TheConstant";
 
 export default {
-  name: "MzituTag",
+  name: "MzituTags",
   props: {},
   data() {
     return {

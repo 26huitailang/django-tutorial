@@ -1,7 +1,7 @@
 <template>
   <el-dropdown>
     <span class="el-dropdown-link">
-      <avatar :username="username"></avatar>
+      <Avatar :username="username" />
     </span>
     <el-dropdown-menu slot="dropdown">
       <el-dropdown-item>Info</el-dropdown-item>

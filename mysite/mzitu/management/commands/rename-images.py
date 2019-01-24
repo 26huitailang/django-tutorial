@@ -1,8 +1,8 @@
 # coding: utf-8
 
 from django.core.management.base import BaseCommand
-import requests
 from mzitu.models.downloaded_suite import SuiteImageMap, DownloadedSuite
+
 
 class Command(BaseCommand):
     help = '重命名图片'

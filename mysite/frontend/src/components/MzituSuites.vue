@@ -1,13 +1,13 @@
 <template>
-  <MzituSuiteCard :suites="suites"></MzituSuiteCard>
+  <MzituSuitesCard :suites="suites" />
 </template>
 
 <script>
-import MzituSuiteCard from "./MzituSuiteCard.vue";
+import MzituSuitesCard from "./MzituSuitesCard.vue";
 import { get } from "../http";
 export default {
   name: "MzituSuites",
-  components: { MzituSuiteCard },
+  components: { MzituSuitesCard },
   data() {
     return {
       suites: []
@@ -22,7 +22,7 @@ export default {
     }
   },
   watch: {
-    $route(to) {
+    '$route'(to) {
       if (to.query.tag_id) {
         this.getSuitesByTagId(to.query.tag_id);
       } else {

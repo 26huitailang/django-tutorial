@@ -4,14 +4,12 @@
 import logging
 from rest_framework import status
 from rest_framework.viewsets import GenericViewSet
-from rest_framework.decorators import action, permission_classes
+from rest_framework.decorators import action
 from rest_framework.response import Response
-from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import IsAdminUser
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from django.shortcuts import get_object_or_404
-from django.views.decorators.csrf import csrf_exempt
 from drf_yasg.utils import swagger_auto_schema
 
 from users.serializers import (
@@ -19,7 +17,7 @@ from users.serializers import (
     PasswordSerializer,
     LoginSerializer,
 )
-from users.permissions import IsSuperuserPermission
+# from users.permissions import IsSuperuserPermission
 
 
 logger = logging.getLogger(__name__)

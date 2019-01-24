@@ -5,7 +5,6 @@ import os
 import re
 import time
 import json
-import glob
 import threading
 from celery import shared_task
 from celery.utils.log import get_task_logger
@@ -73,8 +72,8 @@ def get_one_pic_url(suite_url, suite_folder, nth_pic):
 
     # if os.path.isfile(pic_full_path):
     #     image已经存在
-        # print("已存在：{}".format(pic_full_path))
-        # return
+    #     print("已存在：{}".format(pic_full_path))
+    #     return
 
     time.sleep(0.5)
     page_url = suite_url + '/{}'.format(nth_pic)
@@ -174,7 +173,6 @@ def download_images_to_local():
 
         with open(pic_instance.full_path, 'wb') as f:
             f.write(img_bytes.content)
-
 
         logger.info("Downloaded {}".format(pic_instance.url))
         time.sleep(0.5)

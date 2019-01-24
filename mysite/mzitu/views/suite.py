@@ -1,7 +1,7 @@
 # coding: utf-8
 
 import json
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.viewsets import GenericViewSet
 from rest_framework.decorators import action
@@ -49,7 +49,6 @@ class MzituSuiteViewSet(GenericViewSet):
         delete_info = item.delete()
         return Response(json.dumps(delete_info), status=status.HTTP_202_ACCEPTED)
 
-
     @action(detail=False, methods=['post'])
     def download(self, request):
         """获取要下载图片的suite列表，并下载到文件夹"""
@@ -63,8 +62,3 @@ class MzituSuiteViewSet(GenericViewSet):
         download_one_suite.delay(suite_url)
         # download_one_suite(suite_url)
         return Response('delayed, check later', status=status.HTTP_202_ACCEPTED)
-
-
-def index(request):
-
-    return render(request, 'mzitu/index.html')

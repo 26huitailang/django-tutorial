@@ -1,11 +1,11 @@
 <template>
-  <MzituSuiteTable></MzituSuiteTable>
+  <MzituSuitesManagementTable />
 </template>
 
 <script>
-import MzituSuiteTable from "./MzituSuiteTable.vue";
+import MzituSuitesManagementTable from "./MzituSuitesManagementTable.vue";
 export default {
   name: "MzituSuitesManagement",
-  components: { MzituSuiteTable }
+  components: { MzituSuitesManagementTable }
 };
 </script>

@@ -18,7 +18,6 @@ from mzitu.constants import USER_AGENT_LIST
 from mzitu.models.proxy_ip import ProxyIp
 from mzitu.runtimes.suite import generate_proxies
 
-import gevent
 
 logger = get_task_logger(__name__)
 

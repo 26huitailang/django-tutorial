@@ -18,7 +18,7 @@
       :header-cell-style="cellStyle"
       :default-sort="{prop: 'created_time', order: 'descending'}"
     >
-      <el-table-column v-if="isShowCreatedTimeCol" sortable prop="created_time" label="日期"></el-table-column>
+      <el-table-column v-if="isShowCreatedTimeCol" sortable prop="created_time" label="日期" width="135px"></el-table-column>
       <el-table-column prop="name" label="名称" :show-overflow-tooltip="true" min-width="150px">
         <template slot-scope="scope">
           <a @click="handleClickCount(scope.row.id)">{{ scope.row.name }}</a>
@@ -139,7 +139,7 @@ import { apiBase, MZITU } from "../http/api.js";
 import constant from "./TheConstant";
 
 export default {
-  name: "MzituSuiteTable",
+  name: "MzituSuitesManagementTable",
   data() {
     return {
       currentPage: 1,
@@ -152,7 +152,7 @@ export default {
       loadingAddSuite: false,
       tagFilters: [],
       clientWidth: constant.clientWidth,
-      isShowCreatedTimeCol: constant.clientWidth > 768,
+      isShowCreatedTimeCol: constant.clientWidth > 992,  // md size
       search: ""
     };
   },

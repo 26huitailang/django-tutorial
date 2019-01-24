@@ -42,7 +42,7 @@
 import { apiBase } from "../http/api.js";
 
 export default {
-  name: "MzituSuiteCard",
+  name: "MzituSuitesCard",
   props: {
     suites: Array
   },

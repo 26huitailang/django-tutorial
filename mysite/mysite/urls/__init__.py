@@ -20,8 +20,8 @@ from django.conf import settings
 from django.contrib import admin
 from django.views.generic.base import TemplateView
 from mysite.deploy_level import DeployLevel
-from rest_framework.authtoken import views
 from users.views.auth_token import CustomAuthToken
+# from rest_framework.authtoken import views
 
 from .api import v1_urlpatterns as v1_api_urlpatterns
 from .api import v2_urlpatterns as v2_api_urlpatterns

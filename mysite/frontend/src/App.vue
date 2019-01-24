@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <avatar-header :username="username" @logout="getUsername"></avatar-header>
+    <AvatarHeader :username="username" @logout="getUsername" />
     <el-row type="flex" justify="center">
       <el-col :xs="24" :sm="20" :md="18" :lg="16">
         <div class="container">
