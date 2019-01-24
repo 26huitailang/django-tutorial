@@ -81,7 +81,7 @@ export default {
       pageSizes: [10, 20, 50],
       pageSize: 10,
       pagerCount: 5,
-      search: "",
+      search: ""
     };
   },
   mounted() {
@@ -89,15 +89,16 @@ export default {
   },
   computed: {
     filterData() {
-      let result = this.tableMzituTags.filter(
+      return this.tableMzituTags.filter(
         data =>
           !this.search ||
           data.name.toLowerCase().includes(this.search.toLowerCase())
       );
-      return result;
     },
     layout() {
-      return constant.clientWidth > 768 ? "sizes, total, prev, pager, next, jumper" : "total, prev, pager, next"
+      return constant.clientWidth > 768
+        ? "sizes, total, prev, pager, next, jumper"
+        : "total, prev, pager, next";
     }
   },
   methods: {
@@ -112,7 +113,8 @@ export default {
         response => (this.tableMzituTags = response.data)
       );
     },
-    rowStyle() {  // { row, rowIndex } 可以接收参数
+    rowStyle() {
+      // { row, rowIndex } 可以接收参数
       return "height: 45px;font-size: 12px;";
     },
     headerRowStyle() {
