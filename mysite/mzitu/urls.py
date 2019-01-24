@@ -52,7 +52,6 @@ proxyip_urlpatterns = [
 
 urlpatterns = [
     # ex: /mzitu/
-    url(r'^$', views.suite.index, name='index'),
     path('suites/', include(suite_urlpatterns)),
     path('themes/', include(theme_urlpatterns)),
     path('proxyips/', include(proxyip_urlpatterns)),
