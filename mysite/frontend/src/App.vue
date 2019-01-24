@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <avatar-header :username="username" @logout="getUsername"></avatar-header>
-    <el-row type="flex" class="row-bg" justify="center">
+    <el-row type="flex" justify="center">
       <el-col :xs="24" :sm="20" :md="18" :lg="16">
         <div class="container">
           <el-tabs type="border-card" v-model="activeName" @tab-click="handleTabClick">

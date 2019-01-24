@@ -7,21 +7,21 @@
       label-width="100px"
       class="demo-loginForm"
     >
-      <el-row type="flex" class="row-bg" justify="center">
+      <el-row type="flex" justify="center">
         <el-col :xs="24" :sm="12">
           <el-form-item label="用户名" prop="username">
             <el-input v-model="loginForm.username"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
-      <el-row type="flex" class="row-bg" justify="center">
+      <el-row type="flex" justify="center">
         <el-col :xs="24" :sm="12">
           <el-form-item label="密码" prop="password">
             <el-input v-model="loginForm.password" type="password"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
-      <el-row type="flex" class="row-bg" justify="center">
+      <el-row type="flex" justify="center">
         <el-form-item>
           <el-col :xs="24" :sm="24">
             <el-button type="primary" @click="submitForm('loginForm')">登陆</el-button>

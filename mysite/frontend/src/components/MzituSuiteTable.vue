@@ -1,9 +1,16 @@
 <template>
   <div>
-    <el-button @click="clearFilter">清除所有过滤器</el-button>
+    <el-row type="flex" align="middle">
+      <el-col :span="12">
+        <el-button size="mini" @click="clearFilter">清除所有过滤器</el-button>
+      </el-col>
+      <el-col :span="12">
+        <el-input clearable v-model="search" size="mini" placeholder="输入名称搜索"/>
+      </el-col>
+    </el-row>
     <el-table
       ref="suiteManageTable"
-      :data="currentPageData"
+      :data="currentPageData()"
       style="width: 100%;"
       :row-style="rowStyle"
       :header-row-style="headerRowStyle"
@@ -11,8 +18,8 @@
       :header-cell-style="cellStyle"
       :default-sort="{prop: 'created_time', order: 'descending'}"
     >
-      <el-table-column sortable prop="created_time" label="日期"></el-table-column>
-      <el-table-column prop="name" label="名称" :show-overflow-tooltip="true">
+      <el-table-column v-if="isShowCreatedTimeCol" sortable prop="created_time" label="日期"></el-table-column>
+      <el-table-column prop="name" label="名称" :show-overflow-tooltip="true" min-width="150px">
         <template slot-scope="scope">
           <a @click="handleClickCount(scope.row.id)">{{ scope.row.name }}</a>
         </template>
@@ -59,7 +66,7 @@
         </template>
       </el-table-column>
       <el-table-column label="操作" width="180px">
-        <template slot="header">
+        <template slot="header" slot-scope="scope">
           <el-button type="text" @click="dialogVisible = true">添加</el-button>
         </template>
         <template slot-scope="scope">
@@ -114,7 +121,7 @@
       :page-size="pageSize"
       :pager-count="pagerCount"
       :layout="layout"
-      :total="tableData.length"
+      :total="filterData.length"
     ></el-pagination>
     <el-dialog title="下载" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
       <el-input placeholder="Suite or Theme URL" v-model="downloadSuiteUrl" clearable></el-input>
@@ -144,7 +151,9 @@ export default {
       downloadSuiteUrl: "",
       loadingAddSuite: false,
       tagFilters: [],
-      clientWidth: constant.clientWidth
+      clientWidth: constant.clientWidth,
+      isShowCreatedTimeCol: constant.clientWidth > 768,
+      search: ""
     };
   },
   mounted() {
@@ -152,10 +161,11 @@ export default {
     this.getTagFilters();
   },
   computed: {
-    currentPageData: function() {
-      return this.tableData.slice(
-        this.pageSize * (this.currentPage - 1),
-        this.pageSize * this.currentPage
+    filterData() {
+      return this.tableData.filter(
+        data =>
+          !this.search ||
+          data.name.toLowerCase().includes(this.search.toLowerCase())
       );
     },
     downloadIsTheme() {
@@ -171,6 +181,12 @@ export default {
     }
   },
   methods: {
+    currentPageData() {
+      return this.filterData.slice(
+        this.pageSize * (this.currentPage - 1),
+        this.pageSize * this.currentPage
+      );
+    },
     // Style
     rowStyle() {
       return "height: 45px;font-size: 12px;";
