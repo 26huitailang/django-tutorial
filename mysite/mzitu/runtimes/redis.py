@@ -2,6 +2,7 @@
 # coding: utf-8
 
 import redis
+from django.conf import settings
 
 
 class RedisQueue(object):
@@ -43,5 +44,5 @@ class RedisQueue(object):
         return self.get(False)
 
 
-mzitu_image_queue = RedisQueue('mzitu_image')
-mzitu_url_queue = RedisQueue('mzitu_url')
+mzitu_image_queue = RedisQueue('mzitu_image', host=settings.REDIS_HOST)
+mzitu_url_queue = RedisQueue('mzitu_url', host=settings.REDIS_HOST)

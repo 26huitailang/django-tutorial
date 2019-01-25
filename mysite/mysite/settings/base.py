@@ -205,12 +205,21 @@ CORS_ALLOW_HEADERS = (
     'Pragma',
 )
 
+# redis for docker
+is_docker = os.environ.get('DOCKER')
+REDIS_HOST = 'redis' if is_docker else 'localhost'
+
 # ------------------------------------------------------------
 # celery
 
 # broker
-CELERY_BROKER_URL = 'redis://localhost:6379/0'
-
+if is_docker:
+    CELERY_BROKER_URL = 'redis://redis:6379/0'
+else:
+    CELERY_BROKER_URL = 'redis://localhost:6379/0'
+print(is_docker)
+print(REDIS_HOST)
+print(CELERY_BROKER_URL)
 # timezone
 CELERY_TIMEZONE = 'Asia/Shanghai'
 
