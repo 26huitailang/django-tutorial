@@ -204,6 +204,9 @@ def get_one_suite_and_download(suite_url):
 
     # 下载完将suite 完整性置为True
     suite_obj = DownloadedSuite.objects.filter(url=suite_url, is_complete=False).first()
+    if suite_obj is None:
+        return
+
     suite_obj.is_complete = True
     suite_obj.save()
     return
