@@ -10,17 +10,20 @@ services:
     build: .
     working_dir: /deploy/mysite
     command: >
-      bash -c "python manage.py migrate --noinput &&
-              python manage.py runserver 0.0.0.0:8000"
+      bash -c "python manage.py collectstatic -v0 --noinput &&
+              python manage.py migrate --noinput &&
+              /usr/local/bin/gunicorn -b :8000 mysite.wsgi:application"
     env_file:
       - .env  # environments
     volumes:
       - .:/deploy
       - ~/Downloads/:/deploy/Downloads/  # where pics save
-    ports:
-      - "8000:8000"
+    expose:
+      - 8000
     links:
       - redis
+    networks:
+      - nginx_network
   celery-worker:
     build: .
     working_dir: /deploy/mysite
@@ -30,7 +33,7 @@ services:
     volumes:
       - .:/deploy
       - ~/Downloads/:/deploy/Downloads/
-    links:
+    depends_on:
       - redis
   celery-beat:
     build: .
@@ -41,5 +44,20 @@ services:
     volumes:
       - .:/deploy
       - ~/Downloads/:/deploy/Downloads/
-    links:
+    depends_on:
       - redis
+  nginx:
+    image: nginx:latest
+    ports:
+      - 8000:80
+    volumes:
+      - .:/deploy
+      - ./config/nginx/conf.d:/etc/nginx/conf.d
+    depends_on:
+      - web
+    networks:
+      - nginx_network
+
+networks:
+  nginx_network:
+    driver: bridge
