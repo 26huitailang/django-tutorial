@@ -16,7 +16,7 @@ Fabric3
 influxdb
 
 ipython
-pygments  # We'll be using this for the code highlighting
+# pygments  # We'll be using this for the code highlighting
 hotqueue
 requests
 bs4
@@ -25,7 +25,7 @@ lxml
 flake8
 
 # plotly，用于作图
-plotly
+# plotly
 
 # 生成测试数据
 faker

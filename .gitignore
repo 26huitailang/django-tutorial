@@ -1,6 +1,5 @@
 .idea/
 .vscode/
-config.py
 *.sqlite3
 __pycache__/
 *.rdb
@@ -10,3 +9,7 @@ mysite/mysite/settings/settings.py
 # celery
 celerybeat.pid
 celerybeat-schedule*
+
+logs/*.log
+
+running/cdn

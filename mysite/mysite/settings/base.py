@@ -140,6 +140,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 # STATIC_ROOT = os.path.join(BASE_DIR, "static")
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(os.path.dirname(os.path.dirname(BASE_DIR)), 'running', 'cdn', 'static')
 
 # Add for Vue
 STATICFILES_DIRS = [
@@ -217,9 +218,7 @@ if is_docker:
     CELERY_BROKER_URL = 'redis://redis:6379/0'
 else:
     CELERY_BROKER_URL = 'redis://localhost:6379/0'
-print(is_docker)
-print(REDIS_HOST)
-print(CELERY_BROKER_URL)
+
 # timezone
 CELERY_TIMEZONE = 'Asia/Shanghai'
 

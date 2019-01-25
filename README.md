@@ -13,6 +13,10 @@
 
 ## How-to-Use
 
+### development env
+
+#### local
+
 - choose apps you want to use in `mysite/settings/base.py`, comment the apps you do not want
 - virtualenv a python3 environment, then `pip install -r requirements.txt`
 - start app `./manage.py runserver`
@@ -26,12 +30,11 @@
     - celery -A mysite beat -l debug
     - with gevent `celery -A mysite worker -l debug -P gevent -c 100`
 
-## Update
+#### docker
 
-- [x] 将vue放入django项目中，返回`dist/index.html`文件
-- [x] 2018/10/23，利用drf提供前端访问的API，users app
-- [x] 2018/08/20，试试使用react
-- [x] 2018/08/19，截止这个之前，应用有polls/mzitu/influxdb_plotly/chat，其中chat是ws可以尝试用asgi来启动
+- `frontend` folder, `npm run build`
+- WHERE_Dockerfile run `./docker-development.sh`
+- `127.0.0.1:8000`
 
 ## ORM
 
