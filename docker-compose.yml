@@ -49,10 +49,10 @@ services:
   nginx:
     image: nginx:latest
     ports:
-      - 8000:80
+      - 80:80
     volumes:
       - .:/deploy
-      - ./config/nginx/conf.d:/etc/nginx/conf.d
+      - ./config/test/nginx/conf.d:/etc/nginx/conf.d
     depends_on:
       - web
     networks:
