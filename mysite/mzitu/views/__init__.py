@@ -7,4 +7,5 @@ from . import (  # noqa: F401
     suite,
     theme,
     tag,
+    chart,
 )

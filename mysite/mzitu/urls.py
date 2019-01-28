@@ -39,6 +39,12 @@ tag_router.register(
     views.tag.TagViewSet,
     base_name='api-mzitu-tag',
 )
+chart_router = routers.DefaultRouter()
+chart_router.register(
+    r'',
+    views.chart.ChartViewSet,
+    base_name='api-mzitu-chart'
+)
 
 suite_urlpatterns = [
     re_path(r'^', include(suite_router.urls)),
@@ -56,4 +62,5 @@ urlpatterns = [
     path('themes/', include(theme_urlpatterns)),
     path('proxyips/', include(proxyip_urlpatterns)),
     re_path(r'tags/', include(tag_router.urls)),
+    re_path(r'charts/', include(chart_router.urls)),
 ]

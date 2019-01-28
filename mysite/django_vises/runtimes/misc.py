@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding=utf-8
 
-
+import operator
 from django.utils.six import text_type
 
 # copy from rest_framework
@@ -74,3 +74,8 @@ def str_to_boolean(text):
         return False
     elif text.lower() in ['true']:
         return True
+
+
+def sort_dict_list(dict_to_sort: dict = None, sort_key = '', reverse=False) -> list:
+    sorted_list = sorted(dict_to_sort, key=operator.itemgetter(sort_key), reverse=reverse)
+    return sorted_list

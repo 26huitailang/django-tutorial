@@ -4,8 +4,9 @@
 
 <script>
 import ECharts from 'vue-echarts'
-import 'echarts/lib/chart/line'
+import 'echarts/lib/chart/bar'
 import 'echarts/lib/component/polar'
+import { get } from "../http";
 
 export default {
   name: 'ChartDashboard',
@@ -15,47 +16,49 @@ export default {
   data () {
     let data = []
 
-    for (let i = 0; i <= 360; i++) {
-        let t = i / 180 * Math.PI
-        let r = Math.sin(2 * t) * Math.cos(2 * t)
-        data.push([r, i])
-    }
-
+    // for (let i = 0; i <= 5; i++) {
+    //     data.push(i)
+    // }
+    console.log(data)
     return {
-      polar: {
-        title: {
-          text: '极坐标双数值轴'
-        },
-        legend: {
-          data: ['line']
-        },
-        polar: {
-          center: ['50%', '54%']
-        },
-        tooltip: {
-          trigger: 'axis',
-          axisPointer: {
-            type: 'cross'
-          }
-        },
-        angleAxis: {
-          type: 'value',
-          startAngle: 0
-        },
-        radiusAxis: {
-          min: 0
-        },
-        series: [
-          {
-            coordinateSystem: 'polar',
-            name: 'line',
-            type: 'line',
-            showSymbol: false,
-            data: data
-          }
-        ],
-        animationDuration: 2000
+      // polar: {
+      //   title: {
+      //     text: '极坐标双数值轴'
+      //   },
+      //   legend: {
+      //     data: ['line']
+      //   },
+      //   tooltip: {
+      //   },
+      //   xAxis: {
+      //     data: ['0', '1', '2', '3', '4', '5']
+      //   },
+      //   yAxis: {},
+      //   series: [
+      //     {
+      //       // coordinateSystem: 'polar',
+      //       name: 'line',
+      //       type: 'line',
+      //       showSymbol: false,
+      //       data: data
+      //     }
+      //   ],
+      //   animationDuration: 2000
+      // }
+      polar: {},
+    }
+  },
+  mounted() {
+    this.getChartObj()
+  },
+  methods: {
+    getChartObj() {
+      get('http://127.0.0.1:8000/api/v1/mzitu/charts/test/').then(
+      response => {
+          console.log(response.data);
+          this.polar = response.data
       }
+    )
     }
   }
 }
@@ -63,7 +66,7 @@ export default {
 
 <style scoped>
 .echarts {
-  width: 500px;
+  width: 100%;
   height: 500px;
 }
 </style>
