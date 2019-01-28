@@ -8,6 +8,7 @@ import App from "./App";
 import "./plugins/element.js";
 import router from "./router";
 import VueLazyload from "vue-lazyload";
+import ECharts from "vue-echarts";
 
 Vue.use(VueLazyload, {
   preLoad: 1.3,
@@ -19,6 +20,7 @@ Vue.use(VueLazyload, {
 Vue.config.productionTip = false;
 
 Vue.use(ElementUI);
+Vue.component('v-chart', ECharts);
 
 Vue.component("icon", Icon);
 Vue.prototype.axios = axios;

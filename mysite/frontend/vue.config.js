@@ -3,5 +3,9 @@ module.exports = {
   runtimeCompiler: true,
   configureWebpack: {
     devtool: 'source-map'
-  }
+  },
+  transpileDependencies: [
+    'vue-echarts',
+    'resize-detector'
+  ]
 }
