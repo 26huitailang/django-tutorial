@@ -6,6 +6,7 @@ import MzituSuiteDetail from "../components/MzituSuiteDetail.vue";
 import MzituTags from "../components/MzituTags.vue";
 import MzituSuitesManagement from "../components/MzituSuitesManagement.vue";
 import Error404 from "../components/Error404.vue";
+import ChartDashboard from "../components/ChartDashboard.vue"
 
 Vue.use(VueRouter);
 
@@ -25,6 +26,7 @@ const routes = [
     component: MzituSuiteDetail
   },
   { path: "/mzitu/tags", name: "mzitu-tags-list", component: MzituTags },
+  { path: "/chart/dashboard", name: "chart-dashboard", component: ChartDashboard },
   { path: "/404", name: "404", component: Error404 },
   { path: "*", redirect: "/404" }
 ];
