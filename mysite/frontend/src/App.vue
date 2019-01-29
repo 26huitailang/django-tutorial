@@ -8,6 +8,7 @@
             <el-tab-pane label="Suites" name="suites"></el-tab-pane>
             <el-tab-pane label="Tags" name="tags"></el-tab-pane>
             <el-tab-pane label="SuitesManage" name="suites-manage"></el-tab-pane>
+            <el-tab-pane label="ChartDashboard" name="chart-dashboard"></el-tab-pane>
             <!-- 路由对应的组件渲染的地方 -->
             <router-view @login="getUsername"></router-view>
           </el-tabs>
@@ -40,6 +41,9 @@ export default {
         case "suites-manage":
           this.$router.push({ name: "mzitu-suites-management" });
           break;
+        case "chart-dashboard":
+          this.$router.push({ name: "chart-dashboard" });
+          break;
         default:
           this.$router.push("/mzitu/suites");
           break;
@@ -53,7 +57,10 @@ export default {
         result = "suites";
       } else if (currentRouteName.startsWith("mzitu-tags")) {
         result = "tags";
+      } else if (currentRouteName.startsWith("chart-dashboard")) {
+        result = "chart-dashboard";
       }
+
       if (currentRouteName.indexOf("management") !== -1) {
         result = "suites-manage";
       }

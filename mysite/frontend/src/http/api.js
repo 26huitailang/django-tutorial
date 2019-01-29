@@ -37,3 +37,10 @@ export function MZITU(id) {
     TagDelete: apiV1() + `/mzitu/tags/${id}/`
   };
 }
+
+export function CHART() {
+  return {
+    TagsBar: apiV1() + "/mzitu/charts/tags_bar/",
+    ProxyIpsBar: apiV1() + "/mzitu/charts/proxyips_bar/",
+  }
+}

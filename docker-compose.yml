@@ -29,7 +29,7 @@ services:
     working_dir: /deploy/mysite
     env_file:
       - .env  # environments
-    command: /usr/local/bin/celery -A mysite worker -l debug
+    command: /usr/local/bin/celery -A mysite worker -l info
     volumes:
       - .:/deploy
       - ~/Downloads/:/deploy/Downloads/
@@ -40,7 +40,9 @@ services:
     working_dir: /deploy/mysite
     env_file:
       - .env  # environments
-    command: /usr/local/bin/celery -A mysite beat -l debug
+    command: >
+      bash -c "if [[ -a celerybeat.pid ]];then echo \"存在celerybeat.pid，删除\";rm -f celerybeat.pid;fi &&
+              /usr/local/bin/celery -A mysite beat -l info"
     volumes:
       - .:/deploy
       - ~/Downloads/:/deploy/Downloads/

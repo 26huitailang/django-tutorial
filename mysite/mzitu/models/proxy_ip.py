@@ -2,6 +2,7 @@ import uuid
 import random
 from django.db import models
 from django.utils import timezone
+from django.db.models import Count
 
 
 class ProxyIp(models.Model):
@@ -69,3 +70,7 @@ class ProxyIp(models.Model):
     def delete_invalid_items(cls):
         count, _ = ProxyIp.objects.filter(is_valid=False).delete()
         return count
+
+    @classmethod
+    def group_by_score(cls):
+        return ProxyIp.objects.order_by('score').values_list('score').annotate(count=Count('score'))
