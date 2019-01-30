@@ -23,28 +23,31 @@ export default {
     this.setBarProxyIp();
   },
   methods: {
-    setBarTags() {
+    setBarTags() {  // 设置Tags柱状图
       let obj = {};
       get(CHART().TagsBar).then(response => {
         obj = response.data;
         this.barTagsOptions = {
+          // 视觉设置
           visualMap: [
             {
-              type: "continuous",
-              orient: "horizontal",
-              dimension: 0,
-              min: 0,
-              max: obj.maxCount,
-              top: 0,
+              type: "continuous",  // 连续型
+              orient: "horizontal",  // 水平显示样例
+              dimension: 0,  // 用series.data第一列数据
+              min: 0,  // 最小值
+              max: obj.maxCount,  // 最大值
+              top: 0,  // 相对位置，这个设置会出现在右上角，可以用百分比
               right: 0
             }
           ],
           title: {
             text: obj.title
           },
+          // 图例，多个数据集的时候有用
           legend: {
             data: ["tags"]
           },
+          // ？
           grid: {
             left: "15%"
           },
@@ -71,16 +74,17 @@ export default {
               }
             ]
           },
+          // 滚动条和缩放
           dataZoom: [
             {
-              type: "slider",
+              type: "slider",  // 滚动和缩放条
               yAxisIndex: 0,
-              start: 50,
+              start: 50,  // 初始化百分比位置
               end: 100,
-              filterMode: "empty"
+              filterMode: "empty"  // 不按照数据自动缩放
             },
             {
-              type: "inside",
+              type: "inside",  // 可用鼠标拖动图表
               yAxisIndex: 0,
               start: 50,
               end: 100
@@ -106,7 +110,7 @@ export default {
               data: obj.data
             }
           ],
-          animationDuration: 1500
+          animationDuration: 1500  // 1.5s的动画过渡
         };
         this.barTags = echarts.init(document.getElementById("barTags"));
         this.barTags.setOption(this.barTagsOptions);
