@@ -204,7 +204,7 @@ export default {
       if (type === "delete") {
         this.deleteSuite(scope);
       } else if (type === "download") {
-        this.handleDownloadSuite(scope.row.url); // todo 下载后轮训，试试dwebsocket
+        this.handleDownloadSuite(scope.row.url, scope.row.id); // todo 下载后轮训，试试dwebsocket
       }
       scope._self.$refs[`popover-${type}-${scope.$index}`].doClose();
     },
@@ -218,14 +218,24 @@ export default {
           this.$message({ message: error, type: "error" });
         });
     },
-    handleDownloadSuite(url) {
+    handleDownloadSuite(url, suite_id) {
       post(MZITU().SuitesDownload + url)
         .then(response => {
           this.$message({ message: response.data, type: "success" });
+          // todo: 下载的话就将ws推送回来的信息添加到tableData中，动态更新到页面上
+          let username = sessionStorage.getItem('user_name');
+          console.log(username, suite_id)
+          this.initWebsocket(`ws://localhost:8001/ws?username=${username}&suite_id=${suite_id}`)
         })
         .catch(error => {
           this.$message({ message: error, type: "error" });
         });
+    },
+    initWebsocket(ws_url) {
+      let ws = new WebSocket(ws_url);
+      ws.on_message = function(e) {
+        console.log(e.data);
+      }
     },
     getList() {
       get(MZITU().SuitesList).then(
@@ -264,26 +274,6 @@ export default {
     },
     handleSizeChange(pageSize) {
       this.pageSize = pageSize;
-    },
-    handleLikeToggle(id, is_like) {
-      // 这个scope传入的index和tableData 不是同一个排序
-      post("mzitu/tags/" + id + "/like_toggle/")
-        .then(response =>
-          // 这种写法vue不是响应式的，返回新的对象
-          // this.tableData[index].is_like = response.data.is_like
-          this.tableData.forEach(function(item) {
-            if (item.id === id) {
-              item.is_like = response.data.is_like;
-            }
-          })
-        )
-        .catch(() =>
-          this.tableData.forEach(function(item) {
-            if (item.id === id) {
-              item.is_like = is_like;
-            }
-          })
-        );
     },
     handleClickCount(id) {
       this.$router.push({ name: "mzitu-suites-detail", params: { id: id } });

@@ -7,7 +7,7 @@
 <script type="text/javascript">
 	var ws;
 	function onLoad(){
-		ws = new WebSocket("ws://localhost:8001/ws?username=peter2");
+		ws = new WebSocket("ws://localhost:8001/ws?username=peter2&suite_id=79a727a3e3ce41ce8ff3ff5200f9d694");
 		ws.onmessage = function(e){
 			console.log(e.data)
 		}

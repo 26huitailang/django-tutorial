@@ -207,8 +207,9 @@ def get_one_suite_and_download(suite_url):
     if suite_obj is None:
         return
 
-    suite_obj.is_complete = True
-    suite_obj.save()
+    if suite_obj.max_page == get_local_suite_count(suite_obj.name):
+        suite_obj.is_complete = True
+        suite_obj.save()
     return
 
 
@@ -216,3 +217,5 @@ def get_one_suite_and_download(suite_url):
 def download_one_suite(suite_url):
     get_one_suite_and_download(suite_url)
     return
+
+from rest_framework.authentication import TokenAuthentication
