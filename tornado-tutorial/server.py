@@ -32,6 +32,7 @@ from rest_framework.renderers import JSONRenderer
 from mzitu.models.downloaded_suite import DownloadedSuite
 from mzitu.serializers import MzituDownloadedSuiteSerializer
 from mzitu.runtimes.suite import get_local_suite_count
+from rest_framework.authtoken.models import Token
 
 # sql_file = os.path.join(BASE_DIR, 'mysite', 'mysite', 'local.sqlite3')
 # print(sql_file)
@@ -41,15 +42,27 @@ from mzitu.runtimes.suite import get_local_suite_count
 define("port", default=8001, type=int)
 
 
+def user_auth(key):
+    """简单固定token认证"""
+    token = Token.objects.filter(key=key).first()
+    if token is None:
+        return False
+
+    return True
+
+
 class WebSocketHandler(WebSocketHandler):
     users = set()  # 用来存放在线用户的容器
 
     async def open(self):
         # self.users.add(self)  # 建立连接后添加用户到容器中
-        print("{} 连接".format(self.get_query_argument('username')))
-        print("{}".format(self.get_query_argument('suite_id')))
         # todo: auth
-        asyncio.ensure_future(self.callback_downloadedsuite(self.get_query_argument('suite_id')))
+        if not user_auth(self.get_query_argument('token', None)):
+            self.write_message('用户认证失败')
+        else:
+            print("{} 连接".format(self.get_query_argument('username')))
+            print("{}".format(self.get_query_argument('suite_id')))
+            asyncio.ensure_future(self.callback_downloadedsuite(self.get_query_argument('suite_id')))
 
     async def on_message(self, message):
         asyncio.ensure_future(self.callback_while(message))
