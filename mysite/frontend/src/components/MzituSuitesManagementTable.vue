@@ -229,7 +229,6 @@ export default {
           this.$message({ message: response.data, type: "success" });
           // todo: 下载的话就将ws推送回来的信息添加到tableData中，动态更新到页面上
           let username = sessionStorage.getItem('user_name');
-          console.log(username, suite_id)
           this.initWebsocket(`ws://localhost:8001/ws?username=${username}&suite_id=${suite_id}`)
         })
         .catch(error => {
@@ -237,13 +236,13 @@ export default {
         });
     },
     initWebsocket(ws_url) {
-      this.websocket = new WebSocket(ws_url);
+      let token = sessionStorage.getItem('token');
+      this.websocket = new WebSocket(ws_url + `&${token}`);
       this.websocket.onmessage = this.websocketOnMessage;
       this.websocket.onclose = this.websocketOnClose;
     },
     websocketOnMessage(e) {
       let new_element = JSON.parse(e.data);
-      console.log(new_element);
 
       for (let i = 0; i < this.tableData.length; i++) {
         if (this.tableData[i].id === new_element.id) {
