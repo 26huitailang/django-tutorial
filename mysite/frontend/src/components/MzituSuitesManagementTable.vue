@@ -134,6 +134,7 @@
   </div>
 </template>
 <script>
+import Vue from "vue";
 import { get, post, _delete } from "../http";
 import { apiBase, MZITU } from "../http/api.js";
 import constant from "./TheConstant";
@@ -153,12 +154,16 @@ export default {
       tagFilters: [],
       clientWidth: constant.clientWidth,
       isShowCreatedTimeCol: constant.clientWidth > 992,  // md size
-      search: ""
+      search: "",
+      websocket: null
     };
   },
   mounted() {
     this.getList();
     this.getTagFilters();
+  },
+  destroyed() {
+    this.websocket.close();
   },
   computed: {
     filterData() {
@@ -232,10 +237,26 @@ export default {
         });
     },
     initWebsocket(ws_url) {
-      let ws = new WebSocket(ws_url);
-      ws.on_message = function(e) {
-        console.log(e.data);
+      this.websocket = new WebSocket(ws_url);
+      this.websocket.onmessage = this.websocketOnMessage;
+      this.websocket.onclose = this.websocketOnClose;
+    },
+    websocketOnMessage(e) {
+      let new_element = JSON.parse(e.data);
+      console.log(new_element);
+
+      for (let i = 0; i < this.tableData.length; i++) {
+        if (this.tableData[i].id === new_element.id) {
+          console.log('replace');
+          Vue.set(this.tableData[i], 'locals_count', new_element.locals_count);
+          if (new_element.max_page === new_element.locals_count) {
+            Vue.set(this.tableData[i], 'is_complete', true);
+          }
+        }
       }
+    },
+    websocketOnClose(e) {
+      console.log('断开', e);
     },
     getList() {
       get(MZITU().SuitesList).then(
