@@ -7,7 +7,8 @@
 <script type="text/javascript">
 	var ws;
 	function onLoad(){
-		ws = new WebSocket("ws://localhost:8001/ws?username=peter&suite_id=965e4a33a14b4645abafadfe0e6cb93a&token=73d54d206bfbb72c0ff844aa32fd2b2616e0844d");
+		ws = new WebSocket("ws://localhost:8001/ws?username=peter&suite_id=965e4a33a14b4645abafadfe0e6cb93a&token=73d54d206bfbb72c0ff844aa32fd2b2616e0844d",
+        ["73d54d206bfbb72c0ff844aa32fd2b2616e0844d"]);
 		ws.onmessage = function(e){
 			console.log(e.data)
 		}

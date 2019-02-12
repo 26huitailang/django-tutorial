@@ -44,6 +44,9 @@ define("port", default=8001, type=int)
 
 def user_auth(key):
     """简单固定token认证"""
+    if not key:
+        return False
+
     token = Token.objects.filter(key=key).first()
     if token is None:
         return False
@@ -56,8 +59,8 @@ class WebSocketHandler(WebSocketHandler):
 
     async def open(self):
         # self.users.add(self)  # 建立连接后添加用户到容器中
-        # todo: auth
-        if not user_auth(self.get_query_argument('token', None)):
+        # 利用这个自定义的header来存token，标准建议用于协议或域名
+        if not user_auth(self.request.headers.get('Sec-WebSocket-Protocol', None)):
             self.write_message('用户认证失败')
         else:
             print("{} 连接".format(self.get_query_argument('username')))
