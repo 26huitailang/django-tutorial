@@ -237,7 +237,7 @@ export default {
     },
     initWebsocket(ws_url) {
       let token = sessionStorage.getItem('token');
-      this.websocket = new WebSocket(ws_url + `&${token}`);
+      this.websocket = new WebSocket(ws_url, [token]);  // 通过标准中可自定义的字段Sec-WebSocket-Protocol
       this.websocket.onmessage = this.websocketOnMessage;
       this.websocket.onclose = this.websocketOnClose;
     },
