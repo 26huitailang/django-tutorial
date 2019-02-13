@@ -5,7 +5,7 @@ import { apiV1 } from "../http/api.js";
 // 创建axios实例
 const service = axios.create({
   baseURL: apiV1(),
-  timeout: 5000, // 请求超时时间
+  timeout: 10000, // 请求超时时间
   withCredentials: true // 允许携带cookie
 });
 
@@ -33,6 +33,7 @@ service.interceptors.response.use(
     return res;
   },
   error => {
+    console.log(error);
     if (error.response) {
       if (error.response.status === 404) {
         router.push("/404");

@@ -39,7 +39,7 @@ from rest_framework.authtoken.models import Token
 # connection = sqlite3.connect(sql_file)
 # c = connection.cursor()
 
-define("port", default=8001, type=int)
+define("port", default=8010, type=int)
 
 
 def user_auth(key):
@@ -132,6 +132,6 @@ if __name__ == '__main__':
     tornado.options.parse_command_line()
     app = Application()
     http_server = tornado.httpserver.HTTPServer(app)
-    http_server.listen(options.port)
+    http_server.listen(options.port, address='0.0.0.0')
     http_server.start()
     tornado.ioloop.IOLoop.current().start()

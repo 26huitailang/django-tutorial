@@ -1,0 +1,25 @@
+<!DOCTYPE HTML>
+<html lang="zh-cn">
+<head>
+	<meta charset="UTF-8">
+	<title>Tornado Websocket</title>
+</head>
+<script type="text/javascript">
+	var ws;
+	function onLoad(){
+		ws = new WebSocket("ws://localhost/ws?username=peter&suite_id=965e4a33a14b4645abafadfe0e6cb93a&token=73d54d206bfbb72c0ff844aa32fd2b2616e0844d",
+        ["73d54d206bfbb72c0ff844aa32fd2b2616e0844d"]);
+		ws.onmessage = function(e){
+			console.log(e.data)
+		}
+	}
+
+	function sendMsg(){
+		ws.send(document.getElementById('msg').value);
+	}
+</script>
+<body onload='onLoad();'>
+	Message to send:   <input type="text" id="msg" />
+	  <input type="button" onclick="sendMsg();" value="发送" />
+</body>
+</html>

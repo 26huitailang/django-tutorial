@@ -58,7 +58,6 @@ class MzituSuiteViewSet(GenericViewSet):
             return Response('no suite_url', status=status.HTTP_400_BAD_REQUEST)
 
         # 线程
-        # fix: 同步可以执行，异步会timeout
         download_one_suite.delay(suite_url)
         # download_one_suite(suite_url)
         return Response('delayed, check later', status=status.HTTP_202_ACCEPTED)

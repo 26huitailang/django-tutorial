@@ -6,13 +6,15 @@ services:
     image: redis:latest
     ports:
       - "6379:6379"
+    networks:
+      - nginx_network
   web:
     build: .
     working_dir: /deploy/mysite
     command: >
       bash -c "python manage.py collectstatic -v0 --noinput &&
               python manage.py migrate --noinput &&
-              /usr/local/bin/gunicorn -b :8000 mysite.wsgi:application"
+              /usr/local/bin/gunicorn -b unix:/deploy/running/handle/django-tutorial-server.sock -w 9 mysite.wsgi:application --log-level debug"
     env_file:
       - .env  # environments
     volumes:
@@ -22,6 +24,19 @@ services:
       - 8000
     links:
       - redis
+    networks:
+      - nginx_network
+  tornado-websocket:
+    build: .
+    working_dir: /deploy/tornado-tutorial
+    command: python server.py
+    env_file:
+      - .env
+    volumes:
+      - .:/deploy
+      - ~/Downloads/:/deploy/Downloads/
+    expose:
+      - 8001
     networks:
       - nginx_network
   celery-worker:
@@ -35,6 +50,8 @@ services:
       - ~/Downloads/:/deploy/Downloads/
     depends_on:
       - redis
+    networks:
+      - nginx_network
   celery-beat:
     build: .
     working_dir: /deploy/mysite
@@ -48,6 +65,8 @@ services:
       - ~/Downloads/:/deploy/Downloads/
     depends_on:
       - redis
+    networks:
+      - nginx_network
   nginx:
     image: nginx:latest
     ports:
@@ -57,6 +76,7 @@ services:
       - ./config/test/nginx/conf.d:/etc/nginx/conf.d
     depends_on:
       - web
+      - tornado-websocket
     networks:
       - nginx_network
 

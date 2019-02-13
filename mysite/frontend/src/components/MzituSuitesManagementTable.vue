@@ -229,7 +229,7 @@ export default {
           this.$message({ message: response.data, type: "success" });
           // todo: 下载的话就将ws推送回来的信息添加到tableData中，动态更新到页面上
           let username = sessionStorage.getItem('user_name');
-          this.initWebsocket(`ws://localhost:8001/ws?username=${username}&suite_id=${suite_id}`)
+          this.initWebsocket(`ws://localhost/ws?username=${username}&suite_id=${suite_id}`)
         })
         .catch(error => {
           this.$message({ message: error, type: "error" });
