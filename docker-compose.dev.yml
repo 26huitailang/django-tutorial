@@ -10,6 +10,8 @@ services:
     image: postgres:11-alpine
     volumes:
       - ~/Postgres:/var/lib/postgresql/data/
+    ports:
+      - "10864:5432"
   web:
     build: .
     working_dir: /deploy/mysite
