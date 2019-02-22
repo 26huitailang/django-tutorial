@@ -7,13 +7,14 @@ services:
     ports:
       - "6379:6379"
   db:
-    image: postgres:11-alpine
+    build: ./postgres
     volumes:
       - ~/Postgres:/var/lib/postgresql/data/
     ports:
       - "10864:5432"
   web:
     build: .
+    restart: always
     working_dir: /deploy/mysite
     command: >
       bash -c "python manage.py migrate --noinput &&
@@ -51,6 +52,8 @@ services:
       - ~/Downloads/:/deploy/Downloads/
     links:
       - redis
+    depends_on:
+      - db
   celery-beat:
     build: .
     working_dir: /deploy/mysite
@@ -63,4 +66,6 @@ services:
       - .:/deploy
       - ~/Downloads/:/deploy/Downloads/
     links:
+      - redis
+    depends_on:
       - redis
