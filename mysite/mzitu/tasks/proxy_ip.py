@@ -12,6 +12,7 @@ from bs4 import BeautifulSoup
 from celery import shared_task
 from celery.utils.log import get_task_logger
 from django.conf import settings
+from django.db import connections
 from concurrent.futures import ThreadPoolExecutor
 
 from mzitu.constants import USER_AGENT_LIST
@@ -98,6 +99,16 @@ def _update_proxy_ip_score(proxy_ip_instance, url):
     return
 
 
+def on_done(future):
+    """Django 关闭连接的时机是和请求的连接一起关闭
+    这里是通过线程使用，就不会关闭导致连接堆积，PG不接受新连接
+
+    解决：注册这个回调，在每个线程执行完后执行关闭连接的操作。
+    """
+    connections.close_all()
+    return
+
+
 @shared_task
 def check_proxy_ip():
     """测试代理ip是否有效
@@ -105,13 +116,15 @@ def check_proxy_ip():
     如果是10分可用的话，标记为100分，其他按是否有效+/-1分
     如果为0分，则标记为not valid
     """
-    MAX_WORKERS = 50
+    MAX_WORKERS = 10
     url = 'http://httpbin.org/ip'
     items = ProxyIp.objects.filter(is_valid=True).order_by('created_time').all()
     # todo: 多线程，但是控制数量
     with ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
         for item in items:
-            executor.submit(_update_proxy_ip_score, item, url)
+            future = executor.submit(_update_proxy_ip_score, item, url)
+            future.add_done_callback(on_done)
+
     # 27s -> 17s
     # task_list = [gevent.spawn(_update_proxy_ip_score, item, url) for item in items]
     # gevent.joinall(task_list)
