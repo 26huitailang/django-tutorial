@@ -4,6 +4,9 @@ url = "https://mirrors.aliyun.com/pypi/simple"
 verify_ssl = true
 
 [dev-packages]
+flower = "*"
+flake8 = "*"
+drf-yasg = {extras = ["validation"],version = "*"}
 
 [packages]
 django = ">=2.0"
