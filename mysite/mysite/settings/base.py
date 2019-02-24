@@ -236,7 +236,7 @@ CELERY_BEAT_SCHEDULE = {
     'check-proxy-ip-per-5-minute': {
         # 检查任务
         'task': 'mzitu.tasks.proxy_ip.check_proxy_ip',
-        'schedule': datetime.timedelta(minutes=2),
+        'schedule': datetime.timedelta(minutes=5),
     },
     'get-proxy-ip-and-delete-invalid-per-6-hour': {
         # 获得新代理ip，删除失效代理ip
