@@ -1,0 +1,33 @@
+[[source]]
+name = "pypi"
+url = "https://mirrors.aliyun.com/pypi/simple"
+verify_ssl = true
+
+[dev-packages]
+
+[packages]
+django = ">=2.0"
+pillow = "*"
+djangorestframework = "*"
+drf-nested-routers = "*"
+django-cors-headers = "*"
+psycopg2-binary = "*"
+tornado = "*"
+gunicorn = "*"
+raven = "*"
+fabric3 = "*"
+influxdb = "*"
+ipython = "*"
+pygments = "*"
+hotqueue = "*"
+requests = "*"
+bs4 = "*"
+redis = "*"
+lxml = "*"
+flake8 = "*"
+plotly = "*"
+faker = "*"
+celery = "*"
+
+[requires]
+python_version = "3.7"
