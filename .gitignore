@@ -17,3 +17,6 @@ running/cdn
 
 # docker
 postgres/data/
+.bash_history
+.cache
+.ipython
