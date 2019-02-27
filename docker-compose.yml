@@ -50,7 +50,7 @@ services:
       - .:/deploy
       - ~/Downloads/:/deploy/Downloads/
     expose:
-      - 8001
+      - 8010
     networks:
       - nginx_network
   celery-worker:

@@ -14,6 +14,10 @@ export function apiBase() {
   return process.env.VUE_APP_API_ROOT;
 }
 
+export function wsBase() {
+  return process.env.VUE_APP_WS_ROOT;
+}
+
 export function apiV1() {
   return apiBase() + "/api/v1";
 }

@@ -41,7 +41,7 @@ services:
       - .:/deploy
       - ~/Downloads/:/deploy/Downloads/
     ports:
-      - "8001:8001"
+      - "8010:8010"
   celery-worker:
     build: .
     working_dir: /deploy/mysite
