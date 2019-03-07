@@ -40,7 +40,7 @@ services:
       - nginx_network
     depends_on:
       - db
-  tornado-websocket:
+  tornado-8010:
     build: .
     working_dir: /deploy/tornado-tutorial
     command: python server.py
@@ -51,6 +51,19 @@ services:
       - ~/Downloads/:/deploy/Downloads/
     expose:
       - 8010
+    networks:
+      - nginx_network
+  tornado-8011:
+    build: .
+    working_dir: /deploy/tornado-tutorial
+    command: python server.py
+    env_file:
+      - .env
+    volumes:
+      - .:/deploy
+      - ~/Downloads/:/deploy/Downloads/
+    expose:
+      - 8011
     networks:
       - nginx_network
   celery-worker:
@@ -91,7 +104,8 @@ services:
       - ./config/test/nginx/conf.d:/etc/nginx/conf.d
     depends_on:
       - web
-      - tornado-websocket
+      - tornado-8010
+      - tornado-8011
     networks:
       - nginx_network
 

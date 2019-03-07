@@ -217,5 +217,3 @@ def get_one_suite_and_download(suite_url):
 def download_one_suite(suite_url):
     get_one_suite_and_download(suite_url)
     return
-
-from rest_framework.authentication import TokenAuthentication

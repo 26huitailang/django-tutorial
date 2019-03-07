@@ -13,9 +13,7 @@
 
 ## How-to-Use
 
-### development env
-
-#### local
+### local
 
 - choose apps you want to use in `mysite/settings/base.py`, comment the apps you do not want
 - virtualenv a python3 environment, then `pip install -r requirements.txt`
@@ -30,11 +28,16 @@
     - celery -A mysite beat -l debug
     - with gevent `celery -A mysite worker -l debug -P gevent -c 100`
 
-#### docker
+### docker
 
 - `frontend` folder, `npm run build`
 - WHERE_Dockerfile run `./docker-development.sh`
-- `127.0.0.1:8000`
+- `127.0.0.1:80`
+
+#### docker-compose scale
+
+- docker-compose up --scale celery-worker=2
+  - 接收多个服务参数
 
 ## ORM
 
