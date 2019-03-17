@@ -17,7 +17,7 @@ from concurrent.futures import ThreadPoolExecutor
 
 from mzitu.constants import USER_AGENT_LIST
 from mzitu.models.proxy_ip import ProxyIp
-from mzitu.runtimes.suite import generate_proxies
+from mzitu.runtimes.mzitu_suite import generate_proxies
 
 
 logger = get_task_logger(__name__)

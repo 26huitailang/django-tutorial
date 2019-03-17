@@ -76,6 +76,6 @@ def str_to_boolean(text):
         return True
 
 
-def sort_dict_list(dict_to_sort: dict = None, sort_key = '', reverse=False) -> list:
+def sort_dict_list(dict_to_sort: dict = None, sort_key='', reverse=False) -> list:
     sorted_list = sorted(dict_to_sort, key=operator.itemgetter(sort_key), reverse=reverse)
     return sorted_list

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding=utf-8
 
-from mzitu.runtimes.suite import PicJsonRedis
+from mzitu.runtimes.redis import PicJsonRedis
 
 # Dictionary mapping names to known classes
 _classes = {

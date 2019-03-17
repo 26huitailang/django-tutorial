@@ -5,7 +5,7 @@
 """
 
 import re
-from mzitu.runtimes.suite import proxy_request
+from mzitu.runtimes.mzitu_suite import proxy_request
 
 
 def get_max_page_num_of_theme(theme_url):

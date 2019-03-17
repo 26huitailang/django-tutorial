@@ -31,7 +31,7 @@ from rest_framework.renderers import JSONRenderer
 # from mzitu.models.tag import Tag
 from mzitu.models.downloaded_suite import DownloadedSuite
 from mzitu.serializers import MzituDownloadedSuiteSerializer
-from mzitu.runtimes.suite import get_local_suite_count
+from mzitu.runtimes.mzitu_suite import get_local_suite_count
 from rest_framework.authtoken.models import Token
 
 # sql_file = os.path.join(BASE_DIR, 'mysite', 'mysite', 'local.sqlite3')

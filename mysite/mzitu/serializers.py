@@ -5,7 +5,7 @@ from rest_framework import serializers
 
 from mzitu.models.downloaded_suite import DownloadedSuite, SuiteImageMap
 from mzitu.models.tag import Tag
-from mzitu.runtimes.suite import get_local_suite_count
+from mzitu.runtimes.mzitu_suite import get_local_suite_count
 
 
 class SuiteImageMapSerializer(serializers.ModelSerializer):
