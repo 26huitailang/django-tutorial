@@ -263,7 +263,8 @@ PROXY_SOURCE_URL = 'http://www.xicidaili.com/nn/'
 MEDIA_URL = '/media/'
 home_path = os.environ.get('HOME')
 MEDIA_ROOT = os.path.join(home_path, 'Downloads')
-IMAGE_FOLDER = os.path.join(MEDIA_ROOT, 'mzitu')
+IMAGE_FOLDER_MZITU = os.path.join(MEDIA_ROOT, 'mzitu')
+IMAGE_FOLDER_MEITURI = os.path.join(MEDIA_ROOT, 'meituri')
 
 # ------------------------------------------------------------
 # Sentry

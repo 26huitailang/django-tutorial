@@ -30,12 +30,12 @@ def delete_imgs():
     suite_name_list = DownloadedSuite.objects.values_list('name').all()
     suite_name_list = set([x[0] for x in suite_name_list])
 
-    local_folders = os.listdir(settings.IMAGE_FOLDER)
-    local_folders = set([x for x in local_folders if os.path.isdir(os.path.join(settings.IMAGE_FOLDER, x))])
+    local_folders = os.listdir(settings.IMAGE_FOLDER_MZITU)
+    local_folders = set([x for x in local_folders if os.path.isdir(os.path.join(settings.IMAGE_FOLDER_MZITU, x))])
 
     folder_to_delete = local_folders - suite_name_list
     for folder in folder_to_delete:
-        folder_path = os.path.join(settings.IMAGE_FOLDER, folder)
+        folder_path = os.path.join(settings.IMAGE_FOLDER_MZITU, folder)
         shutil.rmtree(folder_path)
         logger.info("removed folder: %s", folder_path)
 

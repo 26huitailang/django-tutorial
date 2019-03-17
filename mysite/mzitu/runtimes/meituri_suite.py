@@ -104,7 +104,7 @@ def get_local_suite_count(suite_name: str = None) -> int:
     return len(get_local_suite_img_list(suite_name))
 
 
-class MzituSuite:
+class MeituriSuite:
     """对mzitu的suite相关操作的定义"""
 
     def __init__(self, suite_url, max_download_worker=5):
@@ -151,7 +151,7 @@ class MzituSuite:
         title = self.parse_suite_title(page_content)
         logger.debug(title)
 
-        suite_folder = settings.IMAGE_FOLDER_MZITU
+        suite_folder = settings.IMAGE_FOLDER_MEITURI
         suite_folder = os.path.join(suite_folder, title)
         if not os.path.isdir(suite_folder):
             # folder 创建

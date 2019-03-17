@@ -16,7 +16,7 @@ class Command(BaseCommand):
         suite.is_complete = False
         suite.save()
 
-        folder = os.path.join(settings.IMAGE_FOLDER, suite.name)
+        folder = os.path.join(settings.IMAGE_FOLDER_MZITU, suite.name)
         shutil.rmtree(folder)
         os.mkdir(folder)
         print(f'已删除重建 {folder}')
