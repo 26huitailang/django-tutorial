@@ -31,6 +31,7 @@ flake8 = "*"
 plotly = "*"
 faker = "*"
 celery = "*"
+requests-html = "*"
 
 [requires]
 python_version = "3.7"
