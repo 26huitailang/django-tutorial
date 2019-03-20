@@ -1,30 +1,48 @@
 # coding: utf-8
 
-from mzitu.models.downloaded_suite import DownloadedSuite
-from django.conf import settings
-import shutil
 import os
 import time
 import requests
-from lxml import etree
 from queue import Queue
 from requests_html import HTMLSession
+from django.conf import settings
 
 
 def _check_init(f):
+    """装饰器，看MeituriSuite是否有初始化"""
     def wrapper(self, *args, **kwargs):
         if self.response is None:
-            raise ValueError('self.response is None, u should first init_with_first_page')
+            raise ValueError('self.response is None, u should first init')
         return f(self, *args, **kwargs)
 
     return wrapper
 
 
-class MeituriSuite(object):
+class MeituriBase(object):
+
+    def __init__(self):
+        self.response = None
+
+    def get_response_with_url(self, url):
+        """根据url返回response obj"""
+        session = HTMLSession()
+        response = session.get(url)
+        return response
+
+    @_check_init
+    def get_max_page(self) -> int:
+        """获得suite最大页码"""
+        max_page_str = self.response.html.find('#pages a')[-2].text
+        max_page = int(max_page_str)
+        return max_page
+
+class MeituriSuite(MeituriBase):
+    """一个suite"""
 
     def __init__(self, first_suite_url):
+        super(MeituriSuite).__init__()
         self.prefix = 'meituri_'
-        self.response = None
+        # self.response = None
         self.first_suite_url = first_suite_url
         self.other_page_url_template = self.first_suite_url + '{}.html'
         self.max_page = None
@@ -32,7 +50,7 @@ class MeituriSuite(object):
         self.organization = None
         self.queue = Queue()
 
-    def init_with_first_page(self):
+    def init(self):
         """调用这个通过首页初始化一些必要的参数
 
         手动调用，避免实例话的时候就产生request
@@ -64,18 +82,6 @@ class MeituriSuite(object):
         title = self.response.html.find('h1', first=True).text
         return title
 
-    @_check_init
-    def get_max_page(self) -> int:
-        """获得suite最大页码"""
-        max_page_str = self.response.html.find('#pages a')[-2].text
-        max_page = int(max_page_str)
-        return max_page
-
-    def get_response_with_url(self, url):
-        """根据url返回etree解析结果"""
-        session = HTMLSession()
-        response = session.get(url)
-        return response
 
     def get_img_url(self, response):
         """获取一页中的img url，并放入queue"""
@@ -129,3 +135,34 @@ class MeituriSuite(object):
             os.makedirs(path, exist_ok=True)
 
 # todo: 持久化等
+
+class MeituriTheme(MeituriBase):
+    """多页多个suite"""
+
+    def __init__(self, theme_url):
+        super(MeituriTheme).__init__()
+        self.theme_url = theme_url
+        self.max_page = None
+        self.suite_queue = Queue()
+        # self.response = None
+        pass
+
+    def init(self):
+        """请求theme_url初始化一些内容"""
+        self.response = self.get_response_with_url(self.theme_url)
+        self.max_page = self.get_max_page()
+        return
+
+    def get_one_page(self):
+        # todo: 第一页和其他页url一致吗？
+        return
+
+    def get_one_page_suite_url(self) -> list:
+        suite_urls = self.response.html.find('.biaoti a').links
+        self.put_suite_urls_to_queue(suite_urls)
+        return suite_urls
+
+    def put_suite_urls_to_queue(self, urls):
+        for url in urls:
+            self.suite_queue.put(url)
+        return
