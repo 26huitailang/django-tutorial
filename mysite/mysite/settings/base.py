@@ -275,3 +275,40 @@ RAVEN_CONFIG = {
     # release based on the git info.
     'release': raven.fetch_git_sha(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))),
 }
+
+# Logging
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'default': {
+            'level': 'INFO',
+            'class': 'logging.handlers.RotatingFileHandler',
+            # 日志文件地址
+            'filename': os.path.join(os.path.dirname(os.path.dirname(BASE_DIR)), 'logs', 'server.log'),
+            'maxBytes': 1024 * 1024 * 10,  # 10 MB
+            'backupCount': 5,
+            'formatter': 'default',
+        },
+    },
+    'formatters': {
+        'default': {
+            'format': '%(levelname)s %(asctime)s %(module)s %(message)s',
+        },
+    },
+    'filters': {  # 日志过滤器
+        'require_debug_true': {  # 是否支持DEBUG级别日志过滤
+            '()': 'django.utils.log.RequireDebugTrue',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['default', ],
+            'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
+        },
+        'mzitu': {
+            'handlers': ['default'],
+            'level': 'DEBUG',
+        },
+    },
+}
