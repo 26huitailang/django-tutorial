@@ -28,11 +28,13 @@ SECRET_KEY = 'vnimhx9&@_bwm!j7fptet%+wba20@nc=fwu*khw0^)g3%0w_01'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 DEPLOY_LEVEL = DeployLevel.develop
+is_docker = os.environ.get('DOCKER')
 
 # CSRF_COOKIE_SECURE = False
 ALLOWED_HOSTS = []
 
 
+# todo: 已建分支备份，删除不用的app和依赖
 # Application definition
 
 INSTALLED_APPS = [
@@ -105,8 +107,8 @@ DATABASES = {
         'NAME': 'django_tutorial',
         'USER': 'docker',
         'PASSWORD': 'docker',
-        'HOST': 'db',
-        'PORT': 5432,
+        'HOST': 'db' if is_docker else 'localhost',
+        'PORT': 5432 if is_docker else 10864,
     }
 }
 
@@ -214,7 +216,6 @@ CORS_ALLOW_HEADERS = (
 )
 
 # redis for docker
-is_docker = os.environ.get('DOCKER')
 REDIS_HOST = 'redis' if is_docker else 'localhost'
 
 # ------------------------------------------------------------

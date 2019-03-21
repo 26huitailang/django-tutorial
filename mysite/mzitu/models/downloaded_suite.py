@@ -17,6 +17,20 @@ class DownloadedSuite(models.Model):
     class Meta:
         ordering = ['-created_time']
 
+    @classmethod
+    def is_url_exist(cls, url) -> (bool, object):
+        item = cls.objects.filter(url=url).first()
+        if item:
+            return True, item
+        return False, None
+
+    @classmethod
+    def is_url_completed(cls, url) -> bool:
+        item = cls.objects.filter(url=url).first()
+        if item:
+            return item.is_complete
+        return False
+
     def __str__(self):
         return "{} {} {} {}".format(
             self.created_time,
@@ -36,10 +50,20 @@ class SuiteImageMap(models.Model):
         ordering = ['image']
 
     @classmethod
-    def get_image_path(cls, suite_name, filename):
+    def get_image_path(cls, root_name, suite_name, filename, **kwargs):
+        """获得存储的image字段，mzitu/Gakki/01.jpg
+
+        :param root_name: mzitu/meituri
+        :param suite_name: suite 标题
+        :param filename: 文件名字不含路径
+        """
         # todo: 可以用pre_save等做预处理
+        # todo: 不兼容meituri，多一个org路径
         print(suite_name, filename)
-        return '/'.join(['mzitu', suite_name, filename])
+        if 'org' in kwargs:
+            print(kwargs['org'])
+            return '/'.join([root_name, kwargs['org'], suite_name, filename])
+        return '/'.join([root_name, suite_name, filename])
 
     def __str__(self):
         return "{} {}".format(self.suite.name, self.image)

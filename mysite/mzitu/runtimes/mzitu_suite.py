@@ -264,6 +264,7 @@ class MzituSuite:
                 suite=suite_obj,
                 url=pic_instance.url,
                 image=SuiteImageMap.get_image_path(
+                    'mzitu',
                     suite_obj.name,
                     pic_instance.full_path.split('/')[-1],  # filename
                 )

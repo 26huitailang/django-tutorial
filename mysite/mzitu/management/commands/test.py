@@ -9,7 +9,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         suite_url = 'https://www.meituri.com/a/25133/'
-        theme_url = 'https://www.meituri.com/x/49/'
+        theme_url = 'https://www.meituri.com/x/49/index_24.html'
 
         # suite
         # meituri_suite = MeituriSuite(suite_url)
@@ -19,4 +19,12 @@ class Command(BaseCommand):
         # theme
         meituri_theme = MeituriTheme(theme_url)
         meituri_theme.init()
+        meituri_theme.get_all_suite_urls_to_queue()
+
+        while not meituri_theme.suite_queue.empty():
+            _s_url = meituri_theme.suite_queue.get()
+            meituri_suite = MeituriSuite(_s_url)
+            meituri_suite.init()
+            meituri_suite.get_imgs_and_download(do_download=False)
+
         return
