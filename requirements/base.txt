@@ -17,19 +17,19 @@ raven
 Fabric3
 
 # influxdb sdk 用于数据监控的
-influxdb
+# influxdb
 
 ipython
-pygments  # We'll be using this for the code highlighting
+# pygments  # We'll be using this for the code highlighting
 hotqueue
 requests
-bs4
+# bs4 # 用的不多，用requests-html替换
 redis
 lxml
 flake8
 
 # plotly，用于作图
-plotly
+# plotly
 
 # 生成测试数据
 faker
@@ -40,6 +40,3 @@ faker
 
 # celery
 celery
-
-# error
-raven

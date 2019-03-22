@@ -8,7 +8,7 @@ IP地址取自国内髙匿代理IP网站：http://www.xicidaili.com/nn/
 
 import random
 import requests
-from bs4 import BeautifulSoup
+from requests_html import HTMLSession, HTMLResponse
 from celery import shared_task
 from celery.utils.log import get_task_logger
 from django.conf import settings
@@ -27,13 +27,13 @@ def _get_proxy_ip_list():
     """从网站获取proxy_ip list，并存入DB"""
     # todo: 获取更多的代理ip，现在仅获取了首页
     headers = {'User-Agent': random.choice(USER_AGENT_LIST)}
-    web_data = requests.get(settings.PROXY_SOURCE_URL, headers=headers, timeout=5)
-    soup = BeautifulSoup(web_data.text, 'lxml')
-    ips = soup.find_all('tr')
+    session = HTMLSession()
+    session_resp = session.get(settings.PROXY_SOURCE_URL, headers=headers, timeout=5)
+    assert isinstance(session_resp, HTMLResponse)
+    ips = session_resp.html.find('tr')
     ip_list = []
-    for i in range(1, len(ips)):
-        ip_info = ips[i]
-        tds = ip_info.find_all('td')
+    for ip_info in ips[1:]:
+        tds = ip_info.find('td')
         ip_list.append((tds[1].text, tds[2].text))
     logger.info(ip_list)
 

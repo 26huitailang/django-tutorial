@@ -53,7 +53,6 @@ INSTALLED_APPS = [
     'corsheaders',
     'mzitu',
     'polls',
-    'influxdb_plotly',  # 试验用influxdb作为后端api提供数据的方案
     'users',
 ]
 
@@ -156,16 +155,6 @@ STATICFILES_DIRS = [
     os.path.join(os.path.dirname(BASE_DIR), 'frontend/dist/static'),
     os.path.join(os.path.dirname(BASE_DIR), 'frontend/dist'),  # icon
 ]
-
-# influxdb config
-INFLUXDB_CONF = {
-    'HOST': '192.168.9.192',
-    'PORT': '8086',
-    'USERNAME': 'grafana',
-    'PASSWORD': 'grafana',
-    'DATABASE': 'test_plotly',
-    'TIMEOUT': 5,
-}
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -290,6 +279,9 @@ LOGGING = {
             'backupCount': 5,
             'formatter': 'default',
         },
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
     },
     'formatters': {
         'default': {
@@ -307,7 +299,7 @@ LOGGING = {
             'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
         },
         'mzitu': {
-            'handlers': ['default'],
+            'handlers': ['default', 'console'],
             'level': 'DEBUG',
         },
     },
