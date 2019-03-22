@@ -5,7 +5,7 @@ from rest_framework import serializers
 
 from mzitu.models.downloaded_suite import DownloadedSuite, SuiteImageMap
 from mzitu.models.tag import Tag
-from mzitu.runtimes.mzitu_suite import get_local_suite_count
+from django_vises.runtimes.misc import get_local_suite_count
 
 
 class SuiteImageMapSerializer(serializers.ModelSerializer):
@@ -38,5 +38,8 @@ class MzituDownloadedSuiteSerializer(serializers.ModelSerializer):
         # fields = ('id', 'name', 'url', 'max_page', 'tags', 'images')
         fields = '__all__'
 
-    def get_locals_count(self, obj):
-        return get_local_suite_count(obj.name)
+    def get_locals_count(self, obj) -> int:
+        path = obj.get_suite_folder_path()
+        if not path:
+            return 0
+        return get_local_suite_count(path)

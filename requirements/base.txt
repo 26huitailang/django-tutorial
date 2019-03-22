@@ -9,7 +9,7 @@ django-cors-headers
 psycopg2-binary
 
 # tornado
-tornado
+tornado <= 5.1.1
 
 # deploy
 gunicorn
@@ -23,6 +23,7 @@ ipython
 # pygments  # We'll be using this for the code highlighting
 hotqueue
 requests
+requests-html
 # bs4 # 用的不多，用requests-html替换
 redis
 lxml

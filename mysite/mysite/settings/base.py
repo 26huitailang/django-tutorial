@@ -234,11 +234,11 @@ CELERY_BEAT_SCHEDULE = {
         'schedule': datetime.timedelta(hours=2),
     },
     # crontab ------------------------------------------------------------
-    'delete-invalid-local-imgs-every-day-0-clock': {
-        # 删除数据库中没有记录的本地文件
-        'task': 'mzitu.tasks.local_imgs.delete_imgs',
-        'schedule': crontab(minute='0', hour='22'),  # 每晚22点
-    }
+    # 'delete-invalid-local-imgs-every-day-0-clock': {
+    #     # 删除数据库中没有记录的本地文件
+    #     'task': 'mzitu.tasks.local_imgs.delete_imgs',
+    #     'schedule': crontab(minute='0', hour='22'),  # 每晚22点
+    # }
 }
 # 限制任务的速率，这样每分钟只允许处理 12 个该类型的任务
 # CELERY_TASK_DEFAULT_RATE_LIMIT = '60/m'  # 5 seconds interval time between tow tasks

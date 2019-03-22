@@ -20,6 +20,7 @@ def get_max_page_num_of_theme(theme_url):
 
 
 def get_suite_urls_to_redis(theme_url):
+    assert check_theme_url(theme_url)
     suite_url_list = []
     page_num = get_max_page_num_of_theme(theme_url)
     for i in range(1, page_num + 1):
@@ -30,3 +31,20 @@ def get_suite_urls_to_redis(theme_url):
         suite_url_list += [x[1] for x in tmp_list]
 
     return suite_url_list
+
+
+def check_theme_url(url) -> bool:
+    """检查是否是theme_url，是否是meituri url
+
+    https://www.mzitu.com/tag/xiuren/
+    https://www.mzitu.com/161751
+    """
+    pattern = r'https://www\.(.+?).com/(.+?)$'
+    result = re.search(pattern, url)
+    result_groups = result.groups()
+    try:
+        assert result_groups[0] == 'mzitu'
+        assert 'tag' in result_groups[1]
+    except AssertionError:
+        return False
+    return True
