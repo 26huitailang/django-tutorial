@@ -2,18 +2,18 @@
 # coding=utf-8
 
 import os
+import re
+import json
 import time
-import glob
 import random
 import logging
 import requests
-import re
-import json
 import threading
 from django.conf import settings
 from django.db import IntegrityError
 
 from django_vises.runtimes.instance_serializer import serialize_instance, unserialize_object
+from django_vises.runtimes.misc import get_local_suite_count
 from mzitu.models.downloaded_suite import DownloadedSuite, SuiteImageMap
 from mzitu.models.tag import Tag
 from mzitu.models.proxy_ip import ProxyIp
@@ -90,22 +90,9 @@ def generate_headers(referer):
     return headers
 
 
-def get_local_suite_img_list(suite_name: str = None) -> list:
-    """获取本地suite的图片列表"""
-    if suite_name is None:
-        return []
-    suite_path = os.path.join(settings.IMAGE_FOLDER_MZITU, suite_name)
-    img_file_list = glob.glob('{}/*.jpg'.format(suite_path))
-    return img_file_list
-
-
-def get_local_suite_count(suite_name: str = None) -> int:
-    """本地suite图片数量"""
-    return len(get_local_suite_img_list(suite_name))
-
-
 class MzituSuite:
     """对mzitu的suite相关操作的定义"""
+    DESCRIPTION = 'mzitu'
 
     def __init__(self, suite_url, max_download_worker=5):
         self.suite_url = suite_url
@@ -138,7 +125,7 @@ class MzituSuite:
         if suite_obj is None:
             return
 
-        if suite_obj.max_page == get_local_suite_count(suite_obj.name):
+        if suite_obj.max_page == get_local_suite_count(suite_obj.get_suite_folder_path()):
             suite_obj.is_complete = True
             suite_obj.save()
         return
@@ -174,9 +161,8 @@ class MzituSuite:
         if is_created is False:
             # 如果数据库有记录，则看看本地文件是否完整
             print("该套牌已在DB中，确认是否存在，确认套图是否完整...")
-            suite_name = suite_instance.name
             max_page_num = suite_instance.max_page
-            img_local_file_count = get_local_suite_count(suite_name)
+            img_local_file_count = get_local_suite_count(suite_instance.get_suite_folder_path())
             img_obj_count = SuiteImageMap.objects.filter(suite__id=suite_instance.id).count()
             if img_local_file_count >= max_page_num and img_obj_count == suite_instance.max_page:
                 # 本地文件数量匹配，img数据库完整
@@ -289,3 +275,20 @@ class MzituSuite:
             time.sleep(0.5)
 
         return
+
+    @classmethod
+    def check_suite_url(cls, url) -> bool:
+        """检查是否是theme_url，是否是meituri url
+
+        https://www.mzitu.com/tag/xiuren/
+        https://www.mzitu.com/161751
+        """
+        pattern = r'https://www\.(.+?).com/(.+?)$'
+        result = re.search(pattern, url)
+        result_groups = result.groups()
+        try:
+            assert result_groups[0] == cls.DESCRIPTION
+            assert 'tag' not in result_groups[1]
+        except AssertionError:
+            return False
+        return True

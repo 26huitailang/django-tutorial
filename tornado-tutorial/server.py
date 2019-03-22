@@ -6,11 +6,9 @@
 """
 import os
 import sys
-import sqlite3
+import django
 import asyncio
 import datetime
-import time
-import django
 
 import tornado.web
 import tornado.ioloop
@@ -31,7 +29,7 @@ from rest_framework.renderers import JSONRenderer
 # from mzitu.models.tag import Tag
 from mzitu.models.downloaded_suite import DownloadedSuite
 from mzitu.serializers import MzituDownloadedSuiteSerializer
-from mzitu.runtimes.mzitu_suite import get_local_suite_count
+from django_vises.runtimes.misc import get_local_suite_count
 from rest_framework.authtoken.models import Token
 
 # sql_file = os.path.join(BASE_DIR, 'mysite', 'mysite', 'local.sqlite3')
@@ -91,7 +89,7 @@ class WebSocketHandler(WebSocketHandler):
         suite = DownloadedSuite.objects.filter(id=suite_id).first()
         last_local_files_count = 0
         while True:
-            local_files_count = get_local_suite_count(suite.name)
+            local_files_count = get_local_suite_count(suite.get_suite_folder_path())
             # print(suite.max_page, suite.name, local_files_count)
 
             print(last_local_files_count, local_files_count)

@@ -43,6 +43,7 @@ services:
   tornado-8010:
     build: .
     working_dir: /deploy/tornado-tutorial
+    restart: always
     command: python server.py
     env_file:
       - .env
@@ -55,6 +56,7 @@ services:
       - nginx_network
   tornado-8011:
     build: .
+    restart: always
     working_dir: /deploy/tornado-tutorial
     command: python server.py
     env_file:
@@ -69,9 +71,12 @@ services:
   celery-worker:
     build: .
     working_dir: /deploy/mysite
+    restart: always
     env_file:
       - .env  # environments
-    command: /usr/local/bin/celery -A mysite worker -l info
+    command: >
+      bash -c "sleep 5  &&
+              /usr/local/bin/celery -A mysite worker -l info"
     volumes:
       - .:/deploy
       - ~/Downloads/:/deploy/Downloads/
@@ -83,10 +88,12 @@ services:
   celery-beat:
     build: .
     working_dir: /deploy/mysite
+    restart: always
     env_file:
       - .env  # environments
     command: >
-      bash -c "if [[ -a celerybeat.pid ]];then echo \"存在celerybeat.pid，删除\";rm -f celerybeat.pid;fi &&
+      bash -c "sleep 5
+              if [[ -a celerybeat.pid ]];then echo \"存在celerybeat.pid，删除\";rm -f celerybeat.pid;fi &&
               /usr/local/bin/celery -A mysite beat -l info"
     volumes:
       - .:/deploy

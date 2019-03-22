@@ -10,7 +10,12 @@ from drf_yasg.utils import swagger_auto_schema
 
 from mzitu.models.downloaded_suite import DownloadedSuite
 from mzitu.serializers import MzituDownloadedSuiteSerializer
-from mzitu.tasks.suite import download_one_suite
+from mzitu.tasks.suite import (
+    download_one_suite_mzitu,
+    download_one_suite_meituri,
+)
+from mzitu.runtimes.mzitu_suite import MzituSuite
+from mzitu.runtimes.meituri_suite import MeituriSuite
 
 
 class MzituSuiteViewSet(GenericViewSet):
@@ -52,12 +57,14 @@ class MzituSuiteViewSet(GenericViewSet):
     @action(detail=False, methods=['post'])
     def download(self, request):
         """获取要下载图片的suite列表，并下载到文件夹"""
-        # todo: 改为form或者post body
-        suite_url = request.GET.get('suite_url', None)
+        suite_url = request.data.get('suite_url', None)
+        print(suite_url)
         if not suite_url:
             return Response('no suite_url', status=status.HTTP_400_BAD_REQUEST)
 
-        # 线程
-        download_one_suite.delay(suite_url)
-        # download_one_suite(suite_url)
+        if MeituriSuite.check_suite_url(suite_url):
+            download_one_suite_meituri.delay(suite_url)
+        elif MzituSuite.check_suite_url(suite_url):
+            download_one_suite_mzitu.delay(suite_url)
+            # download_one_suite_mzitu(suite_url)
         return Response('delayed, check later', status=status.HTTP_202_ACCEPTED)

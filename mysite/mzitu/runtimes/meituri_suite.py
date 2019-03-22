@@ -1,22 +1,28 @@
 # coding: utf-8
 
 import os
+import re
 import time
+import logging
 import requests
 from queue import Queue
 from pprint import pprint
 from requests_html import HTMLSession, HTMLResponse
 from django.conf import settings
 from django.db import IntegrityError
+
 from mzitu.models.downloaded_suite import DownloadedSuite, SuiteImageMap
 from mzitu.models.tag import Tag
+from django_vises.runtimes.misc import get_local_suite_count
+
 # todo: 持久化等, 继承代理请求，不然并发会有影响
-import logging
 
 logger = logging.getLogger(__name__)
 
+
 def _check_init(f):
     """装饰器，看MeituriSuite是否有初始化"""
+
     def wrapper(self, *args, **kwargs):
         if self.response is None:
             raise ValueError('self.response is None, u should first init')
@@ -27,6 +33,7 @@ def _check_init(f):
 
 
 class MeituriBase(object):
+    DESCRIPTION = 'meituri'
 
     def __init__(self):
         self.response = None
@@ -38,13 +45,6 @@ class MeituriBase(object):
         assert isinstance(response, HTMLResponse)
         return response
 
-    @_check_init
-    def get_max_page(self) -> int:
-        """获得suite最大页码"""
-        max_page_str = self.response.html.find('#pages a')[-2].text
-        max_page = int(max_page_str)
-        return max_page
-
 
 class MeituriSuite(MeituriBase):
     """一个suite"""
@@ -52,32 +52,36 @@ class MeituriSuite(MeituriBase):
     def __init__(self, first_suite_url):
         super(MeituriSuite).__init__()
         self.prefix = 'meituri_'
-        # self.response = None
         self.first_suite_url = first_suite_url
         self.other_page_url_template = self.first_suite_url + '{}.html'
         self.max_page = None
+        self.suite_files_count = 0
         self.title = None
         self.organization = None
         self.img_queue = Queue()
+        self.tags = []
         self.suite_obj = None
+        self.folder = None
 
     def init(self):
         """调用这个通过首页初始化一些必要的参数
 
         手动调用，避免实例话的时候就产生request
         """
+        self.check_suite_url(self.first_suite_url)
         self.response = self.get_response_with_url(self.first_suite_url)
         self.max_page = self.get_max_page()
         self.title = self.get_title()
         self.tags = self.get_tags()
         self.organization = self.get_organization()
+        self.folder = os.path.join(settings.IMAGE_FOLDER_MEITURI, self.organization, self.title)
         # 如果没有创建
         is_exist, suite_obj = DownloadedSuite.is_url_exist(self.first_suite_url)
         if not is_exist:
             suite_obj = DownloadedSuite.objects.create(
                 name=self.title,
                 url=self.first_suite_url,
-                max_page=self.max_page,
+                max_page=0,  # 条目总数，不代表页数，后面获得了总数后更新
             )
             tag_instances = []
             for tag_name, href in self.tags:
@@ -86,6 +90,13 @@ class MeituriSuite(MeituriBase):
             suite_obj.tags.set(tag_instances)
         self.suite_obj = suite_obj
         return
+
+    @_check_init
+    def get_max_page(self) -> int:
+        """获得suite最大页码，因为一页多条目，所以这不能作为检查文件的数量依据"""
+        max_page_str = self.response.html.find('#pages a')[-2].text
+        max_page = int(max_page_str)
+        return max_page
 
     @_check_init
     def get_organization(self) -> str:
@@ -107,8 +118,9 @@ class MeituriSuite(MeituriBase):
         title = self.response.html.find('h1', first=True).text
         return title
 
-    def get_img_url(self, response: HTMLResponse):
+    def get_img_url(self, response: HTMLResponse) -> list:
         """获取一页中的img url，并放入queue"""
+        result = []
         div_content = response.html.find('.content', first=True)
         img_elements = div_content.find('img')
         for i in img_elements:
@@ -129,6 +141,8 @@ class MeituriSuite(MeituriBase):
             except IntegrityError as e:
                 logger.warning(e)
             self.put_img_url_path_to_queue(url, path)
+            result.append((url, path))
+        return result
 
     def put_img_url_path_to_queue(self, url, path):
         self.img_queue.put((url, path))
@@ -136,14 +150,21 @@ class MeituriSuite(MeituriBase):
 
     @_check_init
     def get_imgs_and_download(self, do_download: bool = True, time_gap=5):
+        suite_files_count = 0  # 更新suite的max_page字段
         # first page
-        self.get_img_url(self.response)
+        result = self.get_img_url(self.response)
+        suite_files_count += len(result)
         # second to last
         for i in range(2, self.max_page + 1):
             time.sleep(time_gap)
             # 获取img_url, name
             response = self.get_response_with_url(self.other_page_url_template.format(i))
-            self.get_img_url(response)
+            result = self.get_img_url(response)
+            suite_files_count += len(result)
+        self.suite_files_count = suite_files_count
+        if self.suite_obj.max_page < self.suite_files_count:
+            self.suite_obj.max_page = self.suite_files_count
+            self.suite_obj.save()
         if do_download:
             self._download_imgs_in_queue()
 
@@ -174,10 +195,38 @@ class MeituriSuite(MeituriBase):
                 self._download_one_img_to_local(url, path)
             else:
                 logger.info('path exist: %s', path)
+        # 验证并标记
+        self.check_and_mark_suite_complete()
+
+    def check_and_mark_suite_complete(self):
+        """验证并标记suite是否下载完成"""
+        assert self.folder is not None
+        local_count = get_local_suite_count(self.folder)
+        if local_count == self.suite_obj.max_page:
+            self.suite_obj.is_complete = True
+        else:
+            self.suite_obj.is_complete = False
+        self.suite_obj.save()
 
     def mkdir_if_folder_not_exist(self, path):
         if not os.path.exists(path):
             os.makedirs(path, exist_ok=True)
+
+    @classmethod
+    def check_suite_url(cls, url) -> bool:
+        """检查是否是suite_url，是否是meituri url
+
+        'https://www.meituri.com/a/25133/'
+        """
+        pattern = r'https://www\.(.+?).com/(.+?)/(.+?)$'
+        result = re.search(pattern, url)
+        result_groups = result.groups()
+        try:
+            assert result_groups[0] == cls.DESCRIPTION
+            assert result_groups[1] == 'a'
+        except AssertionError:
+            return False
+        return True
 
 
 class MeituriTheme(MeituriBase):
@@ -186,15 +235,14 @@ class MeituriTheme(MeituriBase):
     def __init__(self, first_theme_url):
         super(MeituriTheme).__init__()
         self.first_theme_url = first_theme_url
-        # self.other_page_url_template = self.first_theme_url + 'index_{}.html'
         self.next_page_theme_url = None
         # 拿不到max_page，改用下一页的连接
         self.suite_queue = Queue()
-        # self.response = None
         pass
 
     def init(self):
         """请求theme_url初始化一些内容"""
+        assert self.check_theme_url(self.first_theme_url)
         self.response = self.get_response_with_url(self.first_theme_url)
         return
 
@@ -252,3 +300,19 @@ class MeituriTheme(MeituriBase):
             time.sleep(time_gap)
             page += 1
         return
+
+    @classmethod
+    def check_theme_url(cls, url) -> bool:
+        """检查是否是theme_url，是否是meituri url
+
+        'https://www.meituri.com/x/49/index_24.html'
+        """
+        pattern = r'https://www\.(.+?).com/(.+?)/(.+?)$'
+        result = re.search(pattern, url)
+        result_groups = result.groups()
+        try:
+            assert result_groups[0] == cls.DESCRIPTION
+            assert result_groups[1] == 'x'
+        except AssertionError:
+            return False
+        return True

@@ -1,7 +1,9 @@
+import os
 import uuid
-
 from django.db import models
+from django.conf import settings
 from django.utils import timezone
+
 from mzitu.models.tag import Tag
 
 
@@ -13,6 +15,10 @@ class DownloadedSuite(models.Model):
     tags = models.ManyToManyField(Tag)
     created_time = models.DateTimeField(default=timezone.now)
     is_complete = models.BooleanField(verbose_name='完整性', default=False)
+    Choices = {
+        'mzitu': 'mzitu',
+        'meituri': 'meituri',
+    }
 
     class Meta:
         ordering = ['-created_time']
@@ -30,6 +36,18 @@ class DownloadedSuite(models.Model):
         if item:
             return item.is_complete
         return False
+
+    def get_suite_folder_path(self) -> str or None:
+        """返回不同的对象的folder路径"""
+        if self.Choices['meituri'] in self.url:
+            if not self.images:
+                return None
+            org = self.images[0].split('/')[1]
+            return os.path.join(settings.IMAGE_FOLDER_MEITURI, org, self.name)
+        elif self.Choices['mzitu'] in self.url:
+            return os.path.join(settings.IMAGE_FOLDER_MZITU, self.name)
+
+        return None
 
     def __str__(self):
         return "{} {} {} {}".format(
@@ -58,7 +76,7 @@ class SuiteImageMap(models.Model):
         :param filename: 文件名字不含路径
         """
         # todo: 可以用pre_save等做预处理
-        # todo: 不兼容meituri，多一个org路径
+        # meituri，多一个org路径
         print(suite_name, filename)
         if 'org' in kwargs:
             print(kwargs['org'])

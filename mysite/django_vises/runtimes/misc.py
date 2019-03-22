@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # coding=utf-8
 
+# import glob
+import os
 import operator
 from django.utils.six import text_type
 
@@ -79,3 +81,19 @@ def str_to_boolean(text):
 def sort_dict_list(dict_to_sort: dict = None, sort_key='', reverse=False) -> list:
     sorted_list = sorted(dict_to_sort, key=operator.itemgetter(sort_key), reverse=reverse)
     return sorted_list
+
+
+def get_local_suite_img_list(suite_path: str = None, format='jpg') -> list:
+    """获取本地suite的图片列表"""
+    if suite_path is None:
+        return []
+    # 复杂的路径glob匹配不了
+    # img_file_list = glob.glob('{}/*.{}'.format(suite_path, format))
+    files_list = os.listdir(suite_path)
+    img_file_list = list(filter(lambda x: x.endswith(format), files_list))
+    return img_file_list
+
+
+def get_local_suite_count(suite_path: str = None) -> int:
+    """本地suite图片数量"""
+    return len(get_local_suite_img_list(suite_path))
