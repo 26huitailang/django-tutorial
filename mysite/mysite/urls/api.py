@@ -22,7 +22,6 @@ from mzitu.urls import urlpatterns as mzitu_urlpatterns
 v1_urlpatterns = [
     url(r'polls/', include('polls.urls')),
     url(r'mzitu/', include(mzitu_urlpatterns)),
-    url(r'influxdb_plotly/', include('influxdb_plotly.urls')),
     url(r'users/', include(users_urlpatterns)),
     url(r'auth/', include(auth_urlpatterns)),
 ]

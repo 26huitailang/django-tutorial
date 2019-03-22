@@ -15,7 +15,6 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-
 def _check_init(f):
     """装饰器，看MeituriSuite是否有初始化"""
     def wrapper(self, *args, **kwargs):
