@@ -15,6 +15,7 @@ from django.conf import settings
 from django.db import connections
 from concurrent.futures import ThreadPoolExecutor
 
+from mysite.sentry import client as sentry_client
 from mzitu.constants import USER_AGENT_LIST
 from mzitu.models.proxy_ip import ProxyIp
 from mzitu.runtimes.mzitu_suite import generate_proxies
@@ -72,10 +73,12 @@ def _update_proxy_ip_score(proxy_ip_instance, url):
         r = requests.get(url, proxies=generate_proxies(proxy_ip_instance.ip, proxy_ip_instance.port), timeout=(4, 12))
     except Exception as e:
         logger.warning(e)
+        sentry_client.capture_exceptions()
         valid = False
     else:
         try:
-            result = r.json()['origin']
+            # API返回结果有变化
+            result = r.json()['origin'].split(',')[0].strip()
             valid = True if proxy_ip_instance.ip == result else False
         except Exception as e:
             logger.warning(e)
@@ -116,11 +119,12 @@ def check_proxy_ip():
     如果是10分可用的话，标记为100分，其他按是否有效+/-1分
     如果为0分，则标记为not valid
     """
-    MAX_WORKERS = 10
+    # todo!!!: 总是检查失败，是不是代码有问题？
+    # MAX_WORKERS = 10
     url = 'http://httpbin.org/ip'
     items = ProxyIp.objects.filter(is_valid=True).order_by('created_time').all()
     # todo: 多线程，但是控制数量
-    with ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
+    with ThreadPoolExecutor() as executor:
         for item in items:
             future = executor.submit(_update_proxy_ip_score, item, url)
             future.add_done_callback(on_done)

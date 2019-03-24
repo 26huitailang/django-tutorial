@@ -58,7 +58,6 @@ class MzituSuiteViewSet(GenericViewSet):
     def download(self, request):
         """获取要下载图片的suite列表，并下载到文件夹"""
         suite_url = request.data.get('suite_url', None)
-        print(suite_url)
         if not suite_url:
             return Response('no suite_url', status=status.HTTP_400_BAD_REQUEST)
 
