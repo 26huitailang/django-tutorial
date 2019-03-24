@@ -11,6 +11,7 @@ from requests_html import HTMLSession, HTMLResponse
 from django.conf import settings
 from django.db import IntegrityError
 
+from mysite.sentry import client as sentry_client
 from mzitu.models.downloaded_suite import DownloadedSuite, SuiteImageMap
 from mzitu.models.tag import Tag
 from django_vises.runtimes.misc import get_local_suite_count
@@ -38,7 +39,8 @@ class MeituriBase(object):
     def __init__(self):
         self.response = None
 
-    def get_response_with_url(self, url) -> HTMLResponse:
+    @staticmethod
+    def get_response_with_url(url) -> HTMLResponse:
         """根据url返回response obj"""
         session = HTMLSession()
         response = session.get(url)
@@ -168,8 +170,21 @@ class MeituriSuite(MeituriBase):
         if do_download:
             self._download_imgs_in_queue()
 
-    def _download_one_img_to_local(self, url, path, sleep_after=2):
-        img_bytes = requests.get(url, timeout=(5, 30))
+    @staticmethod
+    def _download_one_img_to_local(url, path, sleep_after=2):
+        """下载url到为path文件"""
+        # todo!!!
+        '''
+        requests.exceptions.ConnectionError: HTTPSConnectionPool(host='ii.hywly.com', port=443): Max retries exceeded with url: /a/1/24882/1.jpg (Caused by NewConnectionError('<urllib3.connection.VerifiedHTTPSConnection object at 0x7195f6b0>: Failed to establish a new connection: [Errno -3] Temporary failure in name resolution',))
+        '''
+        while True:
+            try:
+                img_bytes = requests.get(url, timeout=(5, 30))
+            except Exception:  # todo: 试错
+                sentry_client.capture_exceptions()
+                time.sleep(5)
+            else:
+                break
 
         with open(path, 'wb') as f:
             f.write(img_bytes.content)
@@ -191,7 +206,7 @@ class MeituriSuite(MeituriBase):
             self.mkdir_if_folder_not_exist(suite_folder)
             # 没有才下载
             if not os.path.isfile(path):
-                logger.info('path ownloading: %s', path)
+                logger.info('path downloading: %s', path)
                 self._download_one_img_to_local(url, path)
             else:
                 logger.info('path exist: %s', path)
@@ -208,7 +223,8 @@ class MeituriSuite(MeituriBase):
             self.suite_obj.is_complete = False
         self.suite_obj.save()
 
-    def mkdir_if_folder_not_exist(self, path):
+    @staticmethod
+    def mkdir_if_folder_not_exist(path):
         if not os.path.exists(path):
             os.makedirs(path, exist_ok=True)
 
@@ -247,14 +263,12 @@ class MeituriTheme(MeituriBase):
         return
 
     def get_next_page_url(self, response: HTMLResponse):
-        next_url_element = response.html.find('#pages .next')[0]
-        if next_url_element.text == '上一页':
-            self.next_page_theme_url = None
-        elif next_url_element.text == '下一页':
+        next_url_element = response.html.find('#pages .next')[-1]
+        if next_url_element.text == '下一页':
             next_url = next_url_element.absolute_links.pop()
             self.next_page_theme_url = next_url
         else:
-            raise ValueError(next_url_element.text)
+            self.next_page_theme_url = None
 
     def get_one_page_suite_url_to_queue(self, response: HTMLResponse) -> list:
         a_elements = response.html.find('.biaoti a')
@@ -263,7 +277,8 @@ class MeituriTheme(MeituriBase):
         pprint(suite_urls)
         return suite_urls
 
-    def should_put_url_to_queue(self, url) -> bool:
+    @staticmethod
+    def should_put_url_to_queue(url) -> bool:
         """url是否推到队列中
 
         :return:

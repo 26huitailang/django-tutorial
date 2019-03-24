@@ -42,7 +42,7 @@ class DownloadedSuite(models.Model):
         if self.Choices['meituri'] in self.url:
             if not self.images:
                 return None
-            org = self.images[0].split('/')[1]
+            org = self.images.first().image.name.split('/')[1]
             return os.path.join(settings.IMAGE_FOLDER_MEITURI, org, self.name)
         elif self.Choices['mzitu'] in self.url:
             return os.path.join(settings.IMAGE_FOLDER_MZITU, self.name)

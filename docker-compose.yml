@@ -1,4 +1,4 @@
-version: '3'
+version: '2'  # 兼容树莓派上1.8版本
 
 services:
   redis:
@@ -26,7 +26,7 @@ services:
     command: >
       bash -c "python manage.py collectstatic -v0 --noinput &&
               python manage.py migrate --noinput &&
-              /usr/local/bin/gunicorn -b unix:/deploy/running/handle/django-tutorial-server.sock -w 9 mysite.wsgi:application --log-level debug"
+              /usr/local/bin/gunicorn -b unix:/deploy/running/handle/django-tutorial-server.sock mysite.wsgi:application --log-level info"
     env_file:
       - .env  # environments
     volumes:
