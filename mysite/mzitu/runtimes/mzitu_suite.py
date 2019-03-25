@@ -14,6 +14,8 @@ from django.db import IntegrityError
 
 from django_vises.runtimes.instance_serializer import serialize_instance, unserialize_object
 from django_vises.runtimes.misc import get_local_suite_count
+from django_vises.runtimes.files import rename_file_or_folder_name
+
 from mzitu.models.downloaded_suite import DownloadedSuite, SuiteImageMap
 from mzitu.models.tag import Tag
 from mzitu.models.proxy_ip import ProxyIp
@@ -235,7 +237,7 @@ class MzituSuite:
         """解析suite的title"""
         title = re.search(r'class=\"main-title\">(.+?)</', page_content)
         title = title.group(1).strip()
-        title = re.sub(r'[/\\:*?"<>|]', '-', title)  # windows 非法文件夹名字符
+        title = rename_file_or_folder_name(title)
         return title
 
     @staticmethod
