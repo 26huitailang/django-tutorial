@@ -39,11 +39,26 @@ class MeituriBase(object):
     def __init__(self):
         self.response = None
 
-    @staticmethod
-    def get_response_with_url(url) -> HTMLResponse:
+    @classmethod
+    def get_response_with_url(cls, url, retries=0, max_retry=5) -> HTMLResponse or None:
         """根据url返回response obj"""
         session = HTMLSession()
-        response = session.get(url)
+        while True:
+            """避免TooManyRedirects/"""
+            try:
+                response = session.get(url)
+                if response.status_code == 200:
+                    break
+                else:
+                    if retries > max_retry:
+                        raise ValueError('Max retries %s to get reponson: %s', retries, url)
+                    logger.info('get status_code: %s, retry: %s', response.status_code, retries)
+                    time.sleep(5)
+                    cls.get_response_with_url(url, retries=retries+1)
+            except Exception as e:
+                logger.warning(e)
+                time.sleep(5)
+                cls.get_response_with_url(url, retries=retries+1)
         assert isinstance(response, HTMLResponse)
         return response
 
@@ -194,7 +209,7 @@ class MeituriSuite(MeituriBase):
         return
 
     def _download_imgs_in_queue(self):
-        """从queue获取要下载的img"""
+        """从queue获取要下载的img，检查本地文件，不重复下载策略"""
         # meituri folder check
         self.mkdir_if_folder_not_exist(settings.IMAGE_FOLDER_MEITURI)
         while not self.img_queue.empty():
@@ -301,7 +316,7 @@ class MeituriTheme(MeituriBase):
         # 获取page，index_1.html为第二页
         page = 1
         while True:
-            logger.info('page: %s', page)
+            logger.info('start get page: %s', page)
             if page == 1:
                 html_response = self.response
             else:
