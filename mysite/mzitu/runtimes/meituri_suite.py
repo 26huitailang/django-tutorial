@@ -15,6 +15,7 @@ from mysite.sentry import client as sentry_client
 from mzitu.models.downloaded_suite import DownloadedSuite, SuiteImageMap
 from mzitu.models.tag import Tag
 from django_vises.runtimes.misc import get_local_suite_count
+from django_vises.runtimes.files import rename_file_or_folder_name
 
 # todo: 持久化等, 继承代理请求，不然并发会有影响
 
@@ -54,11 +55,11 @@ class MeituriBase(object):
                         raise ValueError('Max retries %s to get reponson: %s', retries, url)
                     logger.info('get status_code: %s, retry: %s', response.status_code, retries)
                     time.sleep(5)
-                    cls.get_response_with_url(url, retries=retries+1)
+                    cls.get_response_with_url(url, retries=retries + 1)
             except Exception as e:
                 logger.warning(e)
                 time.sleep(5)
-                cls.get_response_with_url(url, retries=retries+1)
+                cls.get_response_with_url(url, retries=retries + 1)
         assert isinstance(response, HTMLResponse)
         return response
 
@@ -133,6 +134,7 @@ class MeituriSuite(MeituriBase):
     def get_title(self):
         """获取标题"""
         title = self.response.html.find('h1', first=True).text
+        title = rename_file_or_folder_name(title)
         return title
 
     def get_img_url(self, response: HTMLResponse) -> list:
@@ -143,6 +145,7 @@ class MeituriSuite(MeituriBase):
         for i in img_elements:
             url = i.attrs["src"]
             img_name = i.attrs["alt"] + '.' + url.split('.')[-1]
+            img_name = rename_file_or_folder_name(img_name)  # 处理非法字符
             path = os.path.join(settings.IMAGE_FOLDER_MEITURI, self.organization, self.title, img_name)
             # 存入db
             try:
@@ -151,7 +154,7 @@ class MeituriSuite(MeituriBase):
                     url=url,
                     image=SuiteImageMap.get_image_path('meituri',
                                                        self.suite_obj.name,
-                                                       path.split('/')[-1],
+                                                       img_name,
                                                        org=self.organization)
                 )
                 logger.info('{} {}'.format(url, path))
