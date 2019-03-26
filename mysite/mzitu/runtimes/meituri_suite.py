@@ -106,6 +106,9 @@ class MeituriSuite(MeituriBase):
                 tag_instance, _ = Tag.objects.update_or_create(name=tag_name, defaults={'url': href})
                 tag_instances.append(tag_instance)
             suite_obj.tags.set(tag_instances)
+        # suite folder check
+        suite_folder = os.path.join(settings.IMAGE_FOLDER_MEITURI, self.organization, suite_obj.name)
+        self.mkdir_if_folder_not_exist(suite_folder)
         self.suite_obj = suite_obj
         return
 
@@ -219,9 +222,6 @@ class MeituriSuite(MeituriBase):
             item = self.img_queue.get()
             url = item[0]
             path = item[1]
-            suite_folder = '/'.join(path.split('/')[:-1])
-            # 当前suite folder check
-            self.mkdir_if_folder_not_exist(suite_folder)
             # 没有才下载
             if not os.path.isfile(path):
                 logger.info('path downloading: %s', path)

@@ -22,6 +22,7 @@ class MzituSuiteViewSet(GenericViewSet):
     serializer_class = MzituDownloadedSuiteSerializer
     # FBI Warning: 这里用.all()获取的话，会导致修改数据更新不及时
     queryset = DownloadedSuite.objects
+    page_size_query_param = 'page_size'
 
     @swagger_auto_schema(deprecated=True)
     def create(self, request):
@@ -42,6 +43,11 @@ class MzituSuiteViewSet(GenericViewSet):
     def list(self, request):
         """Suite list
         """
+        page = self.paginate_queryset(self.queryset.all())
+        if page:
+            serializer = MzituDownloadedSuiteSerializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
         serializer = MzituDownloadedSuiteSerializer(self.queryset.all(), many=True)
         # 这里存在读取和sqlite数据不一致的问题，调用删除后，不重启应用，会读到已删除的suite对象，不过关联的字段都是空的
         # 不要在queryset提前获取数据
