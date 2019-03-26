@@ -1,5 +1,17 @@
 <template>
-  <MzituSuitesCard :suites="suites" />
+  <div>
+    <MzituSuitesCard :suites="suites" @handleSearchClick="handleSearchClick"/>
+    <el-pagination
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :page-sizes="pageSizes"
+      :current-page="currentPage"
+      :page-size="pageSize"
+      :pager-count="pagerCount"
+      :layout="layout"
+      :total="total"
+    ></el-pagination>
+  </div>
 </template>
 
 <script>
@@ -10,7 +22,14 @@ export default {
   components: { MzituSuitesCard },
   data() {
     return {
-      suites: []
+      suites: [],
+      currentPage: 1,
+      pageSizes: [9, 18, 36],
+      pageSize: 9,
+      pagerCount: 5,
+      total: 0,
+      layout: "sizes, total, prev, pager, next, jumper",
+      search: ""
     };
   },
   mounted() {
@@ -22,7 +41,7 @@ export default {
     }
   },
   watch: {
-    '$route'(to) {
+    $route(to) {
       if (to.query.tag_id) {
         this.getSuitesByTagId(to.query.tag_id);
       } else {
@@ -37,8 +56,25 @@ export default {
       );
     },
     getSuites() {
-      get("mzitu/suites/").then(response => (this.suites = response.data));
-    }
+      get(
+        `mzitu/suites/?page=${this.currentPage}&page_size=${this.pageSize}&search=${this.search}`
+      ).then(response => {
+        this.suites = response.data.results;
+        this.total = response.data.count;
+      });
+    },
+    handleSizeChange(pageSize) {
+      this.pageSize = pageSize;
+      this.getSuites();
+    },
+    handleCurrentChange(currentPage) {
+      this.currentPage = currentPage;
+      this.getSuites();
+    },
+    handleSearchClick(search) {
+      this.search = search;
+      this.getSuites();
+    },
   }
 };
 </script>

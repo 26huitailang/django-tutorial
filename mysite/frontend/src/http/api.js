@@ -30,11 +30,11 @@ export function AUTH() {
   };
 }
 
-export function MZITU(id) {
+export function MZITU(id, page, page_size, search) {
   return {
     SuitesDownload: apiV1() + "/mzitu/suites/download/?suite_url=",
     ThemesDownload: apiV1() + "/mzitu/themes/download/?theme_url=",
-    SuitesList: apiV1() + "/mzitu/suites/",
+    SuitesList: apiV1() + `/mzitu/suites/?page=${page}&page_siez=${page_size}&search=${search}`,
     SuitesDetail: apiV1() + `/mzitu/suites/${id}/`,
     // SuitesDetail: this.SuitesList + `${id}`,
     Tags: apiV1() + "/mzitu/tags/",

@@ -5,12 +5,12 @@
         <el-button size="mini" @click="clearFilter">清除所有过滤器</el-button>
       </el-col>
       <el-col :span="12">
-        <el-input clearable v-model="search" size="mini" placeholder="输入名称搜索"/>
+        <el-input clearable v-model="search" size="mini" placeholder="输入名称搜索" @keyup.enter.native="handleSearchClick" @clear="handleSearchClick" />
       </el-col>
     </el-row>
     <el-table
       ref="suiteManageTable"
-      :data="currentPageData()"
+      :data="tableData"
       style="width: 100%;"
       :row-style="rowStyle"
       :header-row-style="headerRowStyle"
@@ -121,7 +121,7 @@
       :page-size="pageSize"
       :pager-count="pagerCount"
       :layout="layout"
-      :total="filterData.length"
+      :total="total"
     ></el-pagination>
     <el-dialog title="下载" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
       <el-input placeholder="Suite or Theme URL" v-model="downloadSuiteUrl" clearable></el-input>
@@ -145,6 +145,7 @@ export default {
     return {
       currentPage: 1,
       pageSize: 10,
+      total: 0,
       pagerCount: 5,
       popoverVisible: false,
       tableData: [],
@@ -166,13 +167,14 @@ export default {
     this.websocket.close();
   },
   computed: {
-    filterData() {
-      return this.tableData.filter(
-        data =>
-          !this.search ||
-          data.name.toLowerCase().includes(this.search.toLowerCase())
-      );
-    },
+    // 前端过滤搜索
+    // filterData() {
+    //   return this.tableData.filter(
+    //     data =>
+    //       !this.search ||
+    //       data.name.toLowerCase().includes(this.search.toLowerCase())
+    //   );
+    // },
     downloadIsTheme() {
       if (this.downloadSuiteUrl.indexOf("tag") > 0) {
         return true;
@@ -186,12 +188,12 @@ export default {
     }
   },
   methods: {
-    currentPageData() {
-      return this.filterData.slice(
-        this.pageSize * (this.currentPage - 1),
-        this.pageSize * this.currentPage
-      );
-    },
+    // currentPageData() {
+    //   return this.filterData.slice(
+    //     this.pageSize * (this.currentPage - 1),
+    //     this.pageSize * this.currentPage
+    //   );
+    // },
     // Style
     rowStyle() {
       return "height: 45px;font-size: 12px;";
@@ -258,9 +260,15 @@ export default {
       console.log('断开', e);
     },
     getList() {
-      get(MZITU().SuitesList).then(
-        response => (this.tableData = response.data)
+      get(MZITU(null, this.currentPage, this.pageSize, this.search).SuitesList).then(
+        response => {
+          this.tableData = response.data.results
+          this.total = response.data.count
+        }
       );
+    },
+    handleSearchClick() {
+      this.getList();
     },
     getTagFilters() {
       // 获取过滤用的tags列表
@@ -291,9 +299,11 @@ export default {
     },
     handleCurrentChange(currentPage) {
       this.currentPage = currentPage;
+      this.getList();
     },
     handleSizeChange(pageSize) {
       this.pageSize = pageSize;
+      this.getList();
     },
     handleClickCount(id) {
       this.$router.push({ name: "mzitu-suites-detail", params: { id: id } });

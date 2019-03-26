@@ -43,12 +43,14 @@ class MzituSuiteViewSet(GenericViewSet):
     def list(self, request):
         """Suite list
         """
-        page = self.paginate_queryset(self.queryset.all())
+        search = request.GET.get('search', '')
+        queryset = self.queryset.filter(is_complete=True).filter(name__icontains=search)
+        page = self.paginate_queryset(queryset.all())
         if page:
             serializer = MzituDownloadedSuiteSerializer(page, many=True)
             return self.get_paginated_response(serializer.data)
 
-        serializer = MzituDownloadedSuiteSerializer(self.queryset.all(), many=True)
+        serializer = MzituDownloadedSuiteSerializer(queryset.all(), many=True)
         # 这里存在读取和sqlite数据不一致的问题，调用删除后，不重启应用，会读到已删除的suite对象，不过关联的字段都是空的
         # 不要在queryset提前获取数据
         resp = serializer.data

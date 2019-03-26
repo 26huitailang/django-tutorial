@@ -19,12 +19,6 @@ class TagViewSet(GenericViewSet):
 
     def list(self, request):
         """tag list"""
-        page = self.paginate_queryset(self.queryset.order_by('-is_like', 'name'))
-        if page:
-            # 如果 self 没有 paginator 的话 page 为 None
-            serializer = self.get_serializer(page, many=True)
-            return self.get_paginated_response(serializer.data)
-
         serializer = self.get_serializer(self.queryset.order_by('-is_like', 'name'), many=True)
         return Response(serializer.data)
 
