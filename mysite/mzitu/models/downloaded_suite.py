@@ -62,7 +62,7 @@ class SuiteImageMap(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     suite = models.ForeignKey(DownloadedSuite, related_name='images', on_delete=models.CASCADE)
     url = models.URLField(max_length=300)
-    image = models.ImageField(blank=True, unique=True)
+    image = models.ImageField(blank=True, unique=True, max_length=200)
 
     class Meta:
         ordering = ['image']
